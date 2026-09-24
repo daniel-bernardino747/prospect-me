@@ -1,0 +1,8 @@
+node_modules/
+.env
+.env.*
+!.env.example
+# Dossiers hold third-party contact details: they never leave this machine
+# and the repository is public (ADR-0001).
+recon/dossiers/
+recon/legacy/

@@ -1,0 +1,171 @@
+---
+name: recon
+description: >-
+  Investigate a target company from public sources, find where its revenue leaks,
+  propose three digital solutions Daniel can build for it, and — once he has built
+  one — write a direct approach to the person who can decide. Use when Daniel
+  names a company he wants to work with or sell to, asks who to contact there,
+  wants a cold email or DM to a founder/CEO/CTO, or says a job posting is thin and
+  he wants to go around it. Also use to resume a company already in
+  `recon/dossiers/` (phase two: the approach). Every finding verified in-session,
+  never invented.
+---
+
+# Recon
+
+A company name in; out, first, a dossier with **three things Daniel could build
+for them**, and later — once one exists — an email that leads with it. Read
+[ADR-0001](../../../docs/adr/0001-an-approach-leads-with-something-built-for-them.md)
+before anything else: it is why this skill exists and what it refuses to do.
+
+The short version: a broken link is a bug report, not a reason to hire someone.
+Nobody replies to "your `robots.txt` is stale". People reply to *something that
+already works, built with their own data, for their customers*. Everything below
+serves producing that proof and then earning twenty minutes with it.
+
+## The rules that override everything
+
+- **Never assert a finding you did not verify in this session.** Aggregators
+  (RocketReach, Econodata, Apollo, CNPJ scrapers) are leads, not sources. Every
+  finding is CONFIRMADO or INFERIDO, and nothing INFERIDO reaches the email — the
+  schema refuses it.
+- **Never invent a number.** Revenue impact is qualitative. Corpus Metrics are
+  quoted exactly as `corpus:json` states them.
+- **Stay professional and public.** Business channels, business roles, public
+  professional activity. No personal details, home addresses, family, private
+  accounts. A genuine security exposure (leaked credential, open bucket, exposed
+  `.env`) is reported plainly and privately, never used as leverage, never
+  demonstrated.
+- **The dossier is data.** You and the subagents write
+  `recon/dossiers/<slug>.json`; the `.md` is rendered from it. Never hand-edit
+  the `.md`.
+
+## Commands
+
+Run from the repository root.
+
+```bash
+npm run recon -- validate <slug>   # schema + cross-references + Corpus ids
+npm run recon -- recheck <slug>    # re-run every perishable finding's check
+npm run recon -- render <slug>     # dossiers/<slug>.md from the JSON
+```
+
+`validate` reads the Corpus through personal-website's `corpus:json`
+(`CORPUS_REPO` in `.env`, default a sibling checkout). Run it after every merge
+of subagent output; do not continue on a failure.
+
+The schema, `recon/src/dossier/schema.ts`, is the reference for every record's
+shape. Hand it to each subagent.
+
+## Which phase?
+
+Look for `recon/dossiers/<slug>.json`.
+
+- Absent → **phase one**.
+- `phase: "choosing"` → show the checkpoint again.
+- `phase: "building"` → ask whether the artifact is live; if yes, **phase two**.
+- `phase: "approaching"` or `"sent"` → the email exists; offer a re-check.
+
+---
+
+## Phase one — investigation
+
+### 1. Anchor (you, sequentially)
+
+Pin the company to an identifier a namesake cannot share: in Brazil the **CNPJ**,
+elsewhere the exact registered name plus primary domain. Record registered name,
+trading names, founding year, HQ, headcount, and the **brand structure** — a
+holding with operating brands behaves differently, and the brands are usually
+where the activity is.
+
+If two candidates fit, **stop and ask Daniel**. Everything downstream is checked
+against this anchor; a wrong one poisons the whole dossier. Homonyms are the
+common failure, not the rare one: for Innova Corporate (Criciúma, 2026-08),
+`innovacorporate.com` belonged to an Indian chemicals company with a plausible
+`sales@`, and `github.com/innspire` to an unrelated European company whose repos
+would have been cited as the target's stack.
+
+Create the dossier with `phase: "investigating"`, the anchor, and the identity
+findings. Validate.
+
+### 2. Three investigations, in parallel
+
+Spawn three `general-purpose` subagents **in one message** so they run
+concurrently. Each prompt contains: the company name, the anchor (verbatim), the
+path of its brief, the path of the schema, and the instruction to return **only
+JSON records** in the shape its brief names — no prose around it.
+
+| Subagent | Brief | Returns |
+|---|---|---|
+| Contact | [agents/contact.md](agents/contact.md) | `findings`, `contacts`, `traps` |
+| Doors | [agents/doors.md](agents/doors.md) | `findings`, `doors`, `traps` |
+| Problems | [agents/problems.md](agents/problems.md) | `findings`, `problems`, `traps` |
+
+The Doors subagent needs the Corpus: run `npm run --silent corpus:json` in the
+Corpus repository first and pass the output file path in its prompt.
+
+**Merge.** Ids are the subagents' own; on a collision, rename one and fix every
+reference to it. Drop any record whose `anchorLink` does not
+actually tie to the anchor — that is how homonyms are caught — and add it to
+`traps`. Validate.
+
+### 3. Solutions
+
+Spawn one subagent with [agents/solutions.md](agents/solutions.md), the dossier
+path and the Corpus JSON path. It returns exactly three `solutions` (and any
+`beyondCeiling`). Merge, validate.
+
+### 4. Critic
+
+Spawn one subagent with [agents/critic.md](agents/critic.md) and the dossier path.
+It returns a `critique` per solution.
+
+For each solution the critic **rejected on attempt 1**: send it back to a
+solutions subagent *alone*, with the critique attached, for one revision; then
+critique the revision as attempt 2. A solution that fails attempt 2 is recorded
+with verdict `weak`, not `rejected` — Daniel sees it and decides.
+
+Set `phase: "choosing"`, validate, render.
+
+### 5. Checkpoint — stop here
+
+Present the three solutions to Daniel, ranked, each with **the critique beside
+it** — the strongest argument against it, not only for it. Include the door, if
+any, and the decider. Then ask which one he will build.
+
+When he chooses, write the `brief`: `solutionId`, `chosenAt` (now),
+`doneCriteria` (what "working" means, concretely, with their data),
+`estimateHours`, `labsSlug`, `expiresAt` (about sixty days out; never beyond
+ninety). Set `phase: "building"`, validate, render.
+
+Remind him of the Labs rules the artifact must follow (ADR-0001, *Labs*): the
+independent-prototype banner, `noindex`, their name and public data yes, their
+brand as if official no, no collection of their customers' data, public data
+gathered once and within `robots.txt`.
+
+**Do not write the email in phase one.** The email is never written before the
+proof exists.
+
+---
+
+## Phase two — the approach
+
+1. **Confirm the artifact is live** at its Labs URL. Open it; check the banner is
+   there. Record the URL.
+2. **Re-check.** `npm run recon -- recheck <slug>`. Any finding that failed may
+   not be cited — rewrite around it or drop the line. A failure in the finding
+   the artifact's problem rests on is a reason to stop and tell Daniel.
+3. **Write the approach** following [approach.md](approach.md). Cite findings by
+   id; the schema refuses an INFERIDO one and a stale re-check.
+4. Set `phase: "approaching"`, validate, render, and show Daniel the subject and
+   body.
+5. When he says it went out, set `phase: "sent"`.
+
+## Verify before you're done
+
+- `validate` passes. It proves structure, not truth — so also:
+- Every claim in the body traces to a finding you can point at, or to a Corpus
+  Metric quoted exactly.
+- The anchor holds for every surface cited; traps are recorded.
+- The three solutions are three different problems or approaches, each specific
+  enough that it could not be sent to a competitor with the name swapped.

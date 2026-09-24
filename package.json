@@ -1,0 +1,12 @@
+{
+  "name": "prospect-me",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "recon"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "recon": "npm run --silent -w recon recon --"
+  }
+}
