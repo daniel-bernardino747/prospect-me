@@ -6,3 +6,8 @@ node_modules/
 # and the repository is public (ADR-0001).
 recon/dossiers/
 recon/legacy/
+
+# Labs build output
+labs/.next/
+labs/next-env.d.ts
+*.tsbuildinfo

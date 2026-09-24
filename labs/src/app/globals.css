@@ -1,0 +1,53 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --ink: #1b1d1a;
+  --muted: #5d625a;
+  --paper: #fbfaf6;
+  --rule: #dcd9cf;
+  --banner-bg: #1b1d1a;
+  --banner-ink: #f3f1ea;
+  color-scheme: light;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+.labs-banner {
+  background: var(--banner-bg);
+  color: var(--banner-ink);
+  font-size: 0.8125rem;
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+.labs-ended {
+  max-width: 36rem;
+  margin: 20vh auto 0;
+  padding: 0 1rem;
+}
+
+.labs-ended p {
+  color: var(--muted);
+}
+
+@media print {
+  .labs-banner {
+    background: none;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+  }
+}
