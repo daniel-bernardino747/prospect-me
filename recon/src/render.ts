@@ -25,7 +25,7 @@ export function renderDossier(d: Dossier): string {
   const out: string[] = [];
   const push = (...lines: string[]) => out.push(...lines);
 
-  push(`# Recon — ${d.company}`, '');
+  push(`# Dossiê — ${d.company}`, '');
   const anchor = `${d.anchor.kind === 'cnpj' ? 'CNPJ ' : ''}${d.anchor.value}`;
   push(`Âncora: **${anchor}** · ${d.anchor.primaryDomain} · fase **${d.phase}**`, '');
 

@@ -22,6 +22,6 @@ npm run recon -- render <slug>        # dossiers/<slug>.md a partir do JSON
 
 ## Skills
 
-### Recon
+### Prospect-me
 
-Empresa-alvo → âncora → contato, portas de entrada e problemas em paralelo → 3 soluções → crítico → Daniel escolhe o que construir. Depois do artefato no ar: re-check e e-mail. Todo achado CONFIRMADO ou INFERIDO; nada inferido entra no e-mail. See `.claude/skills/recon/SKILL.md`.
+Empresa-alvo → âncora → contato, portas de entrada e problemas em paralelo → 3 soluções → crítico → Daniel escolhe o que construir. Depois do artefato no ar: re-check e e-mail. Todo achado CONFIRMADO ou INFERIDO; nada inferido entra no e-mail. See `.claude/skills/prospect-me/SKILL.md`.

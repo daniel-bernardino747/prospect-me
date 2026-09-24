@@ -1,5 +1,5 @@
 ---
-name: recon
+name: prospect-me
 description: >-
   Investigate a target company from public sources, find where its revenue leaks,
   propose three digital solutions Daniel can build for it, and — once he has built
@@ -11,7 +11,7 @@ description: >-
   never invented.
 ---
 
-# Recon
+# Prospect-me
 
 A company name in; out, first, a dossier with **three things Daniel could build
 for them**, and later — once one exists — an email that leads with it. Read
