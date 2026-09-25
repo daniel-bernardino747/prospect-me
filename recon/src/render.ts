@@ -21,6 +21,28 @@ function findingLine(f: Finding): string {
   );
 }
 
+type Channel = Dossier['contacts'][number]['channels'][number];
+
+const EMAIL = /[\w.+-]+@[\w-]+(\.[\w-]+)+/;
+
+/**
+ * A channel as something Daniel can click: a profile opens, an address opens
+ * the mail client with the approach already in it. The value's own note (a
+ * shared inbox, say) stays beside the link.
+ */
+export function channelLink(ch: Channel, message?: { subject: string; body: string }): string {
+  if (ch.kind === 'email') {
+    const address = ch.value.match(EMAIL)?.[0];
+    if (!address) return ch.value;
+    const query = message
+      ? `?subject=${encodeURIComponent(message.subject)}&body=${encodeURIComponent(message.body)}`
+      : '';
+    const note = ch.value.replace(address, '').trim();
+    return `[${address}](mailto:${address}${query})${note ? ` ${note}` : ''}`;
+  }
+  return /^https?:\/\//.test(ch.value) ? `[${ch.value}](${ch.value})` : ch.value;
+}
+
 export function renderDossier(d: Dossier): string {
   const out: string[] = [];
   const push = (...lines: string[]) => out.push(...lines);
@@ -32,6 +54,15 @@ export function renderDossier(d: Dossier): string {
   if (d.approach) {
     const a = d.approach;
     const contact = d.contacts.find((c) => c.id === a.contactId);
+    if (contact) {
+      const message = { subject: a.subject, body: a.body };
+      push('## Enviar', '', `Para **${contact.name}** (${contact.role}) · artefato: ${a.artifactUrl}`, '');
+      for (const ch of contact.channels) {
+        const chosen = ch.findingId === a.channelFindingId;
+        push(`- ${chosen ? '**canal escolhido** · ' : ''}${ch.kind}: ${channelLink(ch, message)}`);
+      }
+      push('');
+    }
     push('## Assunto', '', `**${a.subject}**`, '', ...a.alternateSubjects.map((s) => `- ${s}`), '');
     push('## Corpo', '');
     if (contact) push(`Para **${contact.name}** (${contact.role}) · abre com: ${a.opensWith}`, '');
@@ -109,7 +140,7 @@ export function renderDossier(d: Dossier): string {
     const channels = c.channels
       .map((ch) => {
         const status = d.findings.find((f) => f.id === ch.findingId)?.status ?? '?';
-        return `${ch.kind}: ${ch.value} (${status})`;
+        return `${ch.kind}: ${channelLink(ch)} (${status})`;
       })
       .join('<br>');
     push(`| ${cell(c.name)} | ${cell(c.role)} | ${c.register} | ${c.isDecider ? 'sim' : ''} | ${channels} |`);
