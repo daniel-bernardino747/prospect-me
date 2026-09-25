@@ -75,7 +75,8 @@ export function renderDossier(d: Dossier): string {
     push('## Brief de construção', '');
     push(`**${s?.title ?? brief.solutionId}** → \`labs.teamdbsolutions.com/${brief.labsSlug}\``, '');
     push(
-      `Escolhida ${brief.chosenAt.slice(0, 10)} · ${brief.estimateHours}h · expira ${brief.expiresAt.slice(0, 10)}`,
+      `Escolhida ${brief.chosenAt.slice(0, 10)} · ${brief.intent === 'join' ? 'para entrar no time' : 'para um projeto'} · ` +
+        `${brief.estimateHours}h · expira ${brief.expiresAt.slice(0, 10)}`,
       '',
     );
     push(...brief.doneCriteria.map((c) => `- [ ] ${c}`), '');

@@ -55,4 +55,8 @@ of their site. If a problem's root cause is hygiene, the solution is the thing
 that captures the demand hygiene was losing — not the hygiene fix.
 
 `whatItDoes` is written so Daniel could build from it: who uses it, what they do,
-what they see, which public data powers it.
+what they see, which public data powers it. It names **the headline number** —
+the one the decider sees first — and how it is aggregated, so the critic can
+check it against how the domain counts. And it names the **smallest data** that
+answers the question: if the page is about a few places, products or accounts,
+the build gathers those, not the whole source.

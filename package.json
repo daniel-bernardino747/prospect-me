@@ -10,5 +10,8 @@
     "test": "npm run test --workspaces --if-present",
     "recon": "npm run --silent -w recon recon --",
     "labs": "npm run -w labs --"
+  },
+  "devDependencies": {
+    "railway": "^3.11.0"
   }
 }
