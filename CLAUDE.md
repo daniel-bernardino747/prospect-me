@@ -1,11 +1,13 @@
 # prospect-me
 
-Prospecção direta: investigar uma empresa, construir algo para ela e só então abordar quem decide. Repo público; os dossiês nunca entram no git. Ver `docs/adr/0001-an-approach-leads-with-something-built-for-them.md`.
+Prospecção direta: investigar uma empresa, construir algo para ela e só então abordar quem decide. Repo público; os dossiês nunca entram no git. Ver `docs/adr/0001-an-approach-leads-with-something-built-for-them.md`; o `labs` também serve demos de portfólio (`docs/adr/0002-labs-also-serves-portfolio-showcases.md`).
 
 ## Estrutura
 
 - `recon/` — CLI (TypeScript + Vitest) e dossiês. Nunca é deployado. `recon/dossiers/` e `recon/legacy/` são gitignored: guardam contato de terceiros.
-- `labs/` — app Next.js único em `labs.teamdbsolutions.com/<slug>`, serviço próprio no Railway. Só ele vai para um builder. Toda requisição passa por `src/app/[slug]/page.tsx`, que aplica as regras do ADR (404 fora do registro, encerrado após `expiresAt`, banner); um artefato existe só se está em `src/artifacts/index.ts`, com o `labsSlug` e o `expiresAt` do brief.
+- `labs/` — app Next.js único em `labs.teamdbsolutions.com`, serviço próprio no Railway. Só ele vai para um builder. Um artefato existe só se está em `src/artifacts/index.ts`, e o caminho carrega o tipo (ADR-0002):
+  - **prospect** em `/<slug>`, por `src/app/[slug]/page.tsx`, que aplica as regras do ADR-0001 (404 fora do registro, encerrado após `expiresAt`, banner, `noindex`), com o `labsSlug` e o `expiresAt` do brief.
+  - **showcase** em `/demo/<slug>`, por `src/app/demo/[slug]/page.tsx`: demo de portfólio sem empresa, sem fim, indexado e no sitemap; `PRODUCT.md` e `DESIGN.md` próprios na pasta do artefato.
   - O serviço do Railway está em `.railway/railway.ts` (build, start, domínio, `PORT` e `HOSTNAME=::`). Mudança lá: `railway config plan`, depois `apply`.
   - O `data.json` de um artefato é lido uma vez e fica em memória (`load.ts`): depois de regerar os dados, reinicie o `labs dev`, senão a página continua servindo a versão anterior.
 
