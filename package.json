@@ -3,10 +3,12 @@
   "private": true,
   "type": "module",
   "workspaces": [
-    "recon"
+    "recon",
+    "labs"
   ],
   "scripts": {
     "test": "npm run test --workspaces --if-present",
-    "recon": "npm run --silent -w recon recon --"
+    "recon": "npm run --silent -w recon recon --",
+    "labs": "npm run -w labs --"
   }
 }

@@ -5,7 +5,7 @@ Prospecção direta: investigar uma empresa, construir algo para ela e só entã
 ## Estrutura
 
 - `recon/` — CLI (TypeScript + Vitest) e dossiês. Nunca é deployado. `recon/dossiers/` e `recon/legacy/` são gitignored: guardam contato de terceiros.
-- `labs/` — (ainda não existe) app Next.js único em `labs.teamdbsolutions.com/<slug>`, serviço próprio no Railway. Só ele vai para um builder.
+- `labs/` — app Next.js único em `labs.teamdbsolutions.com/<slug>`, serviço próprio no Railway. Só ele vai para um builder. Toda requisição passa por `src/app/[slug]/page.tsx`, que aplica as regras do ADR (404 fora do registro, encerrado após `expiresAt`, banner); um artefato existe só se está em `src/artifacts/index.ts`, com o `labsSlug` e o `expiresAt` do brief.
 
 ## Corpus
 
@@ -18,6 +18,7 @@ npm test                              # todos os workspaces
 npm run recon -- validate <slug>      # schema + referências + ids do Corpus
 npm run recon -- recheck <slug>       # re-executa os achados perecíveis
 npm run recon -- render <slug>        # dossiers/<slug>.md a partir do JSON
+npm run labs -- dev                   # labs em localhost:3000
 ```
 
 ## Skills
