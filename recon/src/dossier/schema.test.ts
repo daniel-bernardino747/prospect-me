@@ -91,6 +91,7 @@ function approaching() {
     brief: {
       solutionId: 's-1',
       chosenAt: '2026-09-25T10:00:00-03:00',
+      intent: 'project',
       doneCriteria: ['Quotes any catalog product'],
       estimateHours: 12,
       labsSlug: 'acme',
@@ -237,6 +238,10 @@ describe('dossierSchema', () => {
     expect(errors((d) => (d.brief.expiresAt = '2027-03-01T10:00:00-03:00'))).toContain(
       'an artifact expires within 90 days of being chosen',
     );
+  });
+
+  it('refuses a brief that does not say what the approach is for', () => {
+    expect(errors((d) => delete (d.brief as Partial<typeof d.brief>).intent)).not.toEqual([]);
   });
 
   it('does not demand approach rules while still investigating', () => {

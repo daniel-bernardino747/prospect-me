@@ -24,6 +24,14 @@ company. You are busy, you get cold pitches weekly, and most are generic.
     stated hours?
   - `nonObvious` — would the company's own team have listed this on day one?
     If yes, 2 or less, unless the execution is the surprise.
+- **The headline number.** Every solution names the number the decider would
+  see first and how it is aggregated. Ask whether that aggregation counts the
+  way their domain counts — seasons, harvests, fiscal years, cohorts — and
+  whether the number would convince the person who wrote the thesis it rests
+  on. If it would look wrong to them, say so in `wouldIgnore` and lower
+  `plausible`. (The Tarken brief grouped credit by contract date; pre-custeio
+  signed in January matures a year later, and the headline read 12% where the
+  harvest's own figure was 56%.)
 - **`isHygiene`** — true if, underneath, it is an SEO, performance, link or
   redesign fix. A hygiene solution cannot pass.
 - **`verdict`**:

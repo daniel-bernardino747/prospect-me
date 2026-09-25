@@ -223,9 +223,17 @@ export const beyondCeilingSchema = z.object({
   why: z.string().min(1),
 });
 
+/**
+ * What Daniel wants from the approach, decided when he chooses what to build:
+ * a place on the team, or a project. It sets the email's ask and whether an
+ * open role is the reason for writing or a supporting line.
+ */
+export const INTENTS = ['join', 'project'] as const;
+
 export const briefSchema = z.object({
   solutionId: id,
   chosenAt: timestamp,
+  intent: z.enum(INTENTS),
   doneCriteria: z.array(z.string().min(1)).min(1),
   estimateHours: z.number().positive().max(MAX_BUILD_HOURS),
   labsSlug: id,
