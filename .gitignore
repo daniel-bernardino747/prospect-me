@@ -11,3 +11,7 @@ recon/legacy/
 labs/.next/
 labs/next-env.d.ts
 *.tsbuildinfo
+labs/.cache/
+
+# Impeccable design-skill state: critiques, reference images, local server
+.impeccable/
