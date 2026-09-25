@@ -813,6 +813,55 @@ tr[data-before] .bar {
   margin-top: 0.5rem;
 }
 
+/* ---------- footer ---------- */
+
+.foot {
+  max-width: 60rem;
+  margin: 2.5rem auto 0;
+  padding: 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+}
+
+.foot p {
+  max-width: var(--measure);
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--ink-soft);
+}
+
+.footLink {
+  flex: none;
+  display: inline-block;
+  background: var(--carbon);
+  color: var(--bed) !important;
+  font: 700 1rem/1 var(--font-label), sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.85rem 1.2rem;
+  min-height: 44px;
+  transform: skewX(var(--rake));
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footLink > span {
+  display: inline-block;
+  transform: skewX(calc(var(--rake) * -1));
+}
+
+.footLink:hover {
+  transform: skewX(var(--rake)) translateX(4px);
+}
+
+.footLink:focus-visible {
+  outline: 3px solid var(--carbon);
+  outline-offset: 3px;
+}
+
 /* ---------- wider screens ---------- */
 
 @media (min-width: 48rem) {

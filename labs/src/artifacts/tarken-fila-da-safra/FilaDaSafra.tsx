@@ -113,6 +113,16 @@ export default function FilaDaSafra({ searchParams }: ArtifactProps) {
         <Pacote praca={praca} data={data} />
         <Method data={data} />
       </div>
+
+      <footer className={s.foot}>
+        <p>
+          As colunas citadas aqui são de Luiz Tangari, fundador da Tarken: governança de crédito para revendas e
+          indústrias do agro.
+        </p>
+        <a className={s.footLink} href="https://tarken.ag">
+          <span>Conhecer a Tarken</span>
+        </a>
+      </footer>
     </main>
   );
 }

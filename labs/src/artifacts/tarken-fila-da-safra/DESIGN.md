@@ -181,6 +181,9 @@ Ivory figure, max 38rem, soft shadow: the quote from Luiz Tangari's column in Ba
 ### Method details
 Carbon `<details>`, goldenrod summary "Como foi feito" with a trailing " +" / " −" text sign; body list in ivory-dim at 0.9375rem.
 
+### Footer
+On the bed, after the method: one ink-soft line naming whose columns these are, and a raked carbon plate "Conhecer a Tarken" in goldenrod caps linking tarken.ag's home. It is the page's only exit, and the only place Tarken is named outside the banner.
+
 ### States and focus
 Focus-visible on toggle, lines, summary and input: `3px solid ivory`, offset 3px. Tone mapping is fixed: stop = vermilion = "na frente" / below breakeven; go = bottle green = after the gate / above breakeven; hold = slate = shared or neutral.
 
