@@ -15,3 +15,6 @@ labs/.cache/
 
 # Impeccable design-skill state: critiques, reference images, local server
 .impeccable/
+
+# Agent worktrees
+.claude/worktrees/
