@@ -18,4 +18,12 @@ export const ARTIFACTS: readonly Artifact[] = [
       'Quanto o volume de tokens do seu time custaria em cada modelo de LLM, com o cache como alavanca, ao lado dos modelos em que o mercado do OpenRouter de fato gasta seus tokens.',
     load: () => import('./conta-de-tokens/ContaDeTokens'),
   },
+  {
+    kind: 'showcase',
+    slug: 'raio-de-explosao',
+    title: 'Raio de explosão',
+    summary:
+      'Por qual caminho um pacote comprometido chega na sua app: o worm ChainDrop no npm, salto a salto, com a faixa de versão de cada dependência decidindo se a porta abre.',
+    load: () => import('./raio-de-explosao/RaioDeExplosao'),
+  },
 ];
