@@ -383,3 +383,20 @@ Motion is the replay itself; everything else is small.
 - **Don't** call GNRa "desperdício medido"; it is "corte estimado pelo ONS".
 - **Don't** introduce Inter, Geist, Space Grotesk, IBM Plex, DSEG or any fourth face; no seven-segment or split-flap numerals.
 - **Don't** add a per-point curve, a mini recorder or a 48-row table in v1.
+
+## Desvios na implementação
+
+Registrados na construção (2026-09-26). Tudo o mais segue o texto acima.
+
+- **Figuras em B612, não em B612 Mono.** A face mono dá à vírgula, ao ponto e aos dois-pontos uma célula inteira: `40. 740 MW`, `126, 9`, `10: 30` liam como dois números. As figuras (h1, relógio, readout, janelas, tabelas) usam B612 com `font-variant-numeric: tabular-nums`, então nada treme no replay. São duas faces carregadas, não três; `--font-figure` aponta para a B612.
+- **Legenda do trilho sem os códigos no celular.** `SOBROU ENERGIA · ENE` e `A REDE NÃO AGUENTOU · CNF/REL` não cabiam em 358px com engraving legível; o trilho mostra só as palavras (0,625rem), e os códigos aparecem na barra de razões e em cada janela. No desktop a legenda completa fica na coluna de margem.
+- **Nomes das janelas: até 4 linhas no celular** (3 no desktop). Com 3 linhas, `DESLIGAMENTO DAS LT 525 kV POVO NOVO / MARMELEIRO C2` perdia justamente a linha nomeada. O `aria-label` de cada janela traz o nome completo.
+- **Seletor de dias: rótulos só nos domingos e no dia do painel; total em GWh só no dia do painel.** Linhas de 7px (celular) e 9px (desktop) não comportam um rótulo por linha, e os piores dias vizinhos (19/09 e 20/09) colidiam. Os cinco piores dias levam só a marca quadrada; o total de qualquer dia aparece na placa de confirmação e no rótulo acessível da linha. O "D" de domingo é `ink` em negrito, não `sobra-deep`: `sobra-deep` sobre `console` dá 3,5:1, pouco para 10px.
+- **Lâmpadas sem `role="button"` individual.** Dentro de um `<svg role="img">` os filhos são apresentacionais; o acesso por teclado e leitor de tela é o seletor "Os 20 pontos com mais corte" (um `<select>` nativo que aparece ao receber foco), como o texto já previa. O toque escolhe a lâmpada mais próxima dentro de 22px de tela.
+- **Registrador do celular fechado mostra a pena como linha vertical no patamar**, sem triângulo. Arrastar sobre o papel busca o patamar pela coluna sob o dedo; o `<input type="range">` fica por cima só para teclado e leitor de tela.
+- **Dica do mouse com valor aproximado.** Os valores por ponto e por patamar vêm dos níveis de desenho (64 por ponto), então a dica diz `≈ 490 de 660 MW cortados`. A placa do ponto só mostra totais exatos do dia.
+- **Fuso: conferido de forma indireta, não pelo dicionário.** O centro da geração solar possível no arquivo cai às 11h52, perto do meio-dia solar do Nordeste em UTC−3; em UTC cairia perto das 14h50. O método diz isso com essas palavras e trata o horário como de Brasília.
+- **Desktop: altura do mapa `clamp(460px, 100vh − 336px, 640px)`** em vez de 640px fixos, para que a botoeira caiba na primeira tela de 1440×900; a coluna de margem rola por dentro quando a lista por estado passa da altura do mapa.
+- **Conjuntos com usina sem coordenada:** quatro conjuntos (Aracati II/CE, Serra do Tigre/PB e dois de MG) têm uma usina com posição 0,0 no SIGA; ficam no centro das demais usinas. Sem isso, CE e PB apareceriam como "fora do mapa".
+- **Tamanho:** `data.json` tem cerca de 1,9 MB (55 dias × 240 pontos × 48 patamares, codificados). Fica só no servidor; a página entrega um dia, e o HTML com a carga do dia fica perto de 80 KB com gzip, acima dos 12 KB que o texto estimava para "só o dia".
+- **240 pontos, não 236:** setembro trouxe quatro ids a mais que o brief contou em agosto. O texto da página usa os números calculados, nunca a contagem do brief.
