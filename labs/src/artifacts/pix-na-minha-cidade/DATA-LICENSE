@@ -1,0 +1,12 @@
+data.json in this folder is a Derivative Database of the Banco Central do Brasil
+"Estatísticas do Pix" open data (https://dadosabertos.bcb.gov.br/dataset/pix),
+which the BCB publishes under the Open Data Commons Open Database License (ODbL)
+v1.0. This derivative is likewise made available under the ODbL v1.0:
+https://opendatacommons.org/licenses/odbl/1-0/
+
+It joins, per município, Pix sent by pessoas físicas (QT_PagadorPF,
+QT_PES_PagadorPF, VL_PagadorPF) for twelve closed months with names and 2026
+population estimates from IBGE (agregado 6579, cited as source), and the
+latest national MED figures from the BCB "Estatísticas de Fraudes no Pix"
+(same licence). It is produced by labs/scripts/pix-na-minha-cidade.ts; see
+BRIEF.md for the method.
