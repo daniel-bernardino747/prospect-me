@@ -419,3 +419,21 @@ Data script and `data.json` 3h · polar layout + collapse (pure, tested) 4h · Z
 - **Don't** animate on page load. The chart arrives drawn, and motion happens only in response to the reader (tab, step, row, selection).
 - **Don't** show a hover-only tooltip. Every datum on the chart has a tap target, a log row or a ledger row.
 - **Don't** name maintainers, and don't say anyone was infected.
+
+## Desvios na implementação
+
+Registrados depois do build (2026-09-26), contra a especificação acima. Onde o texto acima e o que foi entregue divergem, vale esta lista.
+
+1. **A frase da primeira tela diz "4 dos 444", não "5".** O registro do npm dá `@cacheable/utils@2.5.1` às 10:14:21 UTC, depois do evento-porta (`file-entry-cache@11.1.6`, 10:13:02). No instante padrão, o grafo alcança 4 versões infectadas; a quinta entra um passo depois, e a frase acompanha o passo. A aba do stylelint diz "ATÉ 5 INFECTADOS" (a contagem no fim da manhã), para não contradizer a frase. Coberto por teste em `data.test.ts`.
+2. **"Nenhum caminho." em tinta, não em magenta.** A frase do eslint usa uma peça `lead` (peso da frase, cor `ink`): magenta é só exposição, e um zero não é exposição. Coberto por teste.
+3. **As abas de caso são um `nav` de links com `aria-current`, não `role="tablist"`.** Não há painéis nem navegação por setas; `tab` anunciaria um widget que não existe. Os links funcionam sem JS (`?caso=`), como o estado padrão pede.
+4. **No celular (< 480px) a aba mostra só o nome do pacote.** `stylelint 17.14.1` não cabe em 119px a 13px; a versão aparece no rótulo da raiz no gráfico e no caminho.
+5. **A frente é um `path` cujo `d` transiciona**, não um círculo com `r` e `rotate`. O círculo rotacionado desenhava o arco no quadrante errado. Navegador sem transição de `d` troca o arco na hora, sem estado intermediário errado.
+6. **Rótulos do gráfico com posicionamento guloso e linhas de chamada.** Um rótulo tenta os oito lugares ao redor do nó, depois lugares empilhados acima e abaixo com uma linha fina até o nó; nenhum rótulo cobre outro, nem cruza o anel de marcas (para o nome do setor na borda ficar legível). No celular, o que não cabe cai para o número do salto (às vezes `@cacheable/memory`, o `keyv` barrado e o rótulo "FRENTE · 1 SALTO", que colide com "1 SALTO" no anel 1). O arco da frente continua desenhado, e a linha ao vivo e o CAMINHO dizem a distância em palavras.
+7. **Nó barrado rotulado "5.6.0 · barrado"**, com a versão, não só "barrado".
+8. **Abaixo de 360px, "Próximo ▸"** no lugar de "Próximo evento ▸", para os três blocos do passo caberem em 288px.
+9. **Linha do registro no celular (< 520px) em duas linhas:** o veredito vai para baixo do nome. Em uma linha, "nenhuma versão publicada" quebrava em três.
+10. **Comandos de "O que fazer" quebram linha** em vez de rolar na horizontal: em quatro colunas a 1440px, a rolagem escondia metade de cada comando. O botão copiar copia o comando inteiro.
+11. **Tamanhos:** nomes dos setores na borda a 36 unidades SVG (12px num gráfico de 340px; 17 unidades, também ≈ 12px, a partir de 600px de gráfico) e rótulos dos anéis a 12px, para nenhum rótulo do gráfico ficar abaixo do mínimo de 12px.
+12. **Sem formulário de `package.json` e sem rota de API.** O brief previa um modo ao vivo contra o deps.dev; a regra do Labs é buscar uma vez, e o PRODUCT.md já o adiava para a v2. O "e se" roda sobre os três grafos pré-calculados.
+13. **`semver` entrou como devDependency**, usado só pelo script de dados e pelos testes (`rules.ts`). O script grava em cada aresta as versões maliciosas que a faixa aceita, e a página só lê isso: `semver` não vai para o bundle do cliente.
