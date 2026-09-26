@@ -438,3 +438,22 @@ The one orchestrated motion is the printer. Everything else is state feedback.
 - No QR code on the ticket (on a Pix-themed image it reads as a payment code).
 - No invented users, share counts or testimonials; no reasons attributed to a city.
 - No zero-padded senha numbers ("0038"): ghost cells on the LED, plain numbers on paper.
+
+## Desvios na implementação
+
+Built 2026-09-25/26 from this spec; screenshots at 390×844 and 1440×900 checked against "First viewport" above. Where the build moved, it is recorded here.
+
+- **Labs banner is three lines at 390px, not two** (75px, not 56). It is global and not this artifact's to change. Everything below shifts ~19px: the housing is 75–207, the senha 202–647, and "Compartilhar senha" ends at 715, still ~130px above the fold at 844. The 1440 banner is 36px, as counted.
+- **Queue label: slides instead of flipping.** The spec flips the city's label to the left of its leader past 70% of the queue. At 390px a centre-of-the-queue city (São Paulo, 50%) already ran off the roll. The label now slides along its own width in proportion to the column's place (`--at`, 0 at the front, 1 at the back): it starts at the leader at the front, ends at it at the back, and is centred in the middle, so it stays inside the roll at every width. The leader stays on the column.
+- **Capital names under the roll: only the front and the back** (Manaus, Florianópolis). The spec also named the city when it is a capital, but that third name collided with the others on a phone ("São Paulo" over "Florianópolis"), and the city already carries its own label above the roll. Its tick stays red.
+- **Search placeholder is transparent from 1080px**, where the visible label "Qual é a sua cidade?" is back above the field; the placeholder only repeated it. On phones the placeholder still carries the question, as specified.
+- **Wide (≥1080px): "As 27 capitais" and the method use the room's 1240px container** and its left edge, instead of a centred 560px column. At 560px the two-column capitals list truncated six names ("Campo Grand…", "Belo Horizonte…"); the name column is 15rem wide there. The method's paragraphs keep the 38rem measure.
+- **Open listbox stacking.** The senha hangs over the slot's lip (z-index 5) above the housing (4), which trapped the combobox's listbox behind the ticket. While the list is open, the housing rises to z-index 8.
+- **Sparkline end labels read "38" and "BR 43"**, not "38" and "43": the two labels sit a few pixels apart at the plot's right edge, and "BR" says which line is which without relying on the dash pattern.
+- **The fetch script is `labs/scripts/pix-na-minha-cidade.ts`** (the brief said `scripts/fetch-pix.ts`), after the tarken pattern. It asks Olinda only for the PF columns (`$select`), so PJ never enters memory.
+- **`data.json` is 569 KB**, not the brief's estimated 1,76 MB: the monthly series is stored as Pix por usuário ×10 (one integer per month), which the brief allowed. It is read on the server only; the browser gets the search index and the chosen city. A snapshot test (`snapshot.test.ts`) pins it to the brief's confirmed figures.
+- **Share on desktop Chrome/Edge (Windows)** opens the operating system's share sheet, since `navigator.canShare({ files })` is true there; download is the path only where file sharing is unsupported, as specified.
+
+### Finish review (2026-09-26)
+
+Impeccable critique and audit, run single-context (no sub-agent tool in that session). The detector found only advisory "colour outside DESIGN.md" hits: the alpha blacks of the shadows and the `#000` of the torn-edge mask, which this file specifies in prose. Fixed as above: the open listbox rendering under the ticket (P0), the queue label leaving the roll on phones (P1), the colliding capital labels (P2) and the truncated capital names on wide screens (P2). Verified after the fixes: no horizontal scroll at 390 or 1440; the search, the homonym list, the invalid `?c`, small-sample, outlier and long-name states; dark mode; keyboard order (field, Imprimir, Compartilhar, Copiar link, the strip's links, the capitals) with a visible focus ring; `aria-activedescendant` on arrow keys; the 1080×1350 PNG for São Paulo, Pacaraima (outlier note) and Vila Bela da Santíssima Trindade (two-line name). Not verified: a real phone's share sheet, and screen-reader output (checked only in the markup).

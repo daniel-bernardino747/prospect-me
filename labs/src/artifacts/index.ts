@@ -34,4 +34,12 @@ export const ARTIFACTS: readonly Artifact[] = [
       'Mapa do Nordeste que reproduz, meia hora a meia hora, quanta energia eólica e solar o ONS mandou cortar em cada dia de agosto e setembro de 2026, e por quê.',
     load: () => import('./curtailment-br/Curtailment'),
   },
+  {
+    kind: 'showcase',
+    slug: 'pix-na-minha-cidade',
+    title: 'Pix na minha cidade',
+    summary:
+      'Quantos Pix por usuário a sua cidade fez em agosto de 2026, a posição dela entre os 5.571 municípios do Brasil e um cartão para compartilhar, com dados abertos do Banco Central.',
+    load: () => import('./pix-na-minha-cidade/PixNaMinhaCidade'),
+  },
 ];
