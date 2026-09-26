@@ -26,4 +26,12 @@ export const ARTIFACTS: readonly Artifact[] = [
       'Por qual caminho um pacote comprometido chega na sua app: o worm ChainDrop no npm, salto a salto, com a faixa de versão de cada dependência decidindo se a porta abre.',
     load: () => import('./raio-de-explosao/RaioDeExplosao'),
   },
+  {
+    kind: 'showcase',
+    slug: 'curtailment-br',
+    title: 'O corte de eólicas e solares no Brasil',
+    summary:
+      'Mapa do Nordeste que reproduz, meia hora a meia hora, quanta energia eólica e solar o ONS mandou cortar em cada dia de agosto e setembro de 2026, e por quê.',
+    load: () => import('./curtailment-br/Curtailment'),
+  },
 ];
