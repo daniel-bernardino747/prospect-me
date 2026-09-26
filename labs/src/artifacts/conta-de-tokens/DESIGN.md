@@ -419,3 +419,18 @@ pt-BR, direct, no hype, no exclamation marks. Headings say what the section show
 - No cream/paper ground, no grey-green ground, no italic serif display.
 - No smooth curves or interpolation on weekly data; nothing animates on scroll.
 - Never state any saving, user or result as achieved by anyone; the scenario is always illustrative.
+
+## Desvios na implementação
+
+Registrados na construção (2026-09-26); o resto segue o documento acima.
+
+- **Participação lida do espelho público, não da API oficial.** Não havia `OPENROUTER_API_KEY` no ambiente nem no `.env` do checkout principal. O `data.json` foi gerado das respostas cruas do `rankings-daily` guardadas em IAPS-AI/OpenRouter-OS-Rankings (mesmo `as_of` da fonte, 2026-09-25T12:06:35Z). A citação do OpenRouter continua literal, e a seção Fontes diz que os bytes vieram do espelho (`sources.rankings.via = "mirror"`). Com a chave presente, `node --no-warnings labs/scripts/conta-de-tokens.ts` busca direto no endpoint oficial e a nota do espelho some sozinha.
+- **Script em `labs/scripts/conta-de-tokens.ts`**, não em `scripts/fetch.ts`, seguindo o padrão do Labs (`labs/scripts/<slug>.ts`). A transformação pura fica em `build.ts`, com testes.
+- **Semanas de sete dias terminando no último dia completo** (a primeira é 27 mar a 2 abr 2026), não semanas de calendário a partir de 30 mar. O script pede `period=day` e soma, para que a última semana seja sempre completa e termine na data do dado.
+- **"Como a conta é feita" fica aberto em todas as larguras.** O servidor não sabe a largura da tela, e abrir no cliente faria o texto pular; aberto também mantém a terceira menção a "cenário ilustrativo" à vista.
+- **Flaps pequenos (tabela e leitura do fader):** a dobradiça fica em preto a 30% e some nas células em branco; as células em branco sobre a folha ganham só um contorno de 1px. Em 16–19px, a dobradiça preta cheia parecia um tachado, e numa célula em branco parecia um "—", o mesmo glifo de "sem fatura". Os flaps grandes da faixa ficam como especificados.
+- **Os marcadores ¹ nas placas não são links.** A placa inteira é um botão, e um link dentro de um botão é HTML inválido. O marcador fica visível (Housing label) e o link para `#fontes` está nos mesmos números da frase logo acima.
+- **Etiqueta "N× MENOS" no celular:** abaixo de 64rem ela quebra para uma linha própria, alinhada à direita, e a placa B fica com uns 140px em vez de 96. Com seis células de 40px, "US$", "/mês" e a etiqueta não cabem em 358px.
+- **Cabeçalho da tabela no celular:** abaixo de 64rem a coluna "Modelo" traz uma segunda linha em data face, "fornecedor · part. semana · US$/milhão entrada · cache · saída". Sem ela, os números da segunda linha de cada modelo ficariam sem rótulo, porque as colunas de participação e preços são ocultadas.
+- **Legenda do gráfico no celular:** usa colunas de no mínimo 150px (duas em 390px, uma em 320px), em vez de duas fixas. Em 320px os nomes dos fornecedores eram cortados.
+- **Frozen no modo noturno:** `#8D99A8`. O `#5B6776` do modo claro some sobre o fundo `#161E2A`. O documento não definia esse valor para a noite.
