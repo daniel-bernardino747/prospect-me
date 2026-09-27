@@ -1,0 +1,1356 @@
+/* The clinic waiting room: verde-água wall, one black LED housing, thermal paper, a laminated notice. */
+
+.wall {
+  --wall: #a8d8ca;
+  --wall-deep: #93cbbb;
+  --rail: #6fae9c;
+  --rail-light: #c4e6dc;
+  --ink: #0f2e28;
+  --ink-2: #24463f;
+  --housing: #121513;
+  --housing-2: #1b1f1d;
+  --housing-rule: #2c3230;
+  --silk: #d3dbd7;
+  --silk-dim: #97a39e;
+  --amber: #ffb020;
+  --amber-off: #33270f;
+  --red: #ff5a4a;
+  --red-off: #3a1512;
+  --ok: #3fbf6f;
+  --paper: #f7f5ef;
+  --paper-print: #262624;
+  --paper-faded: #62615c;
+  --plastic: #dde3e1;
+  --plastic-edge: #b9c2bf;
+  --button: #d23a2e;
+  --button-edge: #9e2219;
+  --glass: #eef6f3;
+  --bot: #1e3a35;
+  --bot-ink: #f1f7f4;
+
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    var(--wall) 0 calc(100% - 30rem),
+    var(--rail-light) calc(100% - 30rem) calc(100% - 29.8rem),
+    var(--rail) calc(100% - 29.8rem) calc(100% - 29.4rem),
+    var(--wall-deep) calc(100% - 29.4rem)
+  );
+  color: var(--ink);
+  font-family: var(--font-text), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  padding-bottom: 5rem;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.wall a:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* ---------- signage and text on the wall ---------- */
+
+.top,
+.section,
+.chamada {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+.top {
+  padding-top: clamp(2rem, 6vw, 4rem);
+  padding-bottom: 1.75rem;
+}
+
+.answer {
+  margin: 0;
+  max-width: 34ch;
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.625rem, 1rem + 2.6vw, 3.1rem);
+  line-height: 1.1;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+.meta {
+  margin: 1rem 0 0;
+  max-width: 62ch;
+  color: var(--ink-2);
+}
+
+.section,
+.chamada {
+  padding-top: clamp(3.5rem, 8vw, 6rem);
+}
+
+/* The chair rail between sections: a painted wall has one. */
+.section::before,
+.chamada::before {
+  content: '';
+  display: block;
+  height: 0.5rem;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+  border-radius: 2px;
+  background: linear-gradient(var(--rail-light) 0 2px, var(--rail) 2px);
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.375rem, 1rem + 1.2vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.lede {
+  margin: 0.75rem 0 2rem;
+  max-width: 64ch;
+  color: var(--ink-2);
+}
+
+/* ---------- hazard tape for test data ---------- */
+
+.tape {
+  margin: 0;
+  padding: 0.55rem 1rem;
+  background: repeating-linear-gradient(-45deg, #f2c200 0 18px, #141414 18px 36px);
+  text-align: center;
+}
+
+.tape span {
+  display: inline-block;
+  padding: 0.2rem 0.75rem;
+  background: #f2c200;
+  color: #141414;
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+}
+
+/* ---------- LED figures ---------- */
+
+.led {
+  font-family: var(--font-led), ui-monospace, monospace;
+  font-weight: 900;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.led_amber {
+  color: var(--amber);
+  text-shadow: 0 0 0.3em rgb(255 176 32 / 0.45);
+}
+
+.led_red {
+  color: var(--red);
+  text-shadow: 0 0 0.3em rgb(255 90 74 / 0.45);
+}
+
+.led_dim {
+  color: var(--silk-dim);
+}
+
+.led_sm {
+  font-size: 1.125rem;
+}
+
+.led_md {
+  font-size: 1.75rem;
+}
+
+.led_lg {
+  font-size: clamp(2rem, 1.2rem + 2.4vw, 3.25rem);
+}
+
+/* ---------- the panel ---------- */
+
+.housing {
+  position: relative;
+  max-width: 76rem;
+  margin: 0 auto;
+  margin-inline: max(clamp(1rem, 4vw, 2.5rem), calc((100% - 76rem) / 2));
+  padding: 1rem clamp(0.75rem, 2vw, 1.5rem) 1.25rem;
+  border-radius: 10px;
+  background: var(--housing);
+  color: var(--silk);
+  box-shadow:
+    0 2px 0 var(--housing-rule) inset,
+    0 18px 36px -18px rgb(15 46 40 / 0.55),
+    0 4px 10px rgb(15 46 40 / 0.25);
+}
+
+/* Screws on the four corners of the housing. */
+.housing::before,
+.housing::after {
+  content: '';
+  position: absolute;
+  top: 0.55rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #5a625f, #262b29);
+}
+
+.housing::before {
+  left: 0.55rem;
+}
+
+.housing::after {
+  right: 0.55rem;
+}
+
+.silkscreen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding: 0 1rem 0.75rem;
+}
+
+.silkTitle {
+  margin: 0;
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--silk);
+}
+
+.silkNote {
+  margin: 0;
+  font-family: var(--font-sign), sans-serif;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  color: var(--silk-dim);
+}
+
+.housing .tape {
+  margin: 0 0 0.75rem;
+  border-radius: 4px;
+}
+
+.board {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 6px;
+  background-color: var(--housing-2);
+  background-image: radial-gradient(circle, var(--amber-off) 1.1px, transparent 1.4px);
+  background-size: 7px 7px;
+}
+
+.board th,
+.board td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.board thead th,
+.boardPersonas th {
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--silk-dim);
+  background: var(--housing);
+}
+
+.boardMode {
+  color: var(--silk) !important;
+  border-bottom: 1px solid var(--housing-rule);
+}
+
+.boardPersonas td {
+  background: var(--housing);
+}
+
+.board tbody tr + tr > * {
+  border-top: 1px solid var(--housing-rule);
+}
+
+.window {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 11rem;
+}
+
+.windowName {
+  display: grid;
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  letter-spacing: 0.02em;
+  color: var(--silk);
+}
+
+.windowName small {
+  font-family: var(--font-thermal), ui-monospace, monospace;
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0;
+  color: var(--silk-dim);
+}
+
+.boardCell {
+  white-space: nowrap;
+}
+
+.cellLink {
+  display: block;
+  margin: -0.35rem -0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.cellLink:hover {
+  background: rgb(255 176 32 / 0.08);
+}
+
+.wall .cellLink:focus-visible {
+  outline-color: var(--amber);
+}
+
+.cellMetaShort,
+.boardLegend {
+  display: none;
+}
+
+.cellMeta {
+  display: grid;
+  margin-top: 0.35rem;
+  font-family: var(--font-sign), sans-serif;
+  font-size: 0.8125rem;
+  letter-spacing: 0.03em;
+  color: var(--silk-dim);
+  white-space: normal;
+}
+
+.dropDown {
+  color: var(--red);
+}
+
+.dropUp {
+  color: var(--ok);
+}
+
+.notRun {
+  font-family: var(--font-sign), sans-serif;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--silk-dim);
+}
+
+@media (max-width: 56rem) {
+  .board,
+  .board tbody,
+  .board tr,
+  .board th,
+  .board td {
+    display: block;
+  }
+
+  .board thead {
+    display: none;
+  }
+
+  .boardLegend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0.6rem 0.75rem 0.4rem;
+    border-radius: 6px 6px 0 0;
+    background: var(--housing);
+    font-family: var(--font-sign), sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--silk-dim);
+  }
+
+  .board {
+    border-radius: 0 0 6px 6px;
+  }
+
+  .board tbody tr {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0 0.5rem;
+    padding: 0.5rem 0.25rem 0.6rem;
+  }
+
+  .board tbody tr + tr > * {
+    border-top: 0;
+  }
+
+  .board tbody tr + tr {
+    border-top: 1px solid var(--housing-rule);
+  }
+
+  .board th,
+  .board td {
+    padding: 0.35rem 0.5rem;
+  }
+
+  .window {
+    grid-column: 1 / -1;
+    min-width: 0;
+    gap: 0.6rem;
+  }
+
+  .window .led_lg {
+    font-size: 1.5rem;
+  }
+
+  .windowName {
+    font-size: 0.9375rem;
+  }
+
+  .boardCell .led_lg {
+    font-size: clamp(1.25rem, 5.5vw, 1.75rem);
+  }
+
+  .cellMetaLong,
+  .cellDrop {
+    display: none;
+  }
+
+  .cellMetaShort {
+    display: inline;
+  }
+}
+
+/* ---------- queues ---------- */
+
+.queues {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.queueHead,
+.queueRow {
+  display: grid;
+  grid-template-columns: minmax(11rem, 1.4fr) repeat(var(--cols, 4), minmax(0, 1fr));
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 0.75rem;
+}
+
+.queueHead {
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.queueHead .led {
+  color: var(--ink);
+  text-shadow: none;
+}
+
+.queueRow {
+  border-radius: 8px;
+  background: rgb(255 255 255 / 0.34);
+}
+
+.queueName {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 600;
+  font-size: 1.0625rem;
+}
+
+.queueName small {
+  display: block;
+  font-family: var(--font-text), sans-serif;
+  font-weight: 400;
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+}
+
+/* The dispenser's queue button: a plastic key with its letter. */
+.queueButton {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 8px;
+  background: var(--plastic);
+  box-shadow:
+    0 3px 0 var(--plastic-edge),
+    0 5px 8px rgb(15 46 40 / 0.2);
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--ink);
+}
+
+.windowLegend {
+  display: none;
+}
+
+.queueCell {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.75rem;
+  font-family: var(--font-sign), sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.queueLink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  margin: -0.15rem -0.3rem;
+  padding: 0.15rem 0.3rem;
+  border-radius: 5px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.queueLink:hover {
+  background: rgb(255 255 255 / 0.6);
+}
+
+.figure,
+.badFigure {
+  font-weight: 700;
+  font-size: 1.375rem;
+}
+
+.badFigure {
+  color: #9b1c12;
+}
+
+.arrowText {
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.notRunWall {
+  color: var(--ink-2);
+  font-family: var(--font-sign), sans-serif;
+}
+
+@media (max-width: 52rem) {
+  .queueHead {
+    display: none;
+  }
+
+  .windowLegend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    margin: -1rem 0 1rem;
+    font-family: var(--font-sign), sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  .windowLegend .led {
+    color: var(--ink);
+    text-shadow: none;
+  }
+
+  .queueRow {
+    grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+    gap: 0.6rem 0.5rem;
+  }
+
+  .queueName {
+    grid-column: 1 / -1;
+  }
+
+  .queueCell {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .queueCell::before {
+    content: 'Guichê ' attr(data-label);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+
+  .figure,
+  .badFigure {
+    font-size: 1.125rem;
+  }
+}
+
+/* ---------- thermal receipts ---------- */
+
+.receipts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.receipt {
+  padding: 1.25rem 1.1rem 1.75rem;
+  background: var(--paper);
+  color: var(--paper-print);
+  font-family: var(--font-thermal), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  box-shadow: 0 10px 18px -12px rgb(15 46 40 / 0.55);
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%;
+}
+
+.receiptHead {
+  display: grid;
+  gap: 0.1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed var(--paper-faded);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.receiptHead strong {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.receiptTotals {
+  margin: 0.75rem 0;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.receiptTotals div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.receiptTotals dd {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.receiptLines {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 1px dashed var(--paper-faded);
+}
+
+.receiptLines th,
+.receiptLines td {
+  padding: 0.35rem 0;
+  text-align: left;
+  font-weight: 400;
+  vertical-align: top;
+}
+
+.receiptLines thead th {
+  color: var(--paper-faded);
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+}
+
+.receiptLines td {
+  text-align: right;
+  padding-left: 0.75rem;
+  white-space: nowrap;
+}
+
+.receiptLines small {
+  display: block;
+  color: var(--paper-faded);
+  font-size: 0.6875rem;
+}
+
+.receiptEmpty,
+.receiptFoot {
+  margin: 0.75rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--paper-faded);
+}
+
+.receiptFoot span {
+  color: var(--paper-faded);
+}
+
+/* ---------- wait panel ---------- */
+
+.waitHousing {
+  overflow-x: auto;
+  padding: 0.75rem clamp(0.5rem, 2vw, 1.25rem) 1rem;
+  border-radius: 10px;
+  background: var(--housing);
+  color: var(--silk);
+  box-shadow:
+    0 2px 0 var(--housing-rule) inset,
+    0 18px 36px -18px rgb(15 46 40 / 0.55);
+}
+
+.waitTable {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+}
+
+.waitTable th,
+.waitTable td {
+  padding: 0.5rem 0.75rem;
+  text-align: right;
+  font-weight: 400;
+}
+
+.waitTable thead th {
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--silk);
+  white-space: nowrap;
+}
+
+.waitTable tbody th {
+  text-align: left;
+  font-family: var(--font-sign), sans-serif;
+  font-size: 0.9375rem;
+  color: var(--silk);
+}
+
+.waitTable tbody tr + tr > * {
+  border-top: 1px solid var(--housing-rule);
+}
+
+.waitModeRow th {
+  padding-top: 1rem;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--silk-dim) !important;
+}
+
+@media (max-width: 52rem) {
+  .waitHeadName {
+    display: none;
+  }
+}
+
+/* ---------- the call: ticket, dispenser, windows ---------- */
+
+.caller {
+  display: grid;
+  grid-template-columns: minmax(14rem, 1fr) minmax(16rem, 1.1fr) minmax(16rem, 1.2fr);
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  align-items: start;
+  margin-bottom: 2.5rem;
+}
+
+.callerLed {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  padding: 1.25rem 1rem;
+  border-radius: 8px;
+  background-color: var(--housing);
+  background-image: radial-gradient(circle, var(--red-off) 1.1px, transparent 1.4px);
+  background-size: 7px 7px;
+  box-shadow: 0 14px 28px -18px rgb(15 46 40 / 0.7);
+}
+
+.callerLedLabel {
+  font-family: var(--font-sign), sans-serif;
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--silk-dim);
+}
+
+.callerLedCode {
+  font-family: var(--font-led), monospace;
+  font-weight: 900;
+  font-size: clamp(3rem, 2rem + 3vw, 4.5rem);
+  line-height: 1;
+  color: var(--red);
+  text-shadow: 0 0 0.25em rgb(255 90 74 / 0.5);
+  animation: called 1.4s steps(1, end) 1;
+}
+
+@keyframes called {
+  0%,
+  30%,
+  60% {
+    opacity: 1;
+  }
+  15%,
+  45% {
+    opacity: 0.12;
+  }
+}
+
+.dispenser {
+  display: grid;
+  justify-items: center;
+}
+
+.slot {
+  width: min(100%, 17rem);
+  height: 1.1rem;
+  border-radius: 6px 6px 3px 3px;
+  background: linear-gradient(var(--plastic) 0 40%, #1a1d1c 40% 70%, var(--plastic-edge) 70%);
+  box-shadow: 0 3px 0 var(--plastic-edge);
+}
+
+.ticket {
+  width: min(92%, 15.5rem);
+  margin-top: -0.35rem;
+  padding: 1rem 1rem 1.4rem;
+  background: var(--paper);
+  color: var(--paper-print);
+  font-family: var(--font-thermal), monospace;
+  text-align: center;
+  box-shadow: 0 12px 18px -12px rgb(15 46 40 / 0.6);
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 12px 100%;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 12px 100%;
+  animation: printed 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+@keyframes printed {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(-0.75rem);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+
+.ticketQueue,
+.ticketFoot {
+  margin: 0;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper-faded);
+}
+
+.ticketCode {
+  margin: 0.35rem 0;
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 700;
+  font-size: 2.75rem;
+  line-height: 1;
+}
+
+.ticketText {
+  margin: 0 0 0.75rem;
+  padding: 0.6rem 0;
+  border-block: 1px dashed var(--paper-faded);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.controls {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.callButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 999px;
+  background: var(--button);
+  box-shadow:
+    0 5px 0 var(--button-edge),
+    0 9px 16px rgb(15 46 40 / 0.3);
+  color: #fff;
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 700;
+  font-size: 1.0625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    transform 0.12s ease-out,
+    box-shadow 0.12s ease-out;
+}
+
+.callButton span {
+  font-family: var(--font-led), monospace;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.callButton:hover {
+  background: #e0443a;
+}
+
+.callButton:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 1px 0 var(--button-edge),
+    0 3px 6px rgb(15 46 40 / 0.3);
+}
+
+.backButton {
+  justify-self: start;
+  color: var(--ink);
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+
+.switch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.switchLabel {
+  min-width: 4.5rem;
+  font-family: var(--font-sign), sans-serif;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.switchOption {
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  background: var(--plastic);
+  box-shadow: 0 2px 0 var(--plastic-edge);
+  color: var(--ink);
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+.switchOption:hover {
+  background: #fff;
+}
+
+.switchOption[aria-current='true'] {
+  background: var(--ink);
+  color: var(--glass);
+  box-shadow: 0 2px 0 #000 inset;
+}
+
+.ticketIndex summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 600;
+}
+
+.ticketIndex summary::-webkit-details-marker {
+  display: none;
+}
+
+.ticketIndex summary::before {
+  content: '';
+  width: 0.45rem;
+  height: 0.6rem;
+  background: var(--ink);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  transition: rotate 0.15s ease-out;
+}
+
+.ticketIndex[open] summary::before {
+  rotate: 90deg;
+}
+
+.ticketIndex ol {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem;
+  max-height: 16rem;
+  overflow: auto;
+  list-style: none;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.45);
+}
+
+.ticketIndex a {
+  display: block;
+  padding: 0.3rem 0.4rem;
+  border-radius: 4px;
+  color: var(--ink);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.ticketIndex a:hover,
+.ticketIndex a[aria-current='true'] {
+  background: var(--ink);
+  color: var(--glass);
+}
+
+.ticketIndex a span {
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 700;
+}
+
+.windows {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.windowCol {
+  border-radius: 8px;
+  background: var(--glass);
+  box-shadow:
+    0 0 0 2px var(--ink),
+    0 14px 26px -18px rgb(15 46 40 / 0.6);
+  overflow: hidden;
+}
+
+.windowHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--ink);
+  color: var(--glass);
+  font-family: var(--font-sign), sans-serif;
+}
+
+.windowPlate {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rail-light);
+}
+
+.windowHead strong {
+  font-weight: 600;
+  font-size: 1.0625rem;
+}
+
+.statusOk,
+.statusFail {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.statusOk::before,
+.statusFail::before {
+  content: '';
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+}
+
+.statusOk {
+  color: #8fe6ad;
+}
+
+.statusOk::before {
+  background: var(--ok);
+  box-shadow: 0 0 6px var(--ok);
+}
+
+.statusFail {
+  color: #ffb3ab;
+}
+
+.statusFail::before {
+  background: var(--red);
+  box-shadow: 0 0 6px var(--red);
+}
+
+.conversation {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.9rem;
+  list-style: none;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.lineWho {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-family: var(--font-sign), sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.patient,
+.bot,
+.botBarred,
+.reception {
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+}
+
+.patient {
+  margin-right: 1.5rem;
+  background: #fff;
+  border-top-left-radius: 2px;
+}
+
+.bot {
+  margin-left: 1.5rem;
+  background: var(--bot);
+  color: var(--bot-ink);
+  border-top-right-radius: 2px;
+}
+
+.reception {
+  margin-left: 1.5rem;
+  background: #fff4d6;
+  color: #3d2b00;
+}
+
+.botBarred {
+  margin-left: 1.5rem;
+  background: #f9e1dd;
+  color: #5c1a12;
+}
+
+.botBarred del {
+  text-decoration-color: #b3261e;
+  text-decoration-thickness: 2px;
+}
+
+.botSent {
+  display: block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  background: var(--bot);
+  color: var(--bot-ink);
+}
+
+.call {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin-left: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--ink-2);
+}
+
+.call code {
+  font-family: var(--font-thermal), monospace;
+  overflow-wrap: anywhere;
+}
+
+.callDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: 50%;
+  align-self: center;
+}
+
+.callOk .callDot {
+  background: var(--ok);
+}
+
+.callFail .callDot {
+  background: #d63a2f;
+}
+
+.callOutcome {
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.callFail .callOutcome {
+  color: #9b1c12;
+}
+
+.failed {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0.75rem 0.9rem 0.9rem;
+  list-style: none;
+  border-top: 1px solid rgb(15 46 40 / 0.2);
+  background: #fbe9e6;
+  color: #5c1a12;
+  font-size: 0.875rem;
+}
+
+.failed strong {
+  display: block;
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 700;
+}
+
+.failed span {
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 60rem) {
+  .caller {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .controls {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 36rem) {
+  .caller {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- the laminated notice ---------- */
+
+.notice {
+  position: relative;
+  max-width: 46rem;
+  margin: clamp(4rem, 9vw, 7rem) auto 0;
+  margin-inline: max(1rem, calc((100% - 46rem) / 2));
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: #fff;
+  border-radius: 3px;
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.9) inset,
+    0 18px 30px -20px rgb(15 46 40 / 0.6);
+  rotate: -0.5deg;
+}
+
+.noticeTape {
+  position: absolute;
+  top: -0.7rem;
+  width: 5.5rem;
+  height: 1.6rem;
+  background: rgb(236 226 196 / 0.8);
+  box-shadow: 0 1px 2px rgb(15 46 40 / 0.15);
+}
+
+.noticeTapeLeft {
+  left: 1.5rem;
+  rotate: -4deg;
+}
+
+.noticeTapeRight {
+  right: 1.5rem;
+  rotate: 5deg;
+}
+
+.noticeTitle {
+  margin: 0 0 1rem;
+  font-family: var(--font-sign), sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.noticeList {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.noticeList code,
+.noticeMeta code {
+  font-family: var(--font-thermal), monospace;
+  font-size: 0.875em;
+  overflow-wrap: anywhere;
+}
+
+.noticeMeta {
+  margin: 1.25rem 0 0;
+  color: var(--ink-2);
+  font-size: 0.9375rem;
+}
+
+.noticeLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 1rem 0 0;
+}
+
+.noticeLinks a {
+  color: var(--ink);
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .callerLedCode,
+  .ticket {
+    animation: none;
+  }
+
+  .callButton {
+    transition: none;
+  }
+}
+
+@media (min-width: 64rem) {
+  .windows,
+  .receipts {
+    grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+  }
+}
