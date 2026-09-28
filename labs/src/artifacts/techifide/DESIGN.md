@@ -1,12 +1,13 @@
 ---
-name: Intake prep
-description: Techifide's three job ads read as a jackfield normalling schedule; every claim is tied to its lane of the ad.
+name: Intake call sheet
+description: Techifide's three job ads read as a jackfield normalling schedule, and run as the intake call's sheet; every claim is tied to its lane of the ad or to the call.
 colors:
   glass: "#0a0a0a"
   glass-raised: "#121110"
   amber: "#ffb000"
   amber-dim: "#7a5200"
   amber-deep: "#2a1c00"
+  amber-edge: "#9a6a00"
   ivory: "#f2efe6"
   ivory-dim: "#bdb8aa"
 typography:
@@ -72,9 +73,28 @@ components:
     backgroundColor: "{colors.glass-raised}"
     textColor: "{colors.ivory}"
     padding: "0.625rem 0.75rem"
+  level-key:
+    textColor: "{colors.amber}"
+    typography: "{typography.legend}"
+    rounded: "{rounded.none}"
+    height: "44px"
+  level-key-selected:
+    backgroundColor: "{colors.amber-deep}"
+  field-input:
+    backgroundColor: "{colors.glass-raised}"
+    textColor: "{colors.ivory}"
+    rounded: "{rounded.none}"
+    padding: "0.5rem 0.625rem"
+    height: "44px"
+  action:
+    textColor: "{colors.amber}"
+    typography: "{typography.legend}"
+    rounded: "{rounded.none}"
+    padding: "0 0.875rem"
+    height: "44px"
 ---
 
-# Design System: Intake prep
+# Design System: Intake call sheet
 
 Scope: this artifact only (`/techifide`). Labs hosts one world per company; nothing here binds other artifacts. The direction contract is the `DIRECTION` comment in `Techifide.tsx`, shipped hidden in the HTML. Tokens are custom properties on `.glass` in `techifide.module.css`.
 
@@ -82,7 +102,7 @@ Scope: this artifact only (`/techifide`). Labs hosts one world per company; noth
 
 **Creative North Star: "The Normalling Schedule"**
 
-The ad is the jackfield. Its lines are numbered lanes (L00 is the title), and every claim on the page, a brief field, a Role Fit level, a contradiction, is tied to its lane by an amber link rail. What the ad does not say is a tie with a gap in it: a question for the intake call. The page rejects the HR-tech score dashboard and any "X of 11" coverage figure; the one number it inverts is the count of questions still open. Reading order: the ad keys, the role, the must-haves, the count and its questions, then the brief, the dimensions, what is worth confirming, the ad itself lane by lane, the sources and the method.
+The ad is the jackfield. Its lines are numbered lanes (L00 is the title), and every claim on the page, a brief field, a Role Fit level, a contradiction, is tied to its lane by an amber link rail. What the ad does not say is a tie with a gap in it: a question for the intake call. The page rejects the HR-tech score dashboard and any "X of 11" coverage figure; the one number it inverts is the count of questions still open. Reading order: the ad keys, the role, the must-haves, the count and its questions, then the brief, the dimensions, the Role Fit Profile with its exports, what is worth confirming, the ad itself lane by lane, the sources and the method. The page is also the call's sheet: a question opens to a level and a note, the template's empty fields take what the call says, and the count falls as the call answers.
 
 **Key Characteristics:**
 - Black glass with a lane grid drifting one hairline per second behind static type, inside dark edge gutters.
@@ -104,7 +124,8 @@ Restrained: black ground, one signal colour, one prose colour. No Techifide mage
 - **Ivory** (`ivory`): questions, quotes, claim labels, ad lines.
 - **Ivory Dim** (`ivory-dim`, ~10:1 on glass): meta line, leads, "Not in the ad", Techifide's descriptions, sources, footer.
 - **Dim Amber** (`amber-dim`): row rules only, never text.
-- **Deep Amber** (`amber-deep`): hover on keys and rings, the `:target` lane and question.
+- **Deep Amber** (`amber-deep`): hover on keys and rings, the selected level key's fill, the `:target` lane and question.
+- **Amber Edge** (`amber-edge`, ~3.9:1 on raised glass): input and textarea borders and the dashed Clear button only; the non-text contrast floor with room.
 
 **The One Inversion Rule.** Exactly one solid amber plate per screen: the count. Selected keys are doubled, lane plates and quote captions are outlined.
 
@@ -144,6 +165,16 @@ Square everywhere. Rails are 1px amber lines ending in a 9px ring (1.5px stroke)
 ### Ad keys
 Three 44px keys in the strip (Fullstack / ML / QA), links to `?ad=`, outlined amber. The current one is a 3px double outline with `aria-current="page"`.
 
+### Call sheet
+- **Question rows** are `<details>`: closed, a row reads as the ad left it plus a dashed **Record** plate at the end; answered, the plate turns solid and reads **Call n**. Open, it shows Techifide's description of the dimension, the level control and a note.
+- **Level control:** a fieldset of five native radios (one tab stop, arrow keys), each inside a 44px outlined key with a legend-font numeral; the checked key is doubled (3px double) on deep amber. Scale ends read "1 · Very little" and "A great deal · 5". A "Clear level" text button appears only when a level is set. Keys, scale ends and note share the `measure` width.
+- **Template inputs:** each empty field keeps its "Not in the ad" line, gapped rail and **Open** plate, and gains a 44px input ("Add from the call"). Typed, the line reads "From the call", the rail closes and the plate says **Call**.
+- **Dimensions** carry the same control inside their row; the plate shows the lane while the ad's level stands, **Call n** once the call changes it or adds a note, **Ask nn** while open.
+- **Live count:** the count and its sentence follow the call; at zero the sentence becomes a link, "Role Fit Profile ready: export it".
+- **Role Fit Profile:** one row per dimension in Techifide's published order: name, a five-cell meter (filled cells up to the level, 0.75rem squares), the numeral, "from the ad, line n" / "from the call" / "to confirm", and the note. Then the actions: Download .docx, Print / PDF, Copy as text (outlined 44px legend buttons) and a dashed "Clear this call" that arms on the first tap (solid amber, "Tap again to clear this call"). A `role="status"` line reports the result.
+- **Bar:** fixed to the bottom once the sheet is touched, "Call sheet in progress, kept in this browser." with a **Profile** key; the page reserves its height below the last line, and it hides while a text field has focus.
+- **Print sheet:** Print / PDF shows only a plain black-on-white sheet: title, ad URL, "prepared on <date>", the filled template as a two-column table and the profile as a headed table (Dimension / Level / Note from the call), with the Labs banner above.
+
 ### Must-haves
 A wrapping legend of short labels, each followed by its lane tag (`L21`). Each is a link to that lane of the ad, with a hit area extended by `::after` beyond its line height.
 
@@ -177,6 +208,8 @@ Focus-visible: `2px solid ivory`, offset 2px, on links and summaries. Hover neve
 - **Do** pair every rail state with its written plate.
 - **Do** keep the count the only solid plate on screen.
 - **Do** say "Not in the ad" plainly, and name the listing's metadata when it says what the text does not.
+- **Do** say where every level came from, the ad's line or the call, in every export.
+- **Do** keep the call's answers in the browser; nothing on the page sends them anywhere.
 
 ### Don't:
 - **Don't** headline a coverage score, or call anything in the ad missing, vague or wrong.
