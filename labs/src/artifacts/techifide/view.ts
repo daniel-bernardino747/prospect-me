@@ -81,6 +81,11 @@ export function headline(count: number): string {
   return `${count} ${count === 1 ? 'question' : 'questions'} your intake call still has to answer`;
 }
 
+/** The template's labels, tidied for reading: "Location of the role(any travel required?)". */
+export function fieldName(field: string): string {
+  return field.replace(/\s*\(/, ' (').replace(/\/ /g, ' / ');
+}
+
 /** The lane a quote sits on, so every claim can point at its line of the ad. */
 export function laneOf(quote: string, ad: Pick<AdView, 'lanes'>): number | undefined {
   const i = ad.lanes.findIndex((l) => l.includes(quote));

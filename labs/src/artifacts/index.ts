@@ -15,7 +15,7 @@ export const ARTIFACTS: readonly Artifact[] = [
     kind: 'prospect',
     slug: 'techifide',
     company: 'Techifide',
-    title: 'Intake prep',
+    title: 'Intake call sheet',
     expiresAt: '2026-11-27T23:59:00-03:00',
     locale: 'en',
     load: () => import('./techifide/Techifide'),
