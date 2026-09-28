@@ -1,0 +1,1580 @@
+/* Pix na minha cidade — a repartição wall, a red dispenser, thermal paper and
+   an LED caller panel (DESIGN.md). Tokens live on the artifact root. */
+
+.sala {
+  --parede: #e8e2d4;
+  --barra: #b89f74;
+  --filete: #6b5436;
+  --ink-barra: #15130f;
+  --wall-ink: var(--ink-barra);
+  --wall-ink-soft: var(--ink-barra);
+  --dispenser: #d23a1e;
+  --dispenser-press: #b42d16;
+  --slot: #3a0f08;
+  --paper: #f4f5f0;
+  --paper-shade: #e7e9e2;
+  --ink: #1f1d1a;
+  --ink-soft: #5a5750;
+  --panel: #141311;
+  --bezel: #2a2825;
+  --bezel-label: #b9b4aa;
+  --led: #ff4a2e;
+  --led-ghost: #2b1714;
+  --on-dispenser: #ffffff;
+  --shadow: rgb(60 44 24 / 0.24);
+  --shadow-strong: rgb(60 44 24 / 0.28);
+  --barra-y: 440px;
+  --paper-w: min(100% - 32px, 400px);
+  --plot-h: 200px;
+
+  --print: var(--font-print), system-ui, sans-serif;
+  --thermal: var(--font-thermal), ui-monospace, monospace;
+
+  min-height: 100vh;
+  padding-bottom: 72px;
+  color: var(--ink);
+  font-family: var(--print);
+  font-size: 1rem;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(
+    to bottom,
+    var(--parede) 0 var(--barra-y),
+    var(--filete) var(--barra-y) calc(var(--barra-y) + 6px),
+    var(--barra) calc(var(--barra-y) + 6px)
+  );
+  overflow-x: clip;
+}
+
+@media (prefers-color-scheme: dark) {
+  .sala {
+    --parede: #1e1a15;
+    --barra: #2a231b;
+    --filete: #5c4a30;
+    --wall-ink: #ede6d8;
+    --wall-ink-soft: #c2b6a2;
+    --paper: #e9eae4;
+    --paper-shade: #dadcd4;
+    --shadow: rgb(0 0 0 / 0.45);
+    --shadow-strong: rgb(0 0 0 / 0.45);
+    color-scheme: dark;
+  }
+}
+
+.sala *:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------------ layout */
+
+.room {
+  display: flex;
+  flex-direction: column;
+}
+
+.counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 720px) {
+  .sala {
+    --paper-w: 400px;
+  }
+  .room,
+  .capitals,
+  .method {
+    width: min(100% - 32px, 560px);
+    margin-inline: auto;
+  }
+  .room {
+    padding-top: 32px;
+  }
+}
+
+@media (min-width: 1080px) {
+  .sala {
+    --barra-y: 560px;
+    --paper-w: 392px;
+    --plot-h: 240px;
+    padding-bottom: 96px;
+  }
+  .room {
+    width: min(100% - 96px, 1240px);
+    padding-top: 48px;
+    display: grid;
+    grid-template-columns: 440px 1fr;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      'counter fila'
+      'counter context'
+      'counter .';
+    column-gap: 72px;
+  }
+  .counter {
+    grid-area: counter;
+  }
+  .fila {
+    grid-area: fila;
+  }
+  .context {
+    grid-area: context;
+  }
+  .capitals,
+  .method {
+    width: min(100% - 96px, 1240px);
+  }
+}
+
+/* ----------------------------------------------------------- the dispenser */
+
+.housing {
+  position: relative;
+  z-index: 4;
+  align-self: stretch;
+  padding: 12px 16px 8px;
+  background: var(--dispenser);
+  color: var(--on-dispenser);
+  box-shadow:
+    inset 0 2px 0 rgb(255 255 255 / 0.18),
+    inset 0 -3px 0 rgb(0 0 0 / 0.18);
+}
+
+/* The senha hangs over the slot's lip (z 5) and slips sit at z 6; an open list drops over both. */
+.housing:has([aria-expanded='true']) {
+  z-index: 8;
+}
+
+@media (min-width: 720px) {
+  .housing {
+    border-radius: 14px 14px 4px 4px;
+    padding: 24px 24px 10px;
+    box-shadow:
+      inset 0 2px 0 rgb(255 255 255 / 0.18),
+      inset 0 -3px 0 rgb(0 0 0 / 0.18),
+      0 12px 24px var(--shadow);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .housing {
+    box-shadow:
+      inset 0 2px 0 rgb(255 255 255 / 0.18),
+      inset 0 -3px 0 rgb(0 0 0 / 0.18),
+      0 0 0 1px rgb(255 255 255 / 0.06);
+  }
+}
+
+.title {
+  margin: 0 0 10px;
+  font-size: 1.375rem;
+  line-height: 24px;
+  font-weight: 800;
+  font-variation-settings: 'wdth' 112;
+  letter-spacing: -0.005em;
+}
+
+@media (min-width: 1080px) {
+  .title {
+    font-size: 1.75rem;
+    line-height: 32px;
+    margin-bottom: 16px;
+  }
+}
+
+.search {
+  margin: 0;
+}
+
+.searchLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 1080px) {
+  .searchLabel {
+    position: static;
+    width: auto;
+    height: auto;
+    clip-path: none;
+    display: block;
+    margin-bottom: 6px;
+    font-family: var(--thermal);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+}
+
+.searchRow {
+  position: relative;
+  display: flex;
+  gap: 8px;
+}
+
+.field {
+  flex: 1;
+  min-width: 0;
+}
+
+.field input {
+  width: 100%;
+  height: 56px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ink);
+  font: 500 1.0625rem/1 var(--print);
+  box-shadow: inset 0 2px 3px rgb(0 0 0 / 0.14);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field input::placeholder {
+  color: var(--ink-soft);
+  opacity: 1;
+}
+
+.field input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.sala .field input:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.printButton {
+  flex: none;
+  height: 56px;
+  min-width: 104px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--ink);
+  color: var(--paper);
+  font: 700 0.8125rem/1 var(--thermal);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 80ms ease-out;
+}
+
+.printButton:active {
+  transform: translateY(1px);
+}
+
+.printButton[aria-disabled='true'] {
+  cursor: progress;
+}
+
+.sala .printButton:focus-visible {
+  outline-color: var(--on-dispenser);
+}
+
+.listbox {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 10px 20px var(--shadow-strong);
+  animation: drop 120ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 14px;
+  cursor: pointer;
+  border-bottom: 1px dashed var(--paper-shade);
+}
+
+.option[aria-selected='true'] {
+  background: var(--paper-shade);
+  box-shadow: inset 4px 0 0 var(--dispenser);
+}
+
+@media (hover: hover) {
+  .option:hover {
+    background: var(--paper-shade);
+  }
+}
+
+.optionName {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.optionState {
+  margin-left: auto;
+  font-family: var(--thermal);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.noMatch {
+  padding: 14px 14px 2px;
+  font-weight: 600;
+}
+
+.maybe {
+  padding: 0 14px 6px;
+  font-family: var(--thermal);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.slot {
+  position: relative;
+  height: 10px;
+  margin-top: 12px;
+  border-radius: 5px;
+  background: var(--slot);
+  box-shadow: inset 0 2px 2px rgb(0 0 0 / 0.5);
+}
+
+@media (min-width: 1080px) {
+  .slot {
+    margin-top: 20px;
+  }
+}
+
+.lamp {
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--led);
+  opacity: 0;
+}
+
+.lamp[data-on] {
+  opacity: 1;
+  animation: lamp 1s steps(1, end) infinite;
+  box-shadow: 0 0 6px rgb(255 74 46 / 0.8);
+}
+
+/* ------------------------------------------------------------- the ticket */
+
+.hang {
+  position: relative;
+  z-index: 5;
+  width: var(--paper-w);
+  margin-top: -5px;
+}
+
+.printer {
+  position: relative;
+  clip-path: inset(0 -48px -120px -48px);
+}
+
+/* The old senha stays on the wall while the new one feeds over it, then tears
+   away: the slot is never an empty wall mid-print (520ms in all). */
+.tearing {
+  position: absolute;
+  z-index: 0;
+  inset: 0 0 auto 0;
+  transform-origin: 100% 0;
+  animation: tear 200ms cubic-bezier(0.4, 0, 1, 1) 320ms forwards;
+  pointer-events: none;
+}
+
+.feeding {
+  position: relative;
+  z-index: 1;
+  animation: feed 480ms steps(16, end) both;
+}
+
+.paperShadow {
+  filter: drop-shadow(0 1px 0 rgb(0 0 0 / 0.08)) drop-shadow(0 10px 14px var(--shadow));
+}
+
+@media (min-width: 1080px) {
+  .hang .paperShadow {
+    transform: rotate(-0.8deg);
+    transform-origin: 50% 0;
+  }
+}
+
+.paper {
+  position: relative;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(0deg, rgb(0 0 0 / 0.015) 0 1px, transparent 1px 3px);
+  color: var(--ink);
+}
+
+.senha {
+  padding: 16px 16px 27px;
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%;
+}
+
+.ticketHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding-bottom: 8px;
+  border-bottom: 2px dashed var(--ink);
+  font-family: var(--thermal);
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-variation-settings: 'wdth' 112.5;
+  line-height: 24px;
+  letter-spacing: 0.06em;
+}
+
+.city {
+  margin: 0;
+  font-size: 1.75rem;
+  line-height: 32px;
+  font-weight: 800;
+  font-variation-settings: 'wdth' 100;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 720px) {
+  .city {
+    font-size: 2rem;
+    line-height: 36px;
+  }
+}
+
+.keep {
+  white-space: nowrap;
+}
+
+.chip {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 6px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--thermal);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  vertical-align: 0.3em;
+}
+
+.city .chip {
+  vertical-align: 0.45em;
+}
+
+.number {
+  margin: 8px 0 0;
+  font-size: clamp(6.5rem, 32vw, 10rem);
+  font-weight: 900;
+  font-variation-settings: 'wdth' 125;
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  font-feature-settings: 'tnum', 'lnum';
+  margin-left: -0.04em;
+}
+
+.unit {
+  margin: 0;
+  font-family: var(--thermal);
+  font-size: 0.8125rem;
+  line-height: 24px;
+}
+
+.sentence {
+  margin: 8px 0 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 24px;
+  text-wrap: pretty;
+}
+
+@media (min-width: 720px) {
+  .sentence {
+    font-size: 1.1875rem;
+  }
+}
+
+.warn {
+  margin: 12px 0 0;
+  padding: 8px 10px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--thermal);
+  font-size: 0.75rem;
+  line-height: 18px;
+}
+
+.warn b {
+  margin-right: 6px;
+  letter-spacing: 0.06em;
+}
+
+.rows {
+  margin: 8px 0 0;
+  padding-top: 8px;
+  border-top: 2px dashed var(--ink);
+  font-family: var(--thermal);
+  font-size: 0.875rem;
+  line-height: 24px;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+}
+
+.row dt {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  min-width: max-content;
+}
+
+.row dt::after {
+  content: '';
+  flex: 1;
+  min-width: 12px;
+  margin: 0 6px;
+  border-bottom: 2px dotted var(--ink-soft);
+  transform: translateY(-4px);
+}
+
+.row dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+}
+
+/* A phrase instead of a number (small samples): the key on its line, the phrase on the next, no leader. */
+.row[data-phrase] {
+  display: block;
+}
+
+.row[data-phrase] dt::after {
+  content: none;
+}
+
+.row[data-phrase] dd {
+  text-align: left;
+}
+
+.source {
+  margin: 8px 0 0;
+  font-family: var(--thermal);
+  font-size: 0.65625rem;
+  line-height: 16px;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+}
+
+/* ------------------------------------------------------------ share row */
+
+.share {
+  position: relative;
+  z-index: 3;
+  width: var(--paper-w);
+  margin-top: 12px;
+  transition: opacity 120ms ease-out;
+}
+
+/* Mid-print every action still carries the previous city. */
+.share[data-printing] {
+  opacity: 0.4;
+}
+
+.share[data-printing] a {
+  pointer-events: none;
+}
+
+.shareRow {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  visibility: hidden;
+}
+
+/* "Enviar por": one print line of plain links, there with or without JavaScript. */
+.sendVia {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 4px;
+  margin: 4px 0 0;
+  color: var(--wall-ink);
+}
+
+.sendLabel {
+  margin-right: 6px;
+  font: 700 0.75rem/1 var(--thermal);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sendVia a,
+.sendButton {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: 600 0.9375rem/1 var(--print);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.sendButton {
+  margin-left: auto;
+}
+
+@media (hover: hover) {
+  .sendVia a:hover,
+  .sendButton:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+.sala .sendVia a:focus-visible,
+.sala .sendButton:focus-visible {
+  outline-color: var(--wall-ink);
+  outline-offset: -2px;
+}
+
+.shareRow[data-ready] {
+  visibility: visible;
+}
+
+@media (min-width: 1080px) {
+  .share {
+    margin-top: 20px;
+  }
+  .shareRow {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+.shareButton,
+.linkButton {
+  position: relative;
+  z-index: 2;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    transform 80ms ease-out,
+    background-color 80ms ease-out;
+}
+
+.shareButton {
+  height: 56px;
+  border: 0;
+  background: var(--dispenser);
+  color: var(--on-dispenser);
+  font: 700 1.0625rem/1 var(--print);
+  font-variation-settings: 'wdth' 112;
+  box-shadow:
+    inset 0 2px 0 rgb(255 255 255 / 0.18),
+    0 4px 10px var(--shadow);
+}
+
+@media (hover: hover) {
+  .shareButton:hover {
+    background: var(--dispenser-press);
+  }
+  .linkButton:hover {
+    background: rgb(0 0 0 / 0.06);
+  }
+}
+
+.shareButton:active,
+.linkButton:active {
+  transform: translateY(1px);
+}
+
+.shareButton:active {
+  box-shadow: inset 0 2px 0 rgb(0 0 0 / 0.2);
+}
+
+.shareButton[aria-busy='true'] {
+  cursor: progress;
+  background: var(--dispenser-press);
+}
+
+.linkButton {
+  height: 48px;
+  padding: 0 20px;
+  border: 2px solid var(--wall-ink);
+  background: transparent;
+  color: var(--wall-ink);
+  font: 600 1rem/1 var(--print);
+}
+
+@media (min-width: 1080px) {
+  .linkButton {
+    height: 56px;
+  }
+}
+
+.sala .linkButton:focus-visible {
+  outline-color: var(--wall-ink);
+}
+
+.printedSlip {
+  position: absolute;
+  z-index: 1;
+  left: 12px;
+  right: 12px;
+  top: 56px;
+  margin: 0;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  color: var(--ink);
+  font: 700 0.75rem/1 var(--thermal);
+  letter-spacing: 0.08em;
+  box-shadow: 0 6px 12px var(--shadow);
+  transform: translateY(-100%);
+  opacity: 0;
+  transition:
+    transform 160ms ease-in,
+    opacity 0s linear 160ms;
+  pointer-events: none;
+}
+
+.printedSlip[data-shown] {
+  transform: none;
+  opacity: 1;
+  transition:
+    transform 160ms cubic-bezier(0.2, 0, 0, 1),
+    opacity 0s;
+}
+
+@media (min-width: 1080px) {
+  .printedSlip {
+    right: auto;
+    width: calc(100% - 160px);
+  }
+}
+
+.noJsLink {
+  width: var(--paper-w);
+  margin: 16px 0 0;
+  color: var(--wall-ink);
+  font-family: var(--thermal);
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+.noJsLink span {
+  user-select: all;
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------ the second strip */
+
+.stripSlot {
+  width: var(--paper-w);
+  margin-top: 24px;
+}
+
+.strip {
+  padding: 24px 16px 27px;
+  -webkit-mask:
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% 100% / 14px 51% repeat-x,
+    conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 50% 0 / 14px 51% repeat-x;
+  mask:
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% 100% / 14px 51% repeat-x,
+    conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 50% 0 / 14px 51% repeat-x;
+}
+
+.bars {
+  display: grid;
+}
+
+.barLabel {
+  margin: 0;
+  font-family: var(--thermal);
+  font-size: 0.75rem;
+  line-height: 20px;
+}
+
+.barLabel b {
+  margin-left: 4px;
+}
+
+.bar {
+  height: 10px;
+  margin: 2px 0 8px;
+  background: var(--ink);
+}
+
+.barBrasil {
+  background-color: var(--paper-shade);
+  background-image: repeating-linear-gradient(45deg, var(--ink) 0 1.5px, transparent 1.5px 5px);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+.sparkCaption {
+  margin: 16px 0 6px;
+  font-family: var(--thermal);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.04em;
+}
+
+.spark {
+  position: relative;
+  height: 56px;
+  padding-right: 48px;
+}
+
+.spark svg {
+  display: block;
+  width: 100%;
+  height: 56px;
+  overflow: visible;
+}
+
+.sparkCity,
+.sparkBrasil {
+  fill: none;
+  stroke: var(--ink);
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.sparkCity {
+  stroke-width: 2;
+}
+
+.sparkBrasil {
+  stroke-width: 1.5;
+  stroke-dasharray: 2 3;
+}
+
+.sparkEnd {
+  position: absolute;
+  right: 0;
+  width: 42px;
+  transform: translateY(-50%);
+  font-family: var(--thermal);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 14px;
+}
+
+.sparkEndBr {
+  font-weight: 400;
+}
+
+.sparkMonths {
+  display: flex;
+  justify-content: space-between;
+  margin: 4px 48px 0 0;
+  font-family: var(--thermal);
+  font-size: 0.6875rem;
+  line-height: 16px;
+  color: var(--ink-soft);
+}
+
+.strip .rows {
+  margin-top: 16px;
+}
+
+.fine {
+  margin: 12px 0 0;
+  font-family: var(--thermal);
+  font-size: 0.65625rem;
+  line-height: 15px;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+
+.strip .rows + .fine {
+  padding-top: 12px;
+  border-top: 2px dashed var(--ink);
+}
+
+.fine + .fine {
+  margin-top: 6px;
+}
+
+.fine a {
+  color: inherit;
+}
+
+.keepIt {
+  margin: 16px 0 0;
+  text-align: center;
+  font-family: var(--thermal);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+/* -------------------------------------------------- slips and search list */
+
+.slip,
+.found {
+  position: relative;
+  z-index: 6;
+  width: var(--paper-w);
+  margin: 8px 0 13px;
+  padding: 12px 14px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--thermal);
+  font-size: 0.8125rem;
+  line-height: 20px;
+  box-shadow: 0 4px 10px var(--shadow);
+}
+
+.slipAction {
+  min-height: 48px;
+  margin: -14px 0 -14px 4px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.found ul {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.foundHead {
+  margin: 0;
+  font-weight: 700;
+}
+
+.foundLink {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  color: var(--ink);
+  font-family: var(--print);
+  text-decoration: none;
+  border-top: 1px dashed var(--ink-soft);
+}
+
+.foundLink:hover .optionName {
+  text-decoration: underline;
+}
+
+/* ------------------------------------------------------------ the wall */
+
+.context {
+  width: var(--paper-w);
+  margin: 24px auto 0;
+  color: var(--wall-ink);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.context a,
+.method a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+@media (min-width: 1080px) {
+  .context {
+    width: auto;
+    max-width: 38rem;
+    margin: 24px 0 0;
+  }
+}
+
+.fila {
+  width: min(100% - 32px, 560px);
+  margin: 72px auto 0;
+}
+
+@media (min-width: 720px) {
+  .fila {
+    width: auto;
+  }
+}
+
+@media (min-width: 1080px) {
+  .fila {
+    margin: 0;
+  }
+}
+
+.wallTitle {
+  margin: 0 0 4px;
+  color: var(--wall-ink);
+  font-size: 1.5rem;
+  line-height: 1.15;
+  font-weight: 800;
+  font-variation-settings: 'wdth' 112;
+  text-wrap: balance;
+}
+
+@media (min-width: 1080px) {
+  .wallTitle {
+    font-size: 2rem;
+  }
+}
+
+.wallSub {
+  margin: 0 0 16px;
+  color: var(--wall-ink);
+  font-size: 0.9375rem;
+  max-width: 38rem;
+}
+
+/* LED caller panel */
+
+.led {
+  position: relative;
+  margin-bottom: 40px;
+  padding: 16px 20px;
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--bezel-label);
+  box-shadow:
+    inset 0 0 0 6px var(--bezel),
+    0 8px 18px var(--shadow-strong);
+}
+
+@media (min-width: 1080px) {
+  .led {
+    padding: 22px 32px 24px;
+  }
+}
+
+.ledLabel {
+  display: block;
+  font-family: var(--thermal);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 16px;
+}
+
+.ledRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.segments {
+  display: block;
+  height: 64px;
+  width: auto;
+  flex: none;
+}
+
+@media (min-width: 1080px) {
+  .segments {
+    height: 148px;
+  }
+}
+
+.segments [data-ghost] {
+  fill: var(--led-ghost);
+}
+
+.segments [data-lit] {
+  fill: var(--led);
+}
+
+.ledOf {
+  font-family: var(--thermal);
+  font-size: 1rem;
+  line-height: 1;
+  padding-bottom: 2px;
+  white-space: nowrap;
+}
+
+.ledLine {
+  margin: 10px 0 0;
+  font-family: var(--thermal);
+  font-size: 0.8125rem;
+  line-height: 20px;
+}
+
+/* The queue (the roll) */
+
+.roll {
+  margin: 0;
+  padding: 16px 28px 16px 16px;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(90deg, rgb(0 0 0 / 0.015) 0 1px, transparent 1px 3px);
+  color: var(--ink);
+  -webkit-mask: conic-gradient(from 225deg at right, #0000, #000 1deg 89deg, #0000 90deg) 100% 50% / 100% 14px;
+  mask: conic-gradient(from 225deg at right, #0000, #000 1deg 89deg, #0000 90deg) 100% 50% / 100% 14px;
+  filter: none;
+}
+
+.plot {
+  position: relative;
+  padding-top: 30px;
+}
+
+.plot svg {
+  display: block;
+  width: 100%;
+  height: var(--plot-h);
+}
+
+.qBar {
+  fill: var(--ink-soft);
+}
+
+.qCap,
+.qTick {
+  fill: var(--ink);
+}
+
+.qCity {
+  fill: var(--dispenser);
+}
+
+.qBrasil {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.qBase {
+  stroke: var(--ink);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.cityMark {
+  position: absolute;
+  top: 0;
+  margin: 0;
+  height: calc(30px + var(--y) * var(--plot-h));
+  border-left: 1px solid var(--ink);
+  font-family: var(--thermal);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+/*
+ * The label slides along its own width as the column moves along the queue
+ * (--at, 0 at the front to 1 at the back): at the front it starts at the
+ * leader, at the back it ends there, so it never leaves the roll at any width.
+ */
+.cityMark span {
+  display: inline-block;
+  transform: translateX(calc(var(--at) * -100%));
+  padding: 0 4px;
+  background: var(--dispenser);
+  color: var(--on-dispenser);
+}
+
+.brasilMark {
+  position: absolute;
+  right: 0;
+  top: calc(30px + var(--y) * var(--plot-h));
+  margin: 0;
+  padding: 0 4px;
+  transform: translateY(-100%);
+  background: var(--paper);
+  font-family: var(--thermal);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.capitalMarks {
+  position: relative;
+  height: 18px;
+  margin-top: 2px;
+  font-family: var(--thermal);
+  font-size: 0.6875rem;
+  line-height: 18px;
+  color: var(--ink-soft);
+}
+
+.capitalMarks span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.capitalMarks span[data-start] {
+  transform: translateX(-2px);
+}
+
+.capitalMarks span[data-end] {
+  transform: translateX(calc(-100% + 2px));
+}
+
+.axis {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0 0;
+  padding-top: 6px;
+  border-top: 1px dashed var(--ink-soft);
+  font-family: var(--thermal);
+  font-size: 0.6875rem;
+  line-height: 16px;
+  color: var(--ink-soft);
+}
+
+.queueText {
+  margin-top: 12px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* The 27 capitals */
+
+.capitals {
+  width: min(100% - 32px, 560px);
+  margin: 72px auto 0;
+}
+
+@media (min-width: 1080px) {
+  .capitals {
+    margin-top: 96px;
+  }
+}
+
+.capitalList {
+  margin: 0;
+  padding: 8px 16px;
+  list-style: none;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 1080px) {
+  .capitalList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(14, auto);
+    grid-auto-flow: column;
+    column-gap: 56px;
+    padding: 12px 24px;
+  }
+}
+
+.capitalList li {
+  border-bottom: 1px dashed var(--paper-shade);
+}
+
+.capLink,
+.brasilRow {
+  display: grid;
+  grid-template-columns: 3ch minmax(0, 11rem) 1fr 4.5ch;
+  align-items: center;
+  column-gap: 10px;
+  min-height: 44px;
+  padding: 0 6px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.capitalList .brasilRow {
+  border-top: 2px dashed var(--ink);
+  border-bottom: 2px dashed var(--ink);
+}
+
+@media (min-width: 1080px) {
+  .capLink,
+  .brasilRow {
+    grid-template-columns: 3ch minmax(0, 15rem) 1fr 4.5ch;
+  }
+}
+
+@media (hover: hover) {
+  .capLink:hover {
+    background: var(--paper-shade);
+  }
+  .capLink:hover .capName {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.capRank {
+  font-family: var(--thermal);
+  font-size: 0.8125rem;
+  text-align: right;
+}
+
+.capName {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.capName .chip {
+  margin-left: 6px;
+  font-size: 0.6875rem;
+  padding: 1px 4px;
+  vertical-align: 0.1em;
+}
+
+.capBar {
+  display: block;
+  height: 10px;
+}
+
+.capBar span {
+  display: block;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 3px);
+}
+
+.capValue {
+  font-family: var(--thermal);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.capitalList li[data-current] .capLink {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.capitalList li[data-current] .chip {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.capitalList li[data-current] .capBar span {
+  background: repeating-linear-gradient(90deg, var(--paper) 0 2px, transparent 2px 3px);
+}
+
+/* Method */
+
+.method {
+  width: min(100% - 32px, 560px);
+  margin: 72px auto 0;
+  color: var(--wall-ink);
+  font-size: 0.9375rem;
+  line-height: 24px;
+}
+
+.method > * {
+  max-width: 38rem;
+}
+
+@media (min-width: 1080px) {
+  .method {
+    margin-top: 96px;
+  }
+}
+
+.method h3 {
+  margin: 28px 0 6px;
+  font-family: var(--thermal);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.method p {
+  margin: 0 0 12px;
+}
+
+.method ul {
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.method li {
+  margin-bottom: 8px;
+}
+
+.method code {
+  font-family: var(--thermal);
+  font-size: 0.8125rem;
+}
+
+.methodFoot {
+  margin-top: 28px !important;
+  padding-top: 16px;
+  border-top: 2px dashed var(--wall-ink);
+  font-family: var(--thermal);
+  font-size: 0.75rem;
+  line-height: 20px;
+}
+
+/* --------------------------------------------------------------- motion */
+
+.crossfade {
+  animation: fade 150ms ease-out 480ms both;
+}
+
+.blink {
+  animation: blink 360ms linear 480ms both;
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes lamp {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes tear {
+  to {
+    transform: translateY(24px) rotate(3deg);
+    opacity: 0;
+  }
+}
+
+@keyframes feed {
+  from {
+    transform: translateY(calc(-100% - 12px));
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  0%,
+  24.99% {
+    opacity: 1;
+  }
+  25%,
+  49.99% {
+    opacity: 0.25;
+  }
+  50%,
+  74.99% {
+    opacity: 1;
+  }
+  75%,
+  99.99% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tearing {
+    animation: fade-out 150ms linear forwards;
+  }
+  .feeding {
+    animation: fade 150ms linear both;
+  }
+  .crossfade {
+    animation: fade 150ms linear both;
+  }
+  .blink,
+  .listbox {
+    animation: none;
+  }
+  .lamp[data-on] {
+    animation: none;
+  }
+  .printedSlip,
+  .printedSlip[data-shown] {
+    transform: none;
+    transition: opacity 0s;
+  }
+  .shareButton,
+  .linkButton,
+  .printButton {
+    transition: none;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@media print {
+  .sala {
+    background: none;
+  }
+  .share,
+  .search {
+    display: none;
+  }
+}
+
+/* Wide: below the room, the capitals and the method keep the room's container and left edge. */
+@media (min-width: 1080px) {
+  .capitals,
+  .method {
+    width: min(100% - 96px, 1240px);
+  }
+}

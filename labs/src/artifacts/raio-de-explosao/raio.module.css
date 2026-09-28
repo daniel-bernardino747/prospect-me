@@ -1,0 +1,1526 @@
+/*
+ * Raio de explosão: a planning-zone chart on pale chart paper.
+ * Graphite carries the page; hazard magenta means exposure (or, in "e se",
+ * reach) and nothing else. Barred is dashed graphite with a shut bar. Square
+ * corners; the only round thing is a node.
+ */
+
+.carta {
+  --paper: #edefea;
+  --paper-raised: #f7f8f5;
+  --ink: #16181a;
+  --ink-2: #4a4f4b;
+  --rule: #c5cac2;
+  --rule-strong: #8c928a;
+  --field-dot: #aeb4ab;
+  --zona: #a8105f;
+  --zona-hatch: rgb(168 16 95 / 0.42);
+  --zona-wash: rgb(168 16 95 / 0.06);
+  --on-zona: #ffffff;
+  --barred: #6b716a;
+  --focus: #16181a;
+  --edge-hot: 2.5px;
+  --halo: 1;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --gutter: 16px;
+  --measure: 38rem;
+
+  color-scheme: light;
+  min-height: 100dvh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  font-synthesis: none;
+  padding-bottom: 72px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .carta {
+    --paper: #121413;
+    --paper-raised: #1b1e1c;
+    --ink: #e8ebe6;
+    --ink-2: #a3aaa3;
+    --rule: #343935;
+    --rule-strong: #5a615b;
+    --field-dot: #454b46;
+    --zona: #d9679c;
+    --zona-hatch: rgb(217 103 156 / 0.45);
+    --zona-wash: rgb(217 103 156 / 0.09);
+    --on-zona: #121413;
+    --barred: #7d847d;
+    --focus: #e8ebe6;
+    --edge-hot: 2px;
+    --halo: 0;
+    color-scheme: dark;
+  }
+}
+
+.carta code,
+.carta pre {
+  font-family: var(--font-code), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.carta a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.carta :focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.sheet {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+@media (min-width: 768px) {
+  .carta {
+    --gutter: 32px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .carta {
+    --gutter: 40px;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── Masthead ───────────────────────────────────────────────────────── */
+
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 40px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.mark,
+.label {
+  font-family: var(--font-label), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.stamp {
+  font-family: var(--font-label), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.clockDigits {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* ── The grid ───────────────────────────────────────────────────────── */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'head'
+    'tabs'
+    'chart'
+    'log'
+    'deck'
+    'ledger'
+    'whatif';
+}
+
+.head {
+  grid-area: head;
+  padding-top: 8px;
+}
+
+.headline {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.5rem, 10.5vw, 4.5rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums lining-nums;
+  text-wrap: balance;
+  margin: 0;
+}
+
+.sheet[data-live] .headline {
+  animation: fade 120ms linear;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.fig {
+  color: var(--zona);
+}
+
+.lead {
+  font-weight: inherit;
+  color: var(--ink);
+}
+
+.headCode {
+  font-size: 0.62em !important;
+  letter-spacing: 0;
+  vertical-align: baseline;
+}
+
+.qualifier {
+  font-family: var(--font-label), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--ink-2);
+  margin: 6px 0 0;
+}
+
+@media (min-width: 360px) {
+  .qualifier {
+    white-space: nowrap;
+  }
+}
+
+.deck {
+  grid-area: deck;
+  color: var(--ink-2);
+  max-width: var(--measure);
+  margin: 48px 0 0;
+}
+
+.deck code {
+  white-space: nowrap;
+}
+
+.tabs {
+  grid-area: tabs;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 12px;
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-height: 48px;
+  padding: 4px 8px;
+  border: 1px solid var(--ink);
+  margin-left: -1px;
+  text-decoration: none;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.tab:first-child {
+  margin-left: 0;
+}
+
+.tab[aria-current='true'] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.tabVersion {
+  display: none;
+}
+
+@media (min-width: 480px) {
+  .tabVersion {
+    display: inline;
+  }
+}
+
+.tabName {
+  font-family: var(--font-code), monospace;
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tabSub {
+  font-family: var(--font-label), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.subShort {
+  display: none;
+}
+
+@media (max-width: 359px) {
+  .subLong {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .subShort {
+    display: inline;
+  }
+}
+
+.chartCol {
+  grid-area: chart;
+  margin-top: 8px;
+}
+
+/* ── The chart ──────────────────────────────────────────────────────── */
+
+.chartBox {
+  position: relative;
+  container: chart / inline-size;
+  width: min(340px, calc(100svh - 504px), 100%);
+  min-width: 280px;
+  aspect-ratio: 1;
+  margin: 0 auto;
+}
+
+.chart {
+  --k: 1.7;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ring {
+  fill: none;
+  stroke: var(--rule);
+  stroke-width: 1px;
+}
+
+.ringFirst {
+  fill: none;
+  stroke: var(--rule-strong);
+  stroke-width: 1.25px;
+}
+
+.tick {
+  stroke: var(--rule);
+  stroke-width: 1px;
+}
+
+.boundary {
+  stroke: var(--rule-strong);
+  stroke-width: 1px;
+  stroke-dasharray: 1 5;
+}
+
+.rimText {
+  font-family: var(--font-label), sans-serif;
+  /* SVG units: 36 of 1000 is 12px on a 340px chart. */
+  font-size: 36px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  fill: var(--ink-2);
+}
+
+.rimNarrow {
+  display: none;
+}
+
+.fieldDot {
+  r: calc(2.5px * var(--k));
+  fill: var(--field-dot);
+}
+
+.hatchLine {
+  stroke: var(--zona-hatch);
+  stroke-width: 1.5;
+}
+
+.zoneWash {
+  fill: var(--zona-wash);
+}
+
+.zoneFill {
+  stroke: var(--zona);
+  stroke-width: 1px;
+  stroke-dasharray: 2 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.zoneClip {
+  transition: r 400ms var(--ease-inout);
+}
+
+.front {
+  fill: none;
+  stroke: var(--zona);
+  stroke-width: 3px;
+  stroke-linecap: butt;
+  opacity: 0;
+  transition:
+    d 400ms var(--ease-inout),
+    opacity 200ms linear;
+}
+
+.front[data-on] {
+  opacity: 1;
+}
+
+.edgeBase {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.5px;
+  stroke-linejoin: round;
+}
+
+.edgeBarred {
+  fill: none;
+  stroke: var(--barred);
+  stroke-width: 1.25px;
+  stroke-dasharray: 5 4;
+}
+
+.edgeHot {
+  fill: none;
+  stroke: var(--zona);
+  stroke-width: var(--edge-hot);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 300ms var(--ease-out);
+}
+
+.edgeHot[data-on] {
+  stroke-dashoffset: 0;
+  transition-delay: 220ms;
+}
+
+.chart[data-intro] .edgeHot[data-on] {
+  animation: draw 360ms var(--ease-out) both;
+  animation-delay: calc(var(--hop) * 70ms);
+}
+
+.chart[data-intro] .zoneClip {
+  animation: grow 520ms var(--ease-out) 80ms both;
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes grow {
+  from {
+    r: 0;
+  }
+}
+
+.gate {
+  transform-box: view-box;
+}
+
+.gateArm {
+  transform-origin: 0 0;
+  transition: transform 220ms var(--ease-out);
+}
+
+.gateArm line {
+  stroke: var(--ink);
+  stroke-width: 3px;
+  stroke-linecap: butt;
+  transition: stroke 0ms linear 110ms;
+}
+
+.gatePivot {
+  fill: var(--ink);
+}
+
+.gate[data-state='open'] .gateArm {
+  transform: rotate(90deg);
+}
+
+.gate[data-state='open'] .gateArm line,
+.gate[data-state='open'] .gatePivot {
+  stroke: var(--zona);
+  fill: var(--zona);
+}
+
+.gate[data-state='notyet'] .gateArm line {
+  stroke: var(--rule-strong);
+}
+
+.gate[data-state='notyet'] .gatePivot {
+  fill: var(--rule-strong);
+}
+
+.gate[data-hold] .gateArm {
+  animation: hold 180ms linear;
+}
+
+@keyframes hold {
+  25% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+}
+
+.chart[data-intro] .gateArm {
+  transition: none;
+}
+
+.rootDisc {
+  fill: var(--ink);
+}
+
+.nodeDot {
+  r: calc(9px * var(--k));
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 1.5px;
+  transition: r 140ms var(--ease-out);
+}
+
+.node[data-kind='hit'] .nodeDot {
+  r: calc(11px * var(--k));
+  fill: var(--zona);
+  stroke: var(--zona);
+}
+
+.node[data-kind='barred'] .nodeDot {
+  r: calc(11px * var(--k));
+  fill: var(--paper);
+  stroke: var(--barred);
+  stroke-dasharray: 3 3;
+}
+
+.halo {
+  r: calc(17px * var(--k));
+  fill: none;
+  stroke: var(--zona);
+  stroke-width: 1px;
+  opacity: var(--halo);
+}
+
+.selRing {
+  r: calc(9px * var(--k));
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2px;
+  opacity: 0;
+  transition:
+    r 140ms var(--ease-out),
+    opacity 140ms linear;
+}
+
+.node[data-selected] .selRing {
+  r: calc(17px * var(--k));
+  opacity: 1;
+}
+
+.node[data-kind='hit'][data-selected] .selRing {
+  r: calc(22px * var(--k));
+}
+
+/* Overlays, in CSS pixels over the square. */
+
+.labelsSmall,
+.labelsPhone,
+.labelsDesk {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* One label set per chart size, laid out for it: under 330px, phones, 600px up. */
+.labelsSmall,
+.labelsDesk {
+  display: none;
+}
+
+@container chart (max-width: 329px) {
+  .labelsSmall {
+    display: block;
+  }
+
+  .labelsPhone {
+    display: none;
+  }
+}
+
+.tag {
+  position: absolute;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.nodeTag,
+.rangeOpen,
+.rangeBarred {
+  display: flex;
+  flex-direction: column;
+  padding: 2px 6px;
+  background: var(--paper-raised);
+  font-family: var(--font-code), monospace;
+  font-size: 12px;
+  line-height: 1.3;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+.tagVersion {
+  color: var(--ink-2);
+}
+
+.tag_hit .tagVersion,
+.rangeOpen {
+  color: var(--zona);
+}
+
+.tag_root {
+  background: var(--paper);
+  border: 1px solid var(--ink);
+}
+
+.tag_barred .tagVersion,
+.rangeBarred {
+  color: var(--ink-2);
+}
+
+.frontTag,
+.hopTag,
+.ringTag {
+  font-family: var(--font-label), sans-serif;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.frontTag {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  padding: 2px 6px;
+  background: var(--zona);
+  color: var(--on-zona);
+}
+
+.hopTag {
+  display: block;
+  font-size: 12px;
+  padding: 1px 4px;
+  color: var(--ink-2);
+  background: var(--paper);
+}
+
+.hopTag[data-kind='hit'] {
+  color: var(--zona);
+}
+
+.ringTag {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 0.75rem;
+  color: var(--ink-2);
+  background: var(--paper);
+  padding: 0 3px;
+  pointer-events: none;
+}
+
+.leaders {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.leaders line {
+  stroke: var(--ink-2);
+  stroke-width: 1px;
+}
+
+.nodeHit {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.legendCorner {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  max-width: 44%;
+  margin: 0;
+  text-align: left;
+  font-family: var(--font-label), sans-serif;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  color: var(--ink-2);
+}
+
+@container chart (max-width: 599px) {
+  .legendCorner {
+    max-width: 70%;
+  }
+}
+
+.legendLink {
+  display: none;
+  margin-top: 2px;
+  font-weight: 500;
+  letter-spacing: 0;
+  font-size: 12px;
+}
+
+/* ── Stepper ────────────────────────────────────────────────────────── */
+
+.stepper {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  width: min(340px, calc(100svh - 504px), 100%);
+  min-width: 280px;
+  margin: 8px auto 0;
+  height: 44px;
+}
+
+.stepBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-label), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0 8px;
+}
+
+/* Scoped under .stepper so `.carta a { color: inherit }` cannot win. */
+.stepper .stepNext {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.stepper .stepBtn[aria-disabled='true'] {
+  border-color: var(--rule-strong);
+  color: var(--rule-strong);
+  background: var(--paper);
+}
+
+.stepper[aria-disabled] .stepClock {
+  color: var(--rule-strong);
+}
+
+.stepClock {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px;
+  border-block: 1px solid var(--ink);
+  font-family: var(--font-label), sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+@media (max-width: 359px) {
+  .long {
+    display: none;
+  }
+
+  .stepClock {
+    padding: 0 8px;
+  }
+}
+
+.utc {
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+}
+
+.live {
+  width: min(340px, calc(100svh - 504px), 100%);
+  min-width: 280px;
+  margin: 8px auto 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--ink-2);
+  min-height: 3em;
+}
+
+/* ── Share this instant ─────────────────────────────────────────────── */
+
+.share {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  width: min(340px, calc(100svh - 504px), 100%);
+  min-width: 280px;
+  margin: 12px auto 0;
+}
+
+.shareHead {
+  flex: 1 0 100%;
+  margin: 0;
+  font-family: var(--font-label), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.shareRow {
+  display: flex;
+  flex: 1 1 100%;
+}
+
+.shareBtn {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 10px;
+  margin-left: -1px;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-label), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.shareBtn:first-child {
+  margin-left: 0;
+}
+
+.carta a.shareBtn {
+  text-decoration: none;
+}
+
+@media (pointer: fine) {
+  .shareBtn:hover {
+    background: var(--paper-raised);
+  }
+}
+
+.shareStatus {
+  flex: 1 0 100%;
+  margin: 0;
+  font-family: var(--font-label), sans-serif;
+  font-size: 0.8125rem;
+  color: var(--ink);
+}
+
+.shareStatus:empty {
+  margin-top: -8px;
+}
+
+/* ── Log ────────────────────────────────────────────────────────────── */
+
+.logSection,
+.ledger,
+.whatif,
+.todo,
+.sources {
+  margin-top: 72px;
+}
+
+.logSection {
+  grid-area: log;
+  margin-top: 48px;
+}
+
+.logSection > .label,
+.ledger > .label,
+.whatif > .label,
+.todo > .label,
+.sources > .label {
+  margin-bottom: 16px;
+}
+
+.log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--ink);
+}
+
+.logRow {
+  display: grid;
+  grid-template-columns: 16px 64px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 8px 6px 11px;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: var(--ink);
+}
+
+@media (pointer: fine) {
+  .logRow {
+    min-height: 40px;
+  }
+
+  .logRow:hover:not([aria-disabled]) {
+    background: var(--paper-raised);
+  }
+}
+
+.logRow[aria-current='step'] {
+  background: var(--paper-raised);
+  box-shadow: inset 3px 0 0 var(--ink);
+}
+
+.logRow[data-after] {
+  color: var(--ink-2);
+}
+
+@media (max-width: 519px) {
+  .logRow {
+    grid-template-columns: 16px 64px minmax(0, 1fr);
+    grid-template-areas:
+      'g t w'
+      '. . v';
+    row-gap: 2px;
+  }
+
+  .logRow > :nth-child(1) {
+    grid-area: g;
+  }
+
+  .logRow > :nth-child(2) {
+    grid-area: t;
+  }
+
+  .logRow > .logWhat {
+    grid-area: w;
+  }
+
+  .logRow > .logVerdict {
+    grid-area: v;
+    text-align: left;
+  }
+}
+
+.logRemoval {
+  border-top: 1px dashed var(--rule-strong);
+}
+
+.logTime {
+  font-family: var(--font-label), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.logWhat {
+  min-width: 0;
+}
+
+.logName {
+  overflow-wrap: anywhere;
+}
+
+.logRow[aria-current='step'] .logName {
+  font-size: 0.875rem;
+}
+
+.logProse {
+  font-size: 0.9375rem;
+}
+
+.logVerdict {
+  font-family: var(--font-label), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.vOpen {
+  color: var(--zona);
+}
+
+.vMuted {
+  color: var(--ink-2);
+}
+
+.vRange.vRange {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.75rem;
+}
+
+.logRow[data-after] .vOpen {
+  color: var(--ink-2);
+}
+
+.glyph {
+  width: 16px;
+  height: 16px;
+  overflow: visible;
+}
+
+.glyphEdge {
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.glyphArm {
+  stroke-width: 2.5;
+}
+
+.glyph[data-state='open'] .glyphArm {
+  stroke: var(--zona);
+}
+
+.glyph[data-state='open'] .glyphPivot {
+  fill: var(--zona);
+}
+
+.glyph[data-state='shut'] .glyphArm {
+  stroke: var(--ink);
+}
+
+.glyph[data-state='shut'] .glyphPivot {
+  fill: var(--ink);
+}
+
+.glyph[data-state='muted'] .glyphArm {
+  stroke: var(--rule-strong);
+}
+
+.glyph[data-state='muted'] .glyphPivot {
+  fill: var(--rule-strong);
+}
+
+.log[data-disabled] .glyph {
+  opacity: 0.5;
+}
+
+.log[data-disabled] .logRow {
+  cursor: default;
+}
+
+.note {
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+  margin: 0 0 12px;
+}
+
+/* ── Ledger ─────────────────────────────────────────────────────────── */
+
+.ledger {
+  grid-area: ledger;
+}
+
+.door + .door {
+  margin-top: 32px;
+}
+
+.door > .label {
+  margin-bottom: 12px;
+}
+
+.doorName {
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+  margin: 0 0 8px;
+}
+
+.ledgerList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--ink);
+}
+
+.ledgerList > li {
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ledgerRow {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  align-items: start;
+  width: 100%;
+  min-height: 64px;
+  padding: 10px 8px 10px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+}
+
+.ledgerRow[aria-pressed='true'] {
+  background: var(--paper-raised);
+  box-shadow: inset 3px 0 0 var(--ink);
+}
+
+@media (pointer: fine) {
+  .ledgerRow:hover {
+    background: var(--paper-raised);
+  }
+}
+
+.ledgerRow::before {
+  content: '';
+  position: absolute;
+  left: 27px;
+  top: 0;
+  height: 10px;
+  width: 0;
+  border-left: 2px solid var(--ink);
+}
+
+.ledgerRow[data-spine='open']::before {
+  border-left-color: var(--zona);
+}
+
+.ledgerRow[data-spine='barred']::before {
+  border-left: 2px dashed var(--barred);
+}
+
+.hop {
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.ledgerBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ledgerName.ledgerName {
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+}
+
+.ledgerLine {
+  font-family: var(--font-code), monospace;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.ledgerLink {
+  display: block;
+  padding: 0 8px 10px 56px;
+  margin-top: -4px;
+}
+
+.osv {
+  font-family: var(--font-code), monospace;
+  font-size: 0.75rem;
+}
+
+/* ── E se ───────────────────────────────────────────────────────────── */
+
+.whatif {
+  grid-area: whatif;
+}
+
+.body {
+  max-width: var(--measure);
+  margin: 0 0 16px;
+}
+
+.combo {
+  position: relative;
+  max-width: 28rem;
+}
+
+.comboInput {
+  width: 100%;
+  height: 48px;
+  padding: 0 12px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 0;
+  background: var(--paper-raised);
+  color: var(--ink);
+  font-family: var(--font-code), monospace;
+  font-size: 1rem;
+}
+
+.comboInput::placeholder {
+  color: var(--ink-2);
+}
+
+.listbox {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--rule-strong);
+  border-top: 0;
+  background: var(--paper-raised);
+}
+
+.option {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--rule);
+}
+
+.option:last-child {
+  border-bottom: 0;
+}
+
+.option[aria-selected='true'] {
+  background: var(--paper);
+  box-shadow: inset 3px 0 0 var(--ink);
+}
+
+.optionHop {
+  font-family: var(--font-label), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.textBtn {
+  margin-top: 16px;
+  padding: 10px 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+/* ── O que fazer ────────────────────────────────────────────────────── */
+
+.todoList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 32px;
+  border-top: 1px solid var(--ink);
+  padding-top: 24px;
+}
+
+.todoItem {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 8px;
+}
+
+.todoItem .hop {
+  text-align: left;
+}
+
+.todoBody p {
+  margin: 0 0 12px;
+  max-width: var(--measure);
+}
+
+.command {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--rule);
+  background: var(--paper-raised);
+}
+
+.command pre {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 12px;
+  overflow-x: auto;
+  line-height: 1.35;
+  white-space: pre;
+}
+
+.copy {
+  flex: none;
+  min-width: 72px;
+  min-height: 44px;
+  border: 0;
+  border-left: 1px solid var(--rule);
+  background: none;
+  color: var(--ink);
+  font-family: var(--font-label), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+@media (pointer: fine) {
+  .copy:hover {
+    background: var(--paper);
+  }
+}
+
+@media (min-width: 1024px) {
+  .todoList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* ── Fontes e método ────────────────────────────────────────────────── */
+
+.sourcesGrid {
+  display: grid;
+  gap: 32px;
+  border-top: 1px solid var(--ink);
+  padding-top: 24px;
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+}
+
+.sourceList {
+  margin: 0;
+}
+
+.sourceList dt {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.sourceList dd {
+  margin: 2px 0 16px;
+  max-width: var(--measure);
+}
+
+.method p {
+  margin: 0 0 12px;
+  max-width: var(--measure);
+}
+
+.method strong {
+  color: var(--ink);
+}
+
+.limits {
+  margin: 0 0 16px;
+  padding-left: 1.1em;
+  max-width: var(--measure);
+}
+
+.limits li + li {
+  margin-top: 6px;
+}
+
+.byline {
+  color: var(--ink);
+}
+
+@media (min-width: 1024px) {
+  .sourcesGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+  }
+}
+
+/* ── Tablet and desktop ─────────────────────────────────────────────── */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .chartBox,
+  .stepper,
+  .live,
+  .share {
+    width: min(560px, 100%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 32px;
+    grid-template-areas:
+      'head head head head head chart chart chart chart chart chart chart'
+      'deck deck deck deck deck chart chart chart chart chart chart chart'
+      'tabs tabs tabs tabs tabs chart chart chart chart chart chart chart'
+      'log log log log log chart chart chart chart chart chart chart'
+      'ledger ledger ledger ledger ledger chart chart chart chart chart chart chart'
+      'whatif whatif whatif whatif whatif chart chart chart chart chart chart chart';
+    align-content: start;
+  }
+
+  .head {
+    padding-top: 32px;
+  }
+
+  .qualifier {
+    margin-top: 8px;
+  }
+
+  .deck {
+    margin-top: 16px;
+  }
+
+  .tabs {
+    margin-top: 24px;
+  }
+
+  .logSection {
+    margin-top: 32px;
+  }
+
+  .chartCol {
+    margin-top: 0;
+    padding-top: 24px;
+  }
+
+  .sticky {
+    position: sticky;
+    top: 24px;
+  }
+
+  .chartBox,
+  .stepper,
+  .live,
+  .share {
+    width: min(100%, calc(100svh - 252px));
+  }
+
+  .share {
+    flex-wrap: nowrap;
+    margin-top: 4px;
+  }
+
+  .shareHead,
+  .shareRow {
+    flex: none;
+  }
+
+  .shareBtn {
+    min-height: 36px;
+  }
+
+  .shareStatus {
+    flex: 1 1 auto;
+  }
+}
+
+/* ── The chart at desktop size (after the base rules it overrides) ── */
+
+@container chart (min-width: 600px) {
+  .chart {
+    --k: 1;
+  }
+
+  .rimText {
+    font-size: 17px;
+  }
+
+  .rimNarrow {
+    display: inline;
+  }
+
+  .labelsPhone {
+    display: none;
+  }
+
+  .labelsDesk {
+    display: block;
+  }
+
+  .legendLink {
+    display: block;
+  }
+}
+
+/* ── Reduced motion: the same states, switched instantly ────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .carta *,
+  .carta *::before,
+  .carta *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* The one motion kept: the headline's 120ms crossfade, which moves nothing. */
+  .sheet[data-live] .headline {
+    animation: fade 120ms linear !important;
+  }
+}
