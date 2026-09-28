@@ -8,6 +8,7 @@ import { Rail } from './parts';
 import s from './techifide.module.css';
 import { day, firstScreen, laneLabel, laneOf } from './view';
 import { CallSheet } from './CallSheet';
+import { Candidate } from './Candidate';
 
 const legend = Sofia_Sans_Extra_Condensed({ subsets: ['latin'], weight: ['500', '600', '700', '800'], variable: '--font-legend' });
 const prose = Sofia_Sans_Condensed({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-prose' });
@@ -76,6 +77,7 @@ export default function Techifide({ searchParams }: ArtifactProps) {
 
         <div className={s.work}>
           <CallSheet key={ad.key} ad={ad} dimensions={data.dimensions} template={data.sources.template} />
+          {ad.candidate && <Candidate candidate={ad.candidate} />}
           {ad.contradictions.length > 0 && <Confirm ad={ad} contradictions={ad.contradictions} />}
           <Lanes ad={ad} />
           <Sources ad={ad} data={data} />

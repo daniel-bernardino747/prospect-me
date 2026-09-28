@@ -734,6 +734,63 @@
   max-width: var(--measure);
 }
 
+/* ---------- the synthetic candidate ---------- */
+
+.candidateSummary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  margin: 0 0 0.25rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--amber);
+}
+
+.candidateName {
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.candidateSummary strong {
+  font-family: var(--font-legend), sans-serif;
+  font-size: 1.25rem;
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+}
+
+.evidenceRow {
+  min-height: 2.75rem;
+}
+
+.notShown {
+  margin: -0.375rem 0 0.625rem;
+  font-size: 0.9375rem;
+  color: var(--ivory-dim);
+}
+
+.subHead {
+  margin: 2rem 0 0;
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.glass .cvRef {
+  margin-left: 0.5rem;
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  color: var(--amber);
+}
+
 /* ---------- the ad as lanes ---------- */
 
 .lanes {

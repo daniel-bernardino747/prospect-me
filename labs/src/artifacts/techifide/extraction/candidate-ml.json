@@ -1,0 +1,57 @@
+{
+  "model": "claude-opus-5-5",
+  "extractedAt": "2026-09-28T13:00:00.000Z",
+  "extraction": {
+    "mustHaves": [
+      { "value": "7+ years of production ML/AI", "quote": "Eight years building production ML systems" },
+      { "value": "Leads technical projects", "quote": "Led the document pipeline that parses, chunks and indexes" },
+      { "value": "LLM apps and agents", "quote": "Built an agent that routes questions between a search tool, a clause-extraction model and a human reviewer" },
+      { "value": "Document processing", "quote": "parses, chunks and indexes 40,000 construction contracts a month for structured extraction" },
+      { "value": "Distributed systems, Kubernetes", "quote": "Run the services on Kubernetes (EKS) with GPU node pools and autoscaling" },
+      { "value": "Knowledge graphs", "quote": "Built a knowledge graph of contract clauses and parties in Neo4j" },
+      { "value": "Python or Go", "quote": "Python, PyTorch, Hugging Face" }
+    ],
+    "questions": [
+      {
+        "dimension": "Communication / Collaboration",
+        "question": "Your agent hands questions to a human reviewer. How did you work with those reviewers, and what changed because of them?",
+        "quote": "a clause-extraction model and a human reviewer"
+      },
+      {
+        "dimension": "Product Thinking",
+        "question": "What did the rise in answer accuracy change for the people using the product, and how did you know?",
+        "quote": "answer accuracy on our evaluation set rose from 71% to 86%"
+      },
+      {
+        "dimension": "Structure",
+        "question": "You write design docs before large changes. How much structure do you need before you start, and what do you do when there is none?",
+        "quote": "write design docs before large changes"
+      },
+      {
+        "dimension": "Ambiguity",
+        "question": "When you started on construction contracts, what was unclear about the problem, and how did you narrow it down?",
+        "quote": "document understanding for construction contracts"
+      },
+      {
+        "dimension": "Execution Style",
+        "question": "Do you tend to ship a model early and improve it in production, or evaluate offline until it is ready? Give an example.",
+        "quote": "Owned the feature store and the offline evaluation harness"
+      },
+      {
+        "dimension": "AI Working Style",
+        "question": "Beyond the systems you build, how do you use AI tools in your own engineering work?",
+        "quote": null
+      },
+      {
+        "dimension": "Learning / Adaptability",
+        "question": "You moved from research into production systems. What did you have to unlearn, and how quickly?",
+        "quote": "NLP research on Portuguese legal texts"
+      },
+      {
+        "dimension": "Challenge / Conflict",
+        "question": "Tell me about a design doc of yours that was challenged. What changed in the end?",
+        "quote": "write design docs before large changes"
+      }
+    ]
+  }
+}

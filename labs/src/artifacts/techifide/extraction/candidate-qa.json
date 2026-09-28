@@ -1,0 +1,60 @@
+{
+  "model": "claude-opus-5-5",
+  "extractedAt": "2026-09-28T13:00:00.000Z",
+  "extraction": {
+    "mustHaves": [
+      { "value": "8+ years in test automation", "quote": null },
+      { "value": "Expert Playwright and TypeScript", "quote": "Designed the Playwright and TypeScript framework we use" },
+      { "value": "Testing React apps", "quote": "Automated regression for a React logistics dashboard" },
+      { "value": "Test strategy across layers", "quote": "across unit, API and end-to-end suites" },
+      { "value": "Designs frameworks", "quote": "Designed the Playwright and TypeScript framework" },
+      { "value": "AI development tools", "quote": "Use GitHub Copilot and Claude to draft test cases from acceptance criteria" },
+      { "value": "Web, REST, browser debugging", "quote": "its REST APIs with Cypress and Postman" },
+      { "value": "Tests in CI/CD", "quote": "Moved the suites into GitLab CI with sharding" },
+      { "value": "JavaScript/TypeScript", "quote": "Playwright, TypeScript, JavaScript" },
+      { "value": "Good spoken English", "quote": "Comfortable presenting in English to product teams" }
+    ],
+    "questions": [
+      {
+        "dimension": "Domain Orientation",
+        "question": "How much did you learn about how your users work with building models, and did it change what you tested?",
+        "quote": "a browser-based 3D viewer for building models"
+      },
+      {
+        "dimension": "Structure",
+        "question": "What existed before you designed the framework at Planta Viva, and how did you decide its structure?",
+        "quote": "Designed the Playwright and TypeScript framework we use"
+      },
+      {
+        "dimension": "Challenge / Conflict",
+        "question": "Tell me about a time you held a release back because of quality. Who disagreed, and how was it settled?",
+        "quote": null
+      },
+      {
+        "dimension": "Execution Style",
+        "question": "How did you roll out the CI changes: all at once, or step by step?",
+        "quote": "pipeline time fell from 38 to 11 minutes"
+      },
+      {
+        "dimension": "Product Thinking",
+        "question": "How do you work with product on acceptance criteria before a feature reaches you?",
+        "quote": "draft test cases from acceptance criteria"
+      },
+      {
+        "dimension": "Ambiguity",
+        "question": "Visual tests on a 3D canvas are hard to pin down. How did you decide what counted as a failure?",
+        "quote": "comparing canvas snapshots across GPU drivers"
+      },
+      {
+        "dimension": "Risk / Experimentation",
+        "question": "What did you try with AI-drafted tests that did not work, and what did you keep?",
+        "quote": "then review every one"
+      },
+      {
+        "dimension": "Learning / Adaptability",
+        "question": "Performance testing is on this role's list. How did you pick up k6, and how far did you take it?",
+        "quote": "Wrote the first load tests with k6 for the booking API"
+      }
+    ]
+  }
+}

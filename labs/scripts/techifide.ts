@@ -22,7 +22,7 @@
  *   paragraph, the "advanced matching algorithm" line, and the field list of
  *   the Techi-job-offer.docx template (read from its `word/document.xml`).
  */
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { inflateRawSync } from 'node:zlib';
 
@@ -31,13 +31,19 @@ import {
   type AdKey,
   type AdSource,
   type AdView,
+  type CandidateSource,
   type Listing,
   type QuoteSource,
   type RoleFitSource,
   type TechifideData,
   type TemplateSource,
 } from '../src/artifacts/techifide/data.ts';
-import { type Extraction, review } from '../src/artifacts/techifide/review.ts';
+import {
+  type CandidateExtraction,
+  type Extraction,
+  review,
+  reviewCandidate,
+} from '../src/artifacts/techifide/review.ts';
 import {
   decodeEntities,
   dimensionLine,
@@ -191,6 +197,23 @@ function build() {
     const reviewed = review(extraction, { lines: lanes }, template.fields, roleFit.dimensions);
     const { lines: _lines, validThrough: _valid, ...meta } = ad;
     ads[key] = { ...meta, lanes, ...reviewed };
+
+    // The synthetic candidate, read against this ad's must-haves and the call's open questions.
+    const cvPath = `${SOURCES}candidate-${key}.json`;
+    const cvExtractionPath = `${EXTRACTION}candidate-${key}.json`;
+    if (existsSync(cvPath) && existsSync(cvExtractionPath)) {
+      const cv = read<CandidateSource>(cvPath);
+      const { extraction: cvExtraction } = read<{ extraction: CandidateExtraction }>(cvExtractionPath);
+      const mustHaves = reviewed.brief.find((f) => f.field === 'Essential Experience/ Attributes')?.items.map((i) => i.value) ?? [];
+      const byRank = reviewed.dimensions
+        .flatMap((d, i) => ('question' in d ? [{ name: d.name, rank: d.rank, i }] : []))
+        .sort((a, b) => a.rank - b.rank || a.i - b.i)
+        .map((d) => d.name);
+      const candidate = reviewCandidate(cvExtraction, cv, mustHaves, byRank);
+      ads[key].candidate = candidate;
+      const found = candidate.evidence.filter((e) => e.quote).length;
+      console.log(`    ${cv.label}: ${found} of ${mustHaves.length} must-haves evidenced, ${candidate.questions.length} interview questions, ${candidate.dropped} quotes dropped`);
+    }
     const scored = reviewed.dimensions.filter((d) => 'score' in d).length;
     console.log(`  ${key}: ${11 - scored} questions, ${scored} scored, ${reviewed.contradictions.length} contradictions, ${reviewed.dropped} quotes dropped`);
   }

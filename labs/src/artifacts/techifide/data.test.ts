@@ -70,6 +70,40 @@ describe.each(AD_KEYS)('data.json: %s', (key) => {
   });
 });
 
+describe.each(AD_KEYS)('data.json: the synthetic candidate for %s', (key) => {
+  const ad = data.ads[key];
+  const candidate = ad.candidate;
+
+  it('exists, and says it is synthetic in its first line', () => {
+    expect(candidate).toBeDefined();
+    expect(candidate!.lines[0]).toMatch(/synthetic CV/);
+  });
+
+  it('quotes only text literally in the CV', () => {
+    const quotes = [...candidate!.evidence, ...candidate!.questions].flatMap((x) => (x.quote ? [x.quote] : []));
+    expect(quotes.length).toBeGreaterThan(0);
+    expect(quotes.filter((q) => !candidate!.lines.some((l) => l.includes(q)))).toEqual([]);
+  });
+
+  it('answers every must-have of the ad, once, in the ad’s order', () => {
+    const mustHaves = ad.brief.find((f) => f.field === 'Essential Experience/ Attributes')!.items.map((i) => i.value);
+    expect(candidate!.evidence.map((e) => e.value)).toEqual(mustHaves);
+  });
+
+  it('asks only about dimensions the call left open', () => {
+    const open = new Set(ad.dimensions.filter((d) => !isScored(d)).map((d) => d.name));
+    expect(candidate!.questions.every((q) => open.has(q.dimension))).toBe(true);
+  });
+
+  it('shows no number the CV does not contain', () => {
+    const text = candidate!.lines.join('\n');
+    const unsourced = candidate!.questions.flatMap((q) =>
+      (q.question.match(/\d+(?:[.,]\d+)?/g) ?? []).filter((n) => !text.includes(n)).map((n) => `${n} in "${q.question}"`),
+    );
+    expect(unsourced).toEqual([]);
+  });
+});
+
 describe('data.json: sources', () => {
   it('dates every capture', () => {
     for (const s of Object.values(data.sources)) expect(Date.parse(s.capturedAt), s.url).not.toBeNaN();

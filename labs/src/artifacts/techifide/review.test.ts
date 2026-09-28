@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import type { Dimension } from './data';
-import { type Extraction, findQuote, normalize, review } from './review';
+import { type Extraction, findQuote, normalize, review, reviewCandidate } from './review';
 
 const lines = [
   "You'll work across a modern React and TypeScript application, Python and Rust services.",
@@ -125,5 +125,56 @@ describe('review', () => {
     );
     expect(r.contradictions).toHaveLength(1);
     expect(r.contradictions[0].note).toBe('Worth confirming.');
+  });
+});
+
+describe('reviewCandidate', () => {
+  const cv = {
+    label: 'Candidate X',
+    writtenAt: '2026-09-28',
+    lines: ['Candidate X (synthetic CV)', 'Built a React and TypeScript design system used by four teams.', 'Python, FastAPI, PostgreSQL'],
+  };
+
+  it('keeps a must-have as evidenced only when its quote is in the CV, in the ad’s order', () => {
+    const r = reviewCandidate(
+      {
+        mustHaves: [
+          { value: 'Python', quote: 'Python, FastAPI, PostgreSQL' },
+          { value: 'React', quote: 'Built a React and TypeScript design system' },
+          { value: 'Rust', quote: 'Wrote Rust services for payments' },
+        ],
+        questions: [],
+      },
+      cv,
+      ['React', 'Rust', 'Python', 'WebAssembly'],
+      [],
+    );
+    expect(r.evidence).toEqual([
+      { value: 'React', quote: 'Built a React and TypeScript design system' },
+      { value: 'Rust', quote: null },
+      { value: 'Python', quote: 'Python, FastAPI, PostgreSQL' },
+      { value: 'WebAssembly', quote: null },
+    ]);
+    expect(r.dropped).toBe(1);
+  });
+
+  it('asks only about the dimensions the call left open, in the order given, keeping a question whose quote fails', () => {
+    const r = reviewCandidate(
+      {
+        mustHaves: [],
+        questions: [
+          { dimension: 'Autonomy', question: 'A?', quote: null },
+          { dimension: 'Structure', question: 'S?', quote: 'used by four teams' },
+          { dimension: 'Ambiguity', question: 'B?', quote: 'not in the cv at all' },
+        ],
+      },
+      cv,
+      [],
+      ['Ambiguity', 'Structure'],
+    );
+    expect(r.questions).toEqual([
+      { dimension: 'Ambiguity', question: 'B?', quote: null },
+      { dimension: 'Structure', question: 'S?', quote: 'used by four teams' },
+    ]);
   });
 });

@@ -1,0 +1,26 @@
+{
+  "synthetic": true,
+  "label": "Candidate B",
+  "writtenAt": "2026-09-28",
+  "lines": [
+    "Candidate B (synthetic CV, written for this demo)",
+    "Machine Learning Engineer · Recife, Brazil · English: C1",
+    "Summary",
+    "Eight years building production ML systems, most recently document understanding for construction contracts.",
+    "Experience",
+    "Lead ML Engineer, Obra Clara (fictional), 2021–present",
+    "Led the document pipeline that parses, chunks and indexes 40,000 construction contracts a month for structured extraction.",
+    "Designed a retrieval layer with hybrid search and re-ranking; answer accuracy on our evaluation set rose from 71% to 86%.",
+    "Built an agent that routes questions between a search tool, a clause-extraction model and a human reviewer.",
+    "Run the services on Kubernetes (EKS) with GPU node pools and autoscaling.",
+    "ML Engineer, Mercado Sul (fictional), 2018–2021",
+    "Built recommendation and ranking models for a marketplace catalogue of 2 million items.",
+    "Owned the feature store and the offline evaluation harness.",
+    "Data Scientist, Instituto Tecnológico (fictional), 2016–2018",
+    "NLP research on Portuguese legal texts; two workshop papers.",
+    "Skills",
+    "Python, PyTorch, Hugging Face, Elasticsearch, Neo4j, Kubernetes, Airflow, AWS",
+    "Built a knowledge graph of contract clauses and parties in Neo4j to answer multi-hop questions.",
+    "Mentor two engineers; write design docs before large changes."
+  ]
+}

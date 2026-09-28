@@ -93,6 +93,40 @@ export type DimensionResult = ScoredDimension | OpenDimension;
 
 export const isScored = (d: DimensionResult): d is ScoredDimension => 'score' in d;
 
+/**
+ * A CV written for the demo, about no real person: the page reads it against
+ * the ad's must-haves the way it reads the ad. Never a real candidate's CV.
+ */
+export interface CandidateSource {
+  synthetic: true;
+  label: string;
+  writtenAt: string;
+  lines: string[];
+}
+
+/** A must-have and the CV line that evidences it, or null when the CV does not. */
+export interface CandidateEvidence {
+  value: string;
+  quote: string | null;
+}
+
+/** A behavioural interview question for one dimension the call left open, tied to the CV where it can be. */
+export interface InterviewQuestion {
+  dimension: string;
+  question: string;
+  quote: string | null;
+}
+
+export interface CandidateView {
+  label: string;
+  writtenAt: string;
+  lines: string[];
+  evidence: CandidateEvidence[];
+  questions: InterviewQuestion[];
+  /** Quotes the review dropped because they were not in the CV. */
+  dropped: number;
+}
+
 /** Two lines of the same ad pulling in different directions, worth confirming. */
 export interface Contradiction {
   note: string;
@@ -113,6 +147,8 @@ export interface AdView {
   contradictions: Contradiction[];
   /** Quotes the review dropped because they were not in the ad, for the method note. */
   dropped: number;
+  /** The synthetic candidate screened against this ad, when there is one. */
+  candidate?: CandidateView;
 }
 
 /** What `data.json` holds and the page reads. */
