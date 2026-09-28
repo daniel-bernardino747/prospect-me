@@ -5,7 +5,11 @@ export default defineRailway(() => {
     source: github("daniel-bernardino747/prospect-me", { branch: "master", checkSuites: false }),
     // Only labs/ goes to a builder (ADR-0001); the standalone server is started
     // with its assets copied beside it by the build (labs/scripts/standalone-assets.js).
-    build: "npm run build -w @prospect-me/labs",
+    build: {
+      buildCommand: "npm run build -w @prospect-me/labs",
+      // A push that touches only recon/ or docs/ does not rebuild labs.
+      watchPatterns: ["labs/**", "package-lock.json"],
+    },
     start: "npm run serve -w @prospect-me/labs",
     // Next's standalone server binds to HOSTNAME, which the container sets to its
     // own name; "::" makes it reachable by Railway's proxy.
