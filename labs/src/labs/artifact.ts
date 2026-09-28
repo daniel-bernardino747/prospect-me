@@ -2,6 +2,10 @@ import type { ComponentType } from 'react';
 
 import type { ShareModule } from './share';
 
+/** The languages the Labs chrome speaks to a prospect's first reader. */
+export const LOCALES = ['pt-BR', 'en'] as const;
+export type Locale = (typeof LOCALES)[number];
+
 /** What an artifact's component receives: the query string, for its own state. */
 export interface ArtifactProps {
   searchParams: Record<string, string | string[] | undefined>;
@@ -22,6 +26,8 @@ export interface Prospect extends Base {
   kind: 'prospect';
   company: string;
   expiresAt: string;
+  /** The first reader's language: the banner, the ended page, the title and `lang` follow it. */
+  locale: Locale;
 }
 
 /**
@@ -50,6 +56,11 @@ export function resolveProspect(slug: string, now: Date, registry: readonly Arti
   return now.getTime() >= Date.parse(artifact.expiresAt) ? { kind: 'ended', artifact } : { kind: 'live', artifact };
 }
 
+/** The tab title, which says what the page is before the banner does. */
+export function prospectTitle(p: Prospect): string {
+  return `${p.title} · ${p.locale === 'en' ? 'independent prototype' : 'protótipo independente'}`;
+}
+
 /** The only way a request reaches a showcase. A prospect is never one, since `/demo/` is indexed. */
 export function resolveShowcase(slug: string, registry: readonly Artifact[]): Showcase | undefined {
   return registry.find((a): a is Showcase => a.kind === 'showcase' && a.slug === slug);
@@ -65,6 +76,9 @@ export function registryProblems(registry: readonly Artifact[]): string[] {
     seen.add(a.slug);
     if (a.kind === 'prospect' && (!/[+-]\d\d:\d\d$|Z$/.test(a.expiresAt) || Number.isNaN(Date.parse(a.expiresAt)))) {
       problems.push(`"${a.slug}": expiresAt must be an ISO timestamp with an offset`);
+    }
+    if (a.kind === 'prospect' && !LOCALES.includes(a.locale)) {
+      problems.push(`"${a.slug}": locale must be one of ${LOCALES.join(', ')}`);
     }
     if (a.kind === 'showcase' && !a.summary.trim()) problems.push(`"${a.slug}": a showcase needs a summary`);
   }

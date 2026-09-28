@@ -1,0 +1,50 @@
+{
+  "url": "https://www.techifide.com/techifide-role-fit-assessment/",
+  "capturedAt": "2026-09-28T10:55:01.121Z",
+  "dimensions": [
+    {
+      "name": "Structure",
+      "description": "How much clarity and direction you prefer before starting work."
+    },
+    {
+      "name": "Risk / Experimentation",
+      "description": "How willing you are to explore new ideas and different approaches."
+    },
+    {
+      "name": "Autonomy",
+      "description": "How comfortable you are making decisions and working independently."
+    },
+    {
+      "name": "Ambiguity",
+      "description": "How well you cope with uncertainty, changing priorities and incomplete information."
+    },
+    {
+      "name": "Communication / Collaboration",
+      "description": "How you naturally communicate and work with other people."
+    },
+    {
+      "name": "Product Thinking",
+      "description": "How much you focus on understanding business problems before building solutions."
+    },
+    {
+      "name": "Execution Style",
+      "description": "Whether you naturally prefer careful planning or rapid delivery and continuous improvement."
+    },
+    {
+      "name": "Domain Orientation",
+      "description": "How interested you are in understanding the customer’s business and industry."
+    },
+    {
+      "name": "Challenge / Conflict",
+      "description": "How comfortable you are questioning ideas and expressing different opinions."
+    },
+    {
+      "name": "AI Working Style",
+      "description": "How you use AI to improve your work while applying your own judgement."
+    },
+    {
+      "name": "Learning / Adaptability",
+      "description": "How quickly you embrace new technologies, business domains and ways of working."
+    }
+  ]
+}

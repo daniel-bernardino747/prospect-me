@@ -1,0 +1,127 @@
+{
+  "model": "claude-opus-5-5",
+  "extractedAt": "2026-09-28T11:30:00.000Z",
+  "extraction": {
+    "brief": [
+      {
+        "field": "Job Title",
+        "items": [{ "value": "Senior Machine Learning Engineer", "quote": "Senior Machine Learning Engineer" }]
+      },
+      {
+        "field": "Location of the role(any travel required?)",
+        "items": [{ "value": "Brazil, remote", "quote": "Future opportunities / Brazil / Remote" }]
+      },
+      {
+        "field": "Key Responsibilities & Accountabilities",
+        "items": [
+          { "value": "AI platforms: search, retrieval, agents", "quote": "Building and developing AI platforms involving search, retrieval and multi-agent orchestration" },
+          { "value": "Multi-agent architectures", "quote": "Designing and implementing multi-agent architectures, defining how specialist agents interact to solve complex tasks" },
+          { "value": "Document processing pipelines", "quote": "Designing, building and optimising large-scale document processing pipelines" },
+          { "value": "Search and retrieval quality", "quote": "Improving search and retrieval capabilities through ranking, query understanding and AI-powered question answering" },
+          { "value": "Knowledge graphs", "quote": "Building and maintaining knowledge graphs and other graph-based systems to improve reasoning and retrieval" },
+          { "value": "Own AI projects into production", "quote": "Taking ownership of high-impact AI projects from concept and experimentation through to production" },
+          { "value": "Evaluation frameworks", "quote": "Developing evaluation frameworks and experimentation processes to measure model performance" },
+          { "value": "Production-ready code", "quote": "Writing clean, scalable, production-ready code" }
+        ]
+      },
+      {
+        "field": "Essential Experience/ Attributes",
+        "items": [
+          { "value": "7+ years of production ML/AI", "quote": "7+ years of experience designing, building and deploying production-grade machine learning or AI systems" },
+          { "value": "Leads technical projects", "quote": "A proven ability to lead technically challenging projects with meaningful business impact" },
+          { "value": "LLM apps and agents", "quote": "Strong experience building LLM-powered applications, AI agents or orchestration frameworks" },
+          { "value": "Document processing", "quote": "Deep knowledge of document processing pipelines, including parsing, chunking, indexing and structured information extraction" },
+          { "value": "Distributed systems, Kubernetes", "quote": "Experience working with distributed systems and technologies such as Kubernetes" },
+          { "value": "Knowledge graphs", "quote": "Knowledge of knowledge graphs, provenance graphs or similar graph-based data models" },
+          { "value": "Python or Go", "quote": "Strong software engineering skills in Python, Go or similar languages" }
+        ]
+      },
+      {
+        "field": "Desirable Experience/ Attributes",
+        "items": [
+          { "value": "Search and ranking", "quote": "Search and ranking systems" },
+          { "value": "NLP", "quote": "Natural Language Processing (NLP)" },
+          { "value": "Recommendation systems", "quote": "Recommendation systems" },
+          { "value": "Large-scale ML infrastructure", "quote": "Large-scale ML infrastructure" },
+          { "value": "AEC or document-heavy industries", "quote": "Experience within construction, engineering, AEC or other document-intensive industries is also valuable" }
+        ]
+      },
+      {
+        "field": "Other information",
+        "items": [
+          { "value": "Talent pool, not a specific opening", "quote": "this application is not tied to a specific open position" },
+          { "value": "Remote, for international companies", "quote": "interested in working remotely with international technology companies" }
+        ]
+      }
+    ],
+    "dimensions": [
+      {
+        "name": "Structure",
+        "evidence": null,
+        "question": "Will they join an ML platform that already has its conventions, or set up the first one?",
+        "rank": 3
+      },
+      {
+        "name": "Risk / Experimentation",
+        "evidence": { "score": 4, "quote": "turning AI research and experimentation into reliable production systems", "reading": "Takes experiments through to production" },
+        "question": "",
+        "rank": 11
+      },
+      {
+        "name": "Autonomy",
+        "evidence": { "score": 4, "quote": "Taking ownership of high-impact AI projects from concept and experimentation through to production", "reading": "Owns AI projects from concept to production" },
+        "question": "",
+        "rank": 11
+      },
+      {
+        "name": "Ambiguity",
+        "evidence": null,
+        "question": "How settled is the AI roadmap: known use cases to deliver, or open problems still being framed?",
+        "rank": 4
+      },
+      {
+        "name": "Communication / Collaboration",
+        "evidence": null,
+        "question": "Who would this engineer work with day to day: other ML engineers, or the product and application teams using the models?",
+        "rank": 1
+      },
+      {
+        "name": "Product Thinking",
+        "evidence": null,
+        "question": "How much should they shape what gets built, rather than deliver the AI capability a product team asks for?",
+        "rank": 2
+      },
+      {
+        "name": "Execution Style",
+        "evidence": null,
+        "question": "How is progress judged: features shipped on a regular rhythm, or evaluation results improving over longer cycles?",
+        "rank": 5
+      },
+      {
+        "name": "Domain Orientation",
+        "evidence": { "score": 3, "quote": "Experience within construction, engineering, AEC or other document-intensive industries is also valuable", "reading": "Industry knowledge valued, not required" },
+        "question": "",
+        "rank": 11
+      },
+      {
+        "name": "Challenge / Conflict",
+        "evidence": null,
+        "question": "When an engineer disagrees with a technical direction, how is that raised and settled in the team?",
+        "rank": 8
+      },
+      {
+        "name": "AI Working Style",
+        "evidence": null,
+        "question": "Beyond building AI systems, how does the team expect engineers to use AI tools in their own work?",
+        "rank": 6
+      },
+      {
+        "name": "Learning / Adaptability",
+        "evidence": null,
+        "question": "Does the team adopt new models and frameworks as they appear, or standardise on a few and go deep?",
+        "rank": 7
+      }
+    ],
+    "contradictions": []
+  }
+}

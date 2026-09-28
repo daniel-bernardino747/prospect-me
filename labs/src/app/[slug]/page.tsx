@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { connection } from 'next/server';
 
 import { ARTIFACTS } from '@/artifacts';
-import { resolveProspect } from '@/labs/artifact';
+import { prospectTitle, resolveProspect } from '@/labs/artifact';
 import { Banner } from '@/labs/Banner';
 import { Ended } from '@/labs/Ended';
 
@@ -22,20 +22,23 @@ export default async function ArtifactPage({ params, searchParams }: Props) {
   await connection();
   const resolution = resolveProspect((await params).slug, new Date(), ARTIFACTS);
   if (resolution.kind === 'unknown') notFound();
-  if (resolution.kind === 'ended') return <Ended company={resolution.artifact.company} />;
-
   const { artifact } = resolution;
+  if (resolution.kind === 'ended') return <Ended company={artifact.company} locale={artifact.locale} />;
+
   const { default: Component } = await artifact.load();
-  return (
+  const page = (
     <>
-      <Banner company={artifact.company} />
+      <Banner company={artifact.company} locale={artifact.locale} />
       <Component searchParams={await searchParams} />
     </>
   );
+  // The root layout fixes `<html lang="pt-BR">`; per-route `lang` in this Next
+  // needs one root layout per locale, so another locale is set on the page.
+  return artifact.locale === 'pt-BR' ? page : <div lang={artifact.locale}>{page}</div>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const artifact = ARTIFACTS.find((a) => a.kind === 'prospect' && a.slug === slug);
-  return artifact ? { title: `${artifact.title} · protótipo independente` } : {};
+  return artifact?.kind === 'prospect' ? { title: prospectTitle(artifact) } : {};
 }

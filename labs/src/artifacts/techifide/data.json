@@ -1,0 +1,996 @@
+{
+  "generatedAt": "2026-09-28T11:26:29.765Z",
+  "model": "claude-opus-5-5",
+  "dimensions": [
+    {
+      "name": "Structure",
+      "description": "How much clarity and direction you prefer before starting work."
+    },
+    {
+      "name": "Risk / Experimentation",
+      "description": "How willing you are to explore new ideas and different approaches."
+    },
+    {
+      "name": "Autonomy",
+      "description": "How comfortable you are making decisions and working independently."
+    },
+    {
+      "name": "Ambiguity",
+      "description": "How well you cope with uncertainty, changing priorities and incomplete information."
+    },
+    {
+      "name": "Communication / Collaboration",
+      "description": "How you naturally communicate and work with other people."
+    },
+    {
+      "name": "Product Thinking",
+      "description": "How much you focus on understanding business problems before building solutions."
+    },
+    {
+      "name": "Execution Style",
+      "description": "Whether you naturally prefer careful planning or rapid delivery and continuous improvement."
+    },
+    {
+      "name": "Domain Orientation",
+      "description": "How interested you are in understanding the customer’s business and industry."
+    },
+    {
+      "name": "Challenge / Conflict",
+      "description": "How comfortable you are questioning ideas and expressing different opinions."
+    },
+    {
+      "name": "AI Working Style",
+      "description": "How you use AI to improve your work while applying your own judgement."
+    },
+    {
+      "name": "Learning / Adaptability",
+      "description": "How quickly you embrace new technologies, business domains and ways of working."
+    }
+  ],
+  "sources": {
+    "roleFit": {
+      "url": "https://www.techifide.com/techifide-role-fit-assessment/",
+      "capturedAt": "2026-09-28T10:55:01.121Z"
+    },
+    "screening": {
+      "url": "https://www.techifide.com/screening-and-evaluation/",
+      "capturedAt": "2026-09-28T10:55:02.362Z",
+      "quote": "Before we begin recruiting, we work with our clients to create an ideal Role Fit Profile for the position. Every shortlisted candidate completes the same assessment, allowing us to compare their natural working style with the requirements of the role."
+    },
+    "submitVacancy": {
+      "url": "https://www.techifide.com/submit-vacancy/",
+      "capturedAt": "2026-09-28T10:55:03.199Z",
+      "quote": "By providing detailed job descriptions and specifications, our advanced matching algorithm identifies the perfect fit for your organisation."
+    },
+    "template": {
+      "url": "https://www.techifide.com/wp-content/uploads/2023/07/Techi-job-offer.docx",
+      "capturedAt": "2026-09-28T10:55:03.836Z",
+      "fields": [
+        "Job Title",
+        "Reporting to (name)",
+        "Reporting to (job title)",
+        "Salary",
+        "Hours",
+        "Benefits (bonus, commission, car, phone, holiday entitlement, pension etc.)",
+        "Location of the role(any travel required?)",
+        "Key Responsibilities & Accountabilities",
+        "Department",
+        "Training",
+        "Essential Experience/ Attributes",
+        "Desirable Experience/ Attributes",
+        "Probation period",
+        "Other information"
+      ]
+    }
+  },
+  "ads": {
+    "fullstack": {
+      "key": "fullstack",
+      "url": "https://techifide.careers-page.com/jobs/7ea41dbd-d010-46a9-9d55-bce9d3923a4c",
+      "capturedAt": "2026-09-28T10:54:59.336Z",
+      "title": "Senior / Staff Fullstack Software Engineer",
+      "datePosted": "2026-09-25T09:42:30.637002+00:00",
+      "listing": {
+        "location": "São Paulo, Brazil",
+        "remote": true,
+        "applicantCountry": "Brazil",
+        "employmentType": "FULL_TIME"
+      },
+      "lanes": [
+        "Senior / Staff Fullstack Software Engineer",
+        "We're looking for a Senior or Staff Fullstack Engineer who enjoys owning a feature all the way from the browser to the services behind it.",
+        "You'll work across a modern React and TypeScript application, Python and Rust services, external APIs, and an AI agent platform. The role has a strong front-end focus, but this isn't a position where you throw an API request over the wall and wait for someone else to deal with the rest.",
+        "You'll be expected to understand the complete journey of the data: how it reaches the application, how agents and services process it, how results are streamed back, and ultimately how those results become a fast and intuitive experience for the user.",
+        "You'll also work closely with machine learning engineers to turn sophisticated AI capabilities into practical product features people can actually use.",
+        "This is a hands-on engineering role for someone who likes difficult product problems, takes ownership and cares about the quality of what reaches production.",
+        "What you'll be doing",
+        "Own features from concept through production across React/TypeScript, Python and Rust.",
+        "Build responsive and high-performance user experiences using React and TypeScript, with particular attention to component architecture, state management and browser performance.",
+        "Integrate AI agents and machine learning services into real product workflows, turning complex underlying capabilities into simple user experiences.",
+        "Contribute to Python and Rust services responsible for business logic, data exchange, agent orchestration and communication with the client application.",
+        "Design and evolve API contracts alongside platform and backend engineers, making sure services provide the data and behaviour the application needs.",
+        "Integrate third-party platforms and APIs while accounting for authentication, rate limits, retries, latency and failures.",
+        "Work with streaming and real-time data, ensuring results are delivered reliably and efficiently to the browser.",
+        "Investigate performance across the entire application, from browser memory and rendering through API calls and backend services.",
+        "Collaborate directly with product managers, designers, ML engineers and other software engineers to turn ideas into clearly defined features.",
+        "Write maintainable, well-tested code, contribute to code reviews and improve areas of the codebase that need attention.",
+        "What we're looking for",
+        "You've already worked at Senior or Staff level building sophisticated web applications used in production.",
+        "You should have:",
+        "Strong React and TypeScript experience, including complex component architecture, state management and performance optimisation.",
+        "Experience working with WebAssembly in the browser, including integrating WASM modules with JavaScript or TypeScript and diagnosing performance issues across that boundary.",
+        "Experience integrating LLMs, AI agents or similar AI services into production applications.",
+        "An understanding of the realities of AI-powered applications, including streaming responses, tool calls, unpredictable latency, errors and partial results.",
+        "Experience integrating external APIs and designing around authentication, rate limiting, retries and service failures.",
+        "Strong debugging skills across the stack. You should be comfortable following a problem from the browser, through network requests and backend services, into infrastructure logs.",
+        "Good knowledge of front-end architecture and patterns for building complex, stateful applications.",
+        "Production experience with at least one of our backend languages: Python or Rust.",
+        "Experience using AI-assisted development tools as part of your normal engineering workflow.",
+        "The communication skills to work effectively across engineering, product, design and machine learning teams.",
+        "Most importantly, you should be comfortable joining an evolving product and codebase where not every problem has already been neatly defined.",
+        "Nice to have",
+        "Experience in any of these areas would be particularly useful:",
+        "2D or 3D graphics, CAD or geometry-heavy applications.",
+        "WebGL, WebGPU or Three.js.",
+        "AWS infrastructure and managed services.",
+        "Production observability, including logging, tracing and monitoring.",
+        "CI/CD and GitLab pipelines.",
+        "Agile product development.",
+        "The kind of engineer who will enjoy this role",
+        "You probably won't enjoy this position if you want to work exclusively on isolated front-end tickets.",
+        "You probably will if you like understanding how the whole product works, are willing to move between React, APIs, backend services and AI systems, and enjoy taking responsibility for getting something from an idea to a polished feature in production.",
+        "The problems are technically challenging, the product is ambitious, and you'll have the opportunity to influence how both the application and its engineering architecture evolve."
+      ],
+      "brief": [
+        {
+          "field": "Job Title",
+          "items": [
+            {
+              "value": "Senior or Staff Fullstack Engineer",
+              "quote": "We're looking for a Senior or Staff Fullstack Engineer"
+            }
+          ]
+        },
+        {
+          "field": "Reporting to (name)",
+          "items": []
+        },
+        {
+          "field": "Reporting to (job title)",
+          "items": []
+        },
+        {
+          "field": "Salary",
+          "items": []
+        },
+        {
+          "field": "Hours",
+          "items": []
+        },
+        {
+          "field": "Benefits (bonus, commission, car, phone, holiday entitlement, pension etc.)",
+          "items": []
+        },
+        {
+          "field": "Location of the role(any travel required?)",
+          "items": []
+        },
+        {
+          "field": "Key Responsibilities & Accountabilities",
+          "items": [
+            {
+              "value": "Own features end to end",
+              "quote": "Own features from concept through production across React/TypeScript, Python and Rust"
+            },
+            {
+              "value": "Fast React and TypeScript front end",
+              "quote": "Build responsive and high-performance user experiences using React and TypeScript"
+            },
+            {
+              "value": "Bring AI agents and ML into the product",
+              "quote": "Integrate AI agents and machine learning services into real product workflows"
+            },
+            {
+              "value": "Python and Rust services",
+              "quote": "Contribute to Python and Rust services responsible for business logic, data exchange, agent orchestration and communication with the client application"
+            },
+            {
+              "value": "API contracts with backend",
+              "quote": "Design and evolve API contracts alongside platform and backend engineers"
+            },
+            {
+              "value": "Third-party APIs",
+              "quote": "Integrate third-party platforms and APIs while accounting for authentication, rate limits, retries, latency and failures"
+            },
+            {
+              "value": "Streaming and real-time data",
+              "quote": "Work with streaming and real-time data, ensuring results are delivered reliably and efficiently to the browser"
+            },
+            {
+              "value": "Performance across the stack",
+              "quote": "Investigate performance across the entire application, from browser memory and rendering through API calls and backend services"
+            },
+            {
+              "value": "Tested code and reviews",
+              "quote": "Write maintainable, well-tested code, contribute to code reviews"
+            }
+          ]
+        },
+        {
+          "field": "Department",
+          "items": []
+        },
+        {
+          "field": "Training",
+          "items": []
+        },
+        {
+          "field": "Essential Experience/ Attributes",
+          "items": [
+            {
+              "value": "Senior or Staff, production web apps",
+              "quote": "You've already worked at Senior or Staff level building sophisticated web applications used in production"
+            },
+            {
+              "value": "React and TypeScript",
+              "quote": "Strong React and TypeScript experience"
+            },
+            {
+              "value": "WebAssembly in the browser",
+              "quote": "Experience working with WebAssembly in the browser"
+            },
+            {
+              "value": "LLMs and agents in production",
+              "quote": "Experience integrating LLMs, AI agents or similar AI services into production applications"
+            },
+            {
+              "value": "Streaming, tool calls, partial results",
+              "quote": "including streaming responses, tool calls, unpredictable latency, errors and partial results"
+            },
+            {
+              "value": "External APIs",
+              "quote": "Experience integrating external APIs and designing around authentication, rate limiting, retries and service failures"
+            },
+            {
+              "value": "Debugging across the stack",
+              "quote": "Strong debugging skills across the stack"
+            },
+            {
+              "value": "Front-end architecture",
+              "quote": "Good knowledge of front-end architecture and patterns for building complex, stateful applications"
+            },
+            {
+              "value": "Python or Rust in production",
+              "quote": "Production experience with at least one of our backend languages: Python or Rust"
+            },
+            {
+              "value": "AI-assisted development",
+              "quote": "Experience using AI-assisted development tools as part of your normal engineering workflow"
+            },
+            {
+              "value": "Works across teams",
+              "quote": "The communication skills to work effectively across engineering, product, design and machine learning teams"
+            },
+            {
+              "value": "At ease in an evolving codebase",
+              "quote": "comfortable joining an evolving product and codebase where not every problem has already been neatly defined"
+            }
+          ]
+        },
+        {
+          "field": "Desirable Experience/ Attributes",
+          "items": [
+            {
+              "value": "Graphics, CAD, geometry",
+              "quote": "2D or 3D graphics, CAD or geometry-heavy applications"
+            },
+            {
+              "value": "WebGL, WebGPU, Three.js",
+              "quote": "WebGL, WebGPU or Three.js"
+            },
+            {
+              "value": "AWS",
+              "quote": "AWS infrastructure and managed services"
+            },
+            {
+              "value": "Observability",
+              "quote": "Production observability, including logging, tracing and monitoring"
+            },
+            {
+              "value": "CI/CD, GitLab",
+              "quote": "CI/CD and GitLab pipelines"
+            },
+            {
+              "value": "Agile",
+              "quote": "Agile product development"
+            }
+          ]
+        },
+        {
+          "field": "Probation period",
+          "items": []
+        },
+        {
+          "field": "Other information",
+          "items": [
+            {
+              "value": "Strong front-end focus",
+              "quote": "The role has a strong front-end focus"
+            },
+            {
+              "value": "Works closely with ML engineers",
+              "quote": "You'll also work closely with machine learning engineers"
+            }
+          ]
+        }
+      ],
+      "dimensions": [
+        {
+          "name": "Structure",
+          "question": "How does work reach this engineer: a ready ticket, a problem statement, or an idea to shape with product?",
+          "rank": 2
+        },
+        {
+          "name": "Risk / Experimentation",
+          "question": "How much room is there to try a new approach in production, say a different agent pattern, and who signs it off?",
+          "rank": 5
+        },
+        {
+          "name": "Autonomy",
+          "score": 4,
+          "quote": "Own features from concept through production",
+          "reading": "Owns a feature from idea to production"
+        },
+        {
+          "name": "Ambiguity",
+          "score": 4,
+          "quote": "not every problem has already been neatly defined",
+          "reading": "Starts from problems that are not yet defined"
+        },
+        {
+          "name": "Communication / Collaboration",
+          "score": 4,
+          "quote": "Collaborate directly with product managers, designers, ML engineers and other software engineers",
+          "reading": "Works directly with product, design and ML"
+        },
+        {
+          "name": "Product Thinking",
+          "score": 4,
+          "quote": "you like understanding how the whole product works",
+          "reading": "Expected to understand the whole product"
+        },
+        {
+          "name": "Execution Style",
+          "question": "Does the team ship early and iterate in production, or plan a feature through before it goes out?",
+          "rank": 3
+        },
+        {
+          "name": "Domain Orientation",
+          "question": "How close to the customers' own work does this engineer need to get: talking to users, or building from what product writes down?",
+          "rank": 4
+        },
+        {
+          "name": "Challenge / Conflict",
+          "question": "At Staff level, how much should this person push back on product and architecture decisions, and with whom?",
+          "rank": 1
+        },
+        {
+          "name": "AI Working Style",
+          "score": 4,
+          "quote": "Experience using AI-assisted development tools as part of your normal engineering workflow",
+          "reading": "AI tools are part of the daily workflow"
+        },
+        {
+          "name": "Learning / Adaptability",
+          "score": 4,
+          "quote": "willing to move between React, APIs, backend services and AI systems",
+          "reading": "Moves between front end, services and AI"
+        }
+      ],
+      "contradictions": [
+        {
+          "note": "Open at Senior or Staff level, with a scope described as owning features. Worth confirming what would make the hire Staff here: a wider scope, or the same scope with more experience.",
+          "quotes": [
+            "We're looking for a Senior or Staff Fullstack Engineer",
+            "Own features from concept through production across React/TypeScript, Python and Rust"
+          ]
+        },
+        {
+          "note": "WebAssembly in the browser is required, while graphics, CAD and geometry work is a nice-to-have. Worth confirming what the WebAssembly modules do, in case the two go together.",
+          "quotes": [
+            "Experience working with WebAssembly in the browser",
+            "2D or 3D graphics, CAD or geometry-heavy applications"
+          ]
+        },
+        {
+          "note": "The role has a strong front-end focus, yet is not for someone who wants only front-end tickets. Worth confirming roughly how the time splits between the browser and the services.",
+          "quotes": [
+            "The role has a strong front-end focus",
+            "You probably won't enjoy this position if you want to work exclusively on isolated front-end tickets"
+          ]
+        }
+      ],
+      "dropped": 0
+    },
+    "ml": {
+      "key": "ml",
+      "url": "https://techifide.careers-page.com/jobs/7b85ad5a-4522-46c6-b139-e93c7c2893e3",
+      "capturedAt": "2026-09-28T10:54:59.579Z",
+      "title": "Senior Machine Learning Engineer",
+      "datePosted": "2026-09-24T13:45:53.782416+00:00",
+      "listing": {
+        "location": "São Paulo, Brazil",
+        "remote": true,
+        "applicantCountry": "Brazil",
+        "employmentType": "FULL_TIME"
+      },
+      "lanes": [
+        "Senior Machine Learning Engineer",
+        "Future opportunities / Brazil / Remote",
+        "We're building our network of exceptional Senior Machine Learning Engineers based in Brazil for upcoming opportunities with international technology companies.",
+        "AI and machine learning engineering is currently one of the areas where we're seeing the highest demand from our clients. While this application is not tied to a specific open position, we're interviewing strong candidates now so that we can move quickly when suitable roles become available.",
+        "The opportunities we typically work on involve building production AI systems at scale, using advanced machine learning, large language models and intelligent automation to solve complex, real-world problems.",
+        "What you could be working on",
+        "Building and developing AI platforms involving search, retrieval and multi-agent orchestration.",
+        "Designing and implementing multi-agent architectures, defining how specialist agents interact to solve complex tasks.",
+        "Designing, building and optimising large-scale document processing pipelines, including ingestion, parsing, chunking, indexing and structured data extraction.",
+        "Improving search and retrieval capabilities through ranking, query understanding and AI-powered question answering.",
+        "Building and maintaining knowledge graphs and other graph-based systems to improve reasoning and retrieval.",
+        "Taking ownership of high-impact AI projects from concept and experimentation through to production.",
+        "Developing evaluation frameworks and experimentation processes to measure model performance and continuously improve quality.",
+        "Writing clean, scalable, production-ready code and contributing to strong engineering practices.",
+        "About you",
+        "We're interested in experienced engineers who enjoy solving difficult technical problems and turning AI research and experimentation into reliable production systems.",
+        "You'll ideally have:",
+        "7+ years of experience designing, building and deploying production-grade machine learning or AI systems.",
+        "A proven ability to lead technically challenging projects with meaningful business impact.",
+        "Strong experience building LLM-powered applications, AI agents or orchestration frameworks.",
+        "Deep knowledge of document processing pipelines, including parsing, chunking, indexing and structured information extraction.",
+        "Experience working with distributed systems and technologies such as Kubernetes.",
+        "Knowledge of knowledge graphs, provenance graphs or similar graph-based data models.",
+        "Strong software engineering skills in Python, Go or similar languages.",
+        "Experience in one or more of the following areas is particularly relevant:",
+        "Search and ranking systems",
+        "Natural Language Processing (NLP)",
+        "Recommendation systems",
+        "Large-scale ML infrastructure",
+        "Experience within construction, engineering, AEC or other document-intensive industries is also valuable.",
+        "Why apply now?",
+        "We're interviewing engineers in Brazil now to build a shortlist for future international opportunities.",
+        "By completing our process in advance, we'll already understand your technical background, experience, English level and career goals. When a suitable opportunity becomes available, we can contact you directly and potentially move much faster through the hiring process.",
+        "If you're an experienced Machine Learning Engineer based in Brazil and interested in working remotely with international technology companies, we'd like to hear from you."
+      ],
+      "brief": [
+        {
+          "field": "Job Title",
+          "items": [
+            {
+              "value": "Senior Machine Learning Engineer",
+              "quote": "Senior Machine Learning Engineer"
+            }
+          ]
+        },
+        {
+          "field": "Reporting to (name)",
+          "items": []
+        },
+        {
+          "field": "Reporting to (job title)",
+          "items": []
+        },
+        {
+          "field": "Salary",
+          "items": []
+        },
+        {
+          "field": "Hours",
+          "items": []
+        },
+        {
+          "field": "Benefits (bonus, commission, car, phone, holiday entitlement, pension etc.)",
+          "items": []
+        },
+        {
+          "field": "Location of the role(any travel required?)",
+          "items": [
+            {
+              "value": "Brazil, remote",
+              "quote": "Future opportunities / Brazil / Remote"
+            }
+          ]
+        },
+        {
+          "field": "Key Responsibilities & Accountabilities",
+          "items": [
+            {
+              "value": "AI platforms: search, retrieval, agents",
+              "quote": "Building and developing AI platforms involving search, retrieval and multi-agent orchestration"
+            },
+            {
+              "value": "Multi-agent architectures",
+              "quote": "Designing and implementing multi-agent architectures, defining how specialist agents interact to solve complex tasks"
+            },
+            {
+              "value": "Document processing pipelines",
+              "quote": "Designing, building and optimising large-scale document processing pipelines"
+            },
+            {
+              "value": "Search and retrieval quality",
+              "quote": "Improving search and retrieval capabilities through ranking, query understanding and AI-powered question answering"
+            },
+            {
+              "value": "Knowledge graphs",
+              "quote": "Building and maintaining knowledge graphs and other graph-based systems to improve reasoning and retrieval"
+            },
+            {
+              "value": "Own AI projects into production",
+              "quote": "Taking ownership of high-impact AI projects from concept and experimentation through to production"
+            },
+            {
+              "value": "Evaluation frameworks",
+              "quote": "Developing evaluation frameworks and experimentation processes to measure model performance"
+            },
+            {
+              "value": "Production-ready code",
+              "quote": "Writing clean, scalable, production-ready code"
+            }
+          ]
+        },
+        {
+          "field": "Department",
+          "items": []
+        },
+        {
+          "field": "Training",
+          "items": []
+        },
+        {
+          "field": "Essential Experience/ Attributes",
+          "items": [
+            {
+              "value": "7+ years of production ML/AI",
+              "quote": "7+ years of experience designing, building and deploying production-grade machine learning or AI systems"
+            },
+            {
+              "value": "Leads technical projects",
+              "quote": "A proven ability to lead technically challenging projects with meaningful business impact"
+            },
+            {
+              "value": "LLM apps and agents",
+              "quote": "Strong experience building LLM-powered applications, AI agents or orchestration frameworks"
+            },
+            {
+              "value": "Document processing",
+              "quote": "Deep knowledge of document processing pipelines, including parsing, chunking, indexing and structured information extraction"
+            },
+            {
+              "value": "Distributed systems, Kubernetes",
+              "quote": "Experience working with distributed systems and technologies such as Kubernetes"
+            },
+            {
+              "value": "Knowledge graphs",
+              "quote": "Knowledge of knowledge graphs, provenance graphs or similar graph-based data models"
+            },
+            {
+              "value": "Python or Go",
+              "quote": "Strong software engineering skills in Python, Go or similar languages"
+            }
+          ]
+        },
+        {
+          "field": "Desirable Experience/ Attributes",
+          "items": [
+            {
+              "value": "Search and ranking",
+              "quote": "Search and ranking systems"
+            },
+            {
+              "value": "NLP",
+              "quote": "Natural Language Processing (NLP)"
+            },
+            {
+              "value": "Recommendation systems",
+              "quote": "Recommendation systems"
+            },
+            {
+              "value": "Large-scale ML infrastructure",
+              "quote": "Large-scale ML infrastructure"
+            },
+            {
+              "value": "AEC or document-heavy industries",
+              "quote": "Experience within construction, engineering, AEC or other document-intensive industries is also valuable"
+            }
+          ]
+        },
+        {
+          "field": "Probation period",
+          "items": []
+        },
+        {
+          "field": "Other information",
+          "items": [
+            {
+              "value": "Talent pool, not a specific opening",
+              "quote": "this application is not tied to a specific open position"
+            },
+            {
+              "value": "Remote, for international companies",
+              "quote": "interested in working remotely with international technology companies"
+            }
+          ]
+        }
+      ],
+      "dimensions": [
+        {
+          "name": "Structure",
+          "question": "Will they join an ML platform that already has its conventions, or set up the first one?",
+          "rank": 3
+        },
+        {
+          "name": "Risk / Experimentation",
+          "score": 4,
+          "quote": "turning AI research and experimentation into reliable production systems",
+          "reading": "Takes experiments through to production"
+        },
+        {
+          "name": "Autonomy",
+          "score": 4,
+          "quote": "Taking ownership of high-impact AI projects from concept and experimentation through to production",
+          "reading": "Owns AI projects from concept to production"
+        },
+        {
+          "name": "Ambiguity",
+          "question": "How settled is the AI roadmap: known use cases to deliver, or open problems still being framed?",
+          "rank": 4
+        },
+        {
+          "name": "Communication / Collaboration",
+          "question": "Who would this engineer work with day to day: other ML engineers, or the product and application teams using the models?",
+          "rank": 1
+        },
+        {
+          "name": "Product Thinking",
+          "question": "How much should they shape what gets built, rather than deliver the AI capability a product team asks for?",
+          "rank": 2
+        },
+        {
+          "name": "Execution Style",
+          "question": "How is progress judged: features shipped on a regular rhythm, or evaluation results improving over longer cycles?",
+          "rank": 5
+        },
+        {
+          "name": "Domain Orientation",
+          "score": 3,
+          "quote": "Experience within construction, engineering, AEC or other document-intensive industries is also valuable",
+          "reading": "Industry knowledge valued, not required"
+        },
+        {
+          "name": "Challenge / Conflict",
+          "question": "When an engineer disagrees with a technical direction, how is that raised and settled in the team?",
+          "rank": 8
+        },
+        {
+          "name": "AI Working Style",
+          "question": "Beyond building AI systems, how does the team expect engineers to use AI tools in their own work?",
+          "rank": 6
+        },
+        {
+          "name": "Learning / Adaptability",
+          "question": "Does the team adopt new models and frameworks as they appear, or standardise on a few and go deep?",
+          "rank": 7
+        }
+      ],
+      "contradictions": [],
+      "dropped": 0
+    },
+    "qa": {
+      "key": "qa",
+      "url": "https://techifide.careers-page.com/jobs/45222237-56e9-4cca-bb77-aa70f623c0b9",
+      "capturedAt": "2026-09-28T10:54:59.828Z",
+      "title": "Senior Software Test Automation Engineer (AI-Driven)",
+      "datePosted": "2026-08-27T10:01:53.001521+00:00",
+      "listing": {
+        "location": "São Paulo, Brazil",
+        "remote": true,
+        "applicantCountry": "Brazil",
+        "employmentType": "FULL_TIME"
+      },
+      "lanes": [
+        "Senior Software Test Automation Engineer (AI-Driven)",
+        "Before you apply",
+        "You must be physically located in Brazil",
+        "CVs must be submitted in English",
+        "Good spoken English is required",
+        "About",
+        "Join a team building sophisticated engineering software where quality is treated as a core feature, not an afterthought. You'll take ownership of the test automation strategy, designing robust frameworks that ensure complex web and desktop applications remain reliable as they evolve. You'll also explore how modern AI tools can accelerate testing, reduce manual effort, and improve overall software quality.",
+        "What You'll Do",
+        "Design and implement scalable automation frameworks for modern web and desktop applications.",
+        "Create and maintain automated tests across unit, integration, API, and end-to-end layers.",
+        "Build reliable, reusable test suites for interactive 3D browser applications.",
+        "Transform product requirements into comprehensive automated test scenarios.",
+        "Develop and optimise CI/CD pipelines to ensure fast and reliable releases.",
+        "Use AI-assisted development tools to improve test coverage, productivity, and defect detection.",
+        "Create performance and load testing solutions to measure application scalability.",
+        "Investigate test failures, eliminate flaky tests, and continuously improve automation stability.",
+        "Work closely with software engineers, technical leads, and QA specialists to identify the highest-value automation opportunities.",
+        "Contribute to monitoring and quality metrics by building dashboards and actionable reporting.",
+        "What We're Looking For",
+        "8+ years' experience in Software Test Engineering, SDET, or Test Automation.",
+        "Expert knowledge of Playwright and TypeScript.",
+        "Strong experience testing modern React applications.",
+        "Solid understanding of testing strategies across unit, integration, API, and end-to-end testing.",
+        "Experience designing automation frameworks rather than simply maintaining existing ones.",
+        "Hands-on experience using AI-powered development tools such as Cursor, Claude, GitHub Copilot, or similar.",
+        "Strong understanding of web technologies, REST APIs, browser behaviour, and debugging tools.",
+        "Experience integrating automated testing into CI/CD pipelines using GitLab CI, GitHub Actions, or equivalent.",
+        "Excellent JavaScript/TypeScript skills.",
+        "Nice to Have",
+        "Experience testing applications built with Three.js, WebGL, or other 3D rendering technologies.",
+        "Knowledge of performance, stress, or load testing.",
+        "Experience writing automation in Rust or C#.",
+        "Exposure to CAD or engineering software such as Revit or Rhino.",
+        "Experience testing .NET desktop applications, plugins, or native software.",
+        "Previous experience helping scale QA practices across multiple products or engineering teams.",
+        "Why Join Us?",
+        "You'll work on technically challenging products where automation is central to the development process. You'll have the opportunity to influence testing strategy, adopt cutting-edge AI tools, and help shape the quality standards for software used by engineering professionals around the world."
+      ],
+      "brief": [
+        {
+          "field": "Job Title",
+          "items": [
+            {
+              "value": "Senior Software Test Automation Engineer (AI-Driven)",
+              "quote": "Senior Software Test Automation Engineer (AI-Driven)"
+            }
+          ]
+        },
+        {
+          "field": "Reporting to (name)",
+          "items": []
+        },
+        {
+          "field": "Reporting to (job title)",
+          "items": []
+        },
+        {
+          "field": "Salary",
+          "items": []
+        },
+        {
+          "field": "Hours",
+          "items": []
+        },
+        {
+          "field": "Benefits (bonus, commission, car, phone, holiday entitlement, pension etc.)",
+          "items": []
+        },
+        {
+          "field": "Location of the role(any travel required?)",
+          "items": [
+            {
+              "value": "Based in Brazil",
+              "quote": "You must be physically located in Brazil"
+            }
+          ]
+        },
+        {
+          "field": "Key Responsibilities & Accountabilities",
+          "items": [
+            {
+              "value": "Own the test automation strategy",
+              "quote": "You'll take ownership of the test automation strategy"
+            },
+            {
+              "value": "Frameworks for web and desktop",
+              "quote": "Design and implement scalable automation frameworks for modern web and desktop applications"
+            },
+            {
+              "value": "Tests at every layer",
+              "quote": "Create and maintain automated tests across unit, integration, API, and end-to-end layers"
+            },
+            {
+              "value": "Test suites for 3D browser apps",
+              "quote": "Build reliable, reusable test suites for interactive 3D browser applications"
+            },
+            {
+              "value": "Requirements into test scenarios",
+              "quote": "Transform product requirements into comprehensive automated test scenarios"
+            },
+            {
+              "value": "CI/CD pipelines",
+              "quote": "Develop and optimise CI/CD pipelines to ensure fast and reliable releases"
+            },
+            {
+              "value": "AI tools for coverage",
+              "quote": "Use AI-assisted development tools to improve test coverage, productivity, and defect detection"
+            },
+            {
+              "value": "Performance and load testing",
+              "quote": "Create performance and load testing solutions to measure application scalability"
+            },
+            {
+              "value": "Flaky tests and stability",
+              "quote": "Investigate test failures, eliminate flaky tests, and continuously improve automation stability"
+            },
+            {
+              "value": "Quality dashboards",
+              "quote": "Contribute to monitoring and quality metrics by building dashboards and actionable reporting"
+            }
+          ]
+        },
+        {
+          "field": "Department",
+          "items": []
+        },
+        {
+          "field": "Training",
+          "items": []
+        },
+        {
+          "field": "Essential Experience/ Attributes",
+          "items": [
+            {
+              "value": "8+ years in test automation",
+              "quote": "8+ years' experience in Software Test Engineering, SDET, or Test Automation"
+            },
+            {
+              "value": "Expert Playwright and TypeScript",
+              "quote": "Expert knowledge of Playwright and TypeScript"
+            },
+            {
+              "value": "Testing React apps",
+              "quote": "Strong experience testing modern React applications"
+            },
+            {
+              "value": "Test strategy across layers",
+              "quote": "Solid understanding of testing strategies across unit, integration, API, and end-to-end testing"
+            },
+            {
+              "value": "Designs frameworks",
+              "quote": "Experience designing automation frameworks rather than simply maintaining existing ones"
+            },
+            {
+              "value": "AI development tools",
+              "quote": "Hands-on experience using AI-powered development tools such as Cursor, Claude, GitHub Copilot, or similar"
+            },
+            {
+              "value": "Web, REST, browser debugging",
+              "quote": "Strong understanding of web technologies, REST APIs, browser behaviour, and debugging tools"
+            },
+            {
+              "value": "Tests in CI/CD",
+              "quote": "Experience integrating automated testing into CI/CD pipelines"
+            },
+            {
+              "value": "JavaScript/TypeScript",
+              "quote": "Excellent JavaScript/TypeScript skills"
+            },
+            {
+              "value": "Good spoken English",
+              "quote": "Good spoken English is required"
+            }
+          ]
+        },
+        {
+          "field": "Desirable Experience/ Attributes",
+          "items": [
+            {
+              "value": "Three.js, WebGL, 3D",
+              "quote": "Experience testing applications built with Three.js, WebGL, or other 3D rendering technologies"
+            },
+            {
+              "value": "Performance and load testing",
+              "quote": "Knowledge of performance, stress, or load testing"
+            },
+            {
+              "value": "Automation in Rust or C#",
+              "quote": "Experience writing automation in Rust or C#"
+            },
+            {
+              "value": "CAD: Revit, Rhino",
+              "quote": "Exposure to CAD or engineering software such as Revit or Rhino"
+            },
+            {
+              "value": ".NET desktop and plugins",
+              "quote": "Experience testing .NET desktop applications, plugins, or native software"
+            },
+            {
+              "value": "Scaling QA across teams",
+              "quote": "Previous experience helping scale QA practices across multiple products or engineering teams"
+            }
+          ]
+        },
+        {
+          "field": "Probation period",
+          "items": []
+        },
+        {
+          "field": "Other information",
+          "items": [
+            {
+              "value": "CVs in English",
+              "quote": "CVs must be submitted in English"
+            }
+          ]
+        }
+      ],
+      "dimensions": [
+        {
+          "name": "Structure",
+          "question": "Is there a test strategy and framework to build on, or does this person start from a blank page?",
+          "rank": 2
+        },
+        {
+          "name": "Risk / Experimentation",
+          "question": "How much room is there to try new tools, AI-based testing included, before they are proven?",
+          "rank": 7
+        },
+        {
+          "name": "Autonomy",
+          "score": 4,
+          "quote": "You'll take ownership of the test automation strategy",
+          "reading": "Owns the automation strategy"
+        },
+        {
+          "name": "Ambiguity",
+          "question": "How settled are the products under test: stable releases, or features still changing week to week?",
+          "rank": 6
+        },
+        {
+          "name": "Communication / Collaboration",
+          "score": 4,
+          "quote": "Work closely with software engineers, technical leads, and QA specialists",
+          "reading": "Works closely with engineers and leads"
+        },
+        {
+          "name": "Product Thinking",
+          "question": "Should they help shape acceptance criteria with product, or turn finished requirements into tests?",
+          "rank": 5
+        },
+        {
+          "name": "Execution Style",
+          "question": "What is the release rhythm today, and is the aim to make it faster or more predictable?",
+          "rank": 4
+        },
+        {
+          "name": "Domain Orientation",
+          "question": "How well does this engineer need to understand how your users work in tools like Revit or Rhino to test the right things?",
+          "rank": 1
+        },
+        {
+          "name": "Challenge / Conflict",
+          "question": "When quality and a release date pull apart, how much say should this person have in holding a release?",
+          "rank": 3
+        },
+        {
+          "name": "AI Working Style",
+          "score": 4,
+          "quote": "Use AI-assisted development tools to improve test coverage, productivity, and defect detection",
+          "reading": "AI tools part of the daily testing work"
+        },
+        {
+          "name": "Learning / Adaptability",
+          "question": "Which parts of the stack are new to most QA hires, such as the desktop or plugin side, and how much ramp-up time is there?",
+          "rank": 8
+        }
+      ],
+      "contradictions": [
+        {
+          "note": "Desktop applications are part of the scope, while desktop testing experience is a nice-to-have. Worth confirming how much of the work is on the desktop side.",
+          "quotes": [
+            "Design and implement scalable automation frameworks for modern web and desktop applications",
+            "Experience testing .NET desktop applications, plugins, or native software"
+          ]
+        },
+        {
+          "note": "Test suites for 3D browser applications are part of the job, while experience testing 3D rendering is a nice-to-have. Worth confirming how much of the testing is on the 3D side.",
+          "quotes": [
+            "Build reliable, reusable test suites for interactive 3D browser applications",
+            "Experience testing applications built with Three.js, WebGL, or other 3D rendering technologies"
+          ]
+        }
+      ],
+      "dropped": 0
+    }
+  }
+}

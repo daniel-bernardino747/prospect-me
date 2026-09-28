@@ -1,0 +1,718 @@
+/* Normalled jackfield: black glass, one signal amber for every mark, ivory prose.
+   State lives in the rail's stroke, never in colour alone. */
+
+.glass {
+  --glass: #0a0a0a;
+  --glass-raised: #121110;
+  --amber: #ffb000;
+  --amber-dim: #7a5200;
+  --amber-deep: #2a1c00;
+  --ivory: #f2efe6;
+  --ivory-dim: #bdb8aa;
+  --gutter: 1rem;
+  --lane: 2rem;
+  --measure: 38rem;
+
+  position: relative;
+  min-height: 100vh;
+  background: var(--glass);
+  color: var(--ivory);
+  font-family: var(--font-prose), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+  isolation: isolate;
+  color-scheme: dark;
+}
+
+/* The lane grid, drifting one hairline per second under static type. The dark
+   gutters at both edges keep anything from reading as full width. */
+.glass::before {
+  content: '';
+  position: fixed;
+  inset: 0 var(--gutter);
+  z-index: -1;
+  pointer-events: none;
+  border-inline: 1px solid rgb(255 176 0 / 0.14);
+  background: repeating-linear-gradient(to bottom, rgb(255 176 0 / 0.07) 0 1px, transparent 1px var(--lane));
+  animation: drift 32s linear infinite;
+}
+
+@keyframes drift {
+  to {
+    background-position: 0 var(--lane);
+  }
+}
+
+.glass a {
+  color: inherit;
+  text-decoration-color: var(--amber);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.glass a:focus-visible,
+.glass summary:focus-visible {
+  outline: 2px solid var(--ivory);
+  outline-offset: 2px;
+}
+
+/* ---------- strip ---------- */
+
+/* On a phone the strip scrolls away with the page, leaving the first screen to the work. */
+.strip {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem var(--gutter);
+  background: var(--glass);
+  border-bottom: 1px solid var(--amber);
+}
+
+.mark {
+  margin: 0;
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--amber);
+  white-space: nowrap;
+}
+
+.keys {
+  display: flex;
+  gap: 0.375rem;
+}
+
+.key {
+  display: grid;
+  place-items: center;
+  min-width: 3.25rem;
+  min-height: 2.75rem;
+  padding: 0 0.625rem;
+  border: 1px solid var(--amber);
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 160ms ease-out;
+}
+
+.glass .key {
+  color: var(--amber);
+}
+
+.key:hover {
+  background: var(--amber-deep);
+}
+
+/* Selected is doubled, as a tie is when selected; the count keeps the page's one inversion. */
+.key[aria-current='page'] {
+  border: 3px double var(--amber);
+}
+
+/* ---------- sheet ---------- */
+
+.sheet {
+  padding: 0 calc(var(--gutter) + 0.75rem);
+}
+
+.role {
+  padding-top: 0.75rem;
+}
+
+.role h1 {
+  margin: 0;
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 6.6vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--amber);
+}
+
+.meta {
+  margin: 0.375rem 0 0;
+  font-size: 0.9375rem;
+  color: var(--ivory-dim);
+}
+
+.legendHead {
+  margin: 0 0 0.375rem;
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.musts {
+  margin-top: 0.625rem;
+}
+
+/* Must-haves run as one tight legend: each a label and the lane it came from. Two
+   columns were tried and dropped: the long labels wrap, so they saved no height. */
+.musts ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.musts a {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  padding: 0.0625rem 0;
+  font-size: 0.9375rem;
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+/* A taller target without adding a line of height. */
+.musts a::after {
+  content: '';
+  position: absolute;
+  inset: -0.75rem -0.375rem;
+}
+
+.musts a:hover span:first-child {
+  text-decoration: underline;
+  text-decoration-color: var(--amber);
+}
+
+.laneTag {
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--amber);
+}
+
+/* ---------- the count and the questions ---------- */
+
+.questions {
+  margin-top: 1rem;
+  scroll-margin-top: 4rem;
+}
+
+.countHead {
+  display: flex;
+  align-items: stretch;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+/* The one inversion per screen: the count knocked dark out of solid amber. */
+.count {
+  display: grid;
+  place-items: center;
+  min-width: 3.75rem;
+  padding: 0.125rem 0.5rem 0;
+  background: var(--amber);
+  color: var(--glass);
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 800;
+  font-size: 3.5rem;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+
+.countText {
+  align-self: center;
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 700;
+  font-size: 1.375rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--amber);
+}
+
+.qList {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--amber-dim);
+}
+
+.qList li {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.5rem;
+  padding: 0.5rem 0 0.5rem;
+  border-bottom: 1px solid var(--amber-dim);
+  scroll-margin-top: 4rem;
+}
+
+.qList li:target {
+  background: var(--amber-deep);
+}
+
+.qNum {
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 700;
+  font-size: 1.375rem;
+  line-height: 1;
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+}
+
+.qText {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.3;
+  max-width: var(--measure);
+}
+
+/* ---------- ties, rails and plates ---------- */
+
+.tieLine {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+/* In the question list the dimension leads the question as a small amber prefix. */
+.qText .dimName {
+  margin-right: 0.25rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+}
+
+.dimName,
+.claimLabel {
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.claimLabel {
+  font-family: var(--font-prose), sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ivory);
+}
+
+.rail {
+  position: relative;
+  flex: 1 1 1.5rem;
+  min-width: 1.5rem;
+  height: 9px;
+}
+
+/* The tie itself, ending in a ring at the plate. */
+.rail::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: 9px;
+  height: 1px;
+  background: var(--amber);
+}
+
+.rail::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid var(--amber);
+  border-radius: 50%;
+}
+
+/* Room for a segment before the break, so a short open tie never reads as a quoted one. */
+.rail[data-state='open'] {
+  min-width: 2.75rem;
+}
+
+/* Open: a clean, fixed break just before the ring. Nothing in the ad holds this lane. */
+.rail[data-state='open']::before {
+  background: linear-gradient(
+    to right,
+    var(--amber) 0 calc(100% - 1.75rem),
+    transparent calc(100% - 1.75rem) calc(100% - 1rem),
+    var(--amber) calc(100% - 1rem)
+  );
+}
+
+/* Worth confirming: one cross-tick on a live tie. */
+.tick {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  width: 1.5px;
+  height: 11px;
+  background: var(--amber);
+  transform: rotate(35deg);
+}
+
+.plate {
+  flex: none;
+  padding: 0.125rem 0.4rem 0.0625rem;
+  border: 1px solid var(--amber);
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+}
+
+.empty {
+  font-size: 0.9375rem;
+  color: var(--ivory-dim);
+}
+
+/* ---------- blocks below the fold ---------- */
+
+.block {
+  margin-top: 3rem;
+  scroll-margin-top: 4rem;
+}
+
+.blockHead {
+  margin: 0;
+  padding-bottom: 0.375rem;
+  border-bottom: 1px solid var(--amber);
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.lead {
+  margin: 0.625rem 0 0.75rem;
+  max-width: var(--measure);
+  font-size: 0.9375rem;
+  color: var(--ivory-dim);
+}
+
+.fields {
+  margin: 0;
+}
+
+.field {
+  padding: 0.625rem 0;
+  border-bottom: 1px solid var(--amber-dim);
+}
+
+.field dt {
+  margin-bottom: 0.25rem;
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.field dd {
+  margin: 0;
+}
+
+.dims {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dims > li {
+  border-bottom: 1px solid var(--amber-dim);
+}
+
+.dims .claimLabel {
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+/* ---------- a claim with its quote a tap away ---------- */
+
+.claim summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.claim summary::-webkit-details-marker {
+  display: none;
+}
+
+.claim summary:hover .rail::after {
+  background: var(--amber-deep);
+}
+
+/* Selected: the tie doubles, like a normal broken out on purpose. */
+.claim[open] .rail::before {
+  height: 4px;
+  top: 2.5px;
+  background: linear-gradient(var(--amber) 0 1px, transparent 1px 3px, var(--amber) 3px);
+}
+
+.claim[open] .rail[data-state='open']::before {
+  background:
+    linear-gradient(
+      to right,
+      transparent calc(100% - 1.75rem),
+      var(--glass) calc(100% - 1.75rem) calc(100% - 1rem),
+      transparent calc(100% - 1rem)
+    ),
+    linear-gradient(var(--amber) 0 1px, transparent 1px 3px, var(--amber) 3px);
+}
+
+.claimBody {
+  padding: 0 0 0.875rem;
+  max-width: var(--measure);
+}
+
+.reading {
+  margin: 0 0 0.5rem;
+}
+
+.level {
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.described {
+  margin: 0 0 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--ivory-dim);
+}
+
+/* The ad's own words: an amber hairline frame with a filled caption bar. */
+.quote {
+  margin: 0.25rem 0 0.5rem;
+  border: 1px solid var(--amber);
+  background: var(--glass-raised);
+}
+
+.quote p {
+  margin: 0;
+  padding: 0.625rem 0.75rem;
+  font-size: 1.0625rem;
+  line-height: 1.4;
+}
+
+.quote footer {
+  padding: 0.3125rem 0.75rem 0.25rem;
+  border-top: 1px solid var(--amber);
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.confirmNote {
+  margin: 0.75rem 0 0;
+  max-width: var(--measure);
+}
+
+/* ---------- the ad as lanes ---------- */
+
+.lanes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lanes li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 0.5rem;
+  padding: 0.375rem 1.25rem 0.375rem 0;
+  border-bottom: 1px solid rgb(255 176 0 / 0.16);
+  scroll-margin-top: 5rem;
+  transition: background-color 300ms ease-out;
+}
+
+/* A lane something above is tied to ends in a ring. */
+.lanes li[data-cited]::after {
+  content: '';
+  position: absolute;
+  top: 0.75rem;
+  right: 0;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid var(--amber);
+  border-radius: 50%;
+}
+
+.lanes li:target {
+  background: var(--amber-deep);
+  box-shadow:
+    inset 0 1px 0 var(--amber),
+    inset 0 -1px 0 var(--amber);
+}
+
+.lanes li:target::after {
+  background: var(--amber);
+}
+
+.back {
+  display: none;
+}
+
+.lanes li:target .back {
+  display: inline-block;
+  grid-column: 2;
+  padding: 0.5rem 0;
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.laneNum {
+  font-family: var(--font-legend), sans-serif;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: 0.04em;
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+}
+
+.laneText {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  max-width: var(--measure);
+}
+
+.sources {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9375rem;
+  color: var(--ivory-dim);
+}
+
+.sources li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgb(255 176 0 / 0.16);
+  max-width: var(--measure);
+}
+
+.sources a {
+  color: var(--ivory);
+}
+
+.foot {
+  margin-top: 3rem;
+  padding: 1rem calc(var(--gutter) + 0.75rem) 2.5rem;
+  border-top: 1px solid var(--amber);
+}
+
+.foot p {
+  margin: 0;
+  max-width: var(--measure);
+  font-size: 0.875rem;
+  color: var(--ivory-dim);
+}
+
+/* ---------- wide: a fixed legend strip on the left, the work on the right ---------- */
+
+@media (min-width: 64rem) {
+  .glass {
+    --gutter: 2rem;
+  }
+
+  .strip {
+    position: sticky;
+    top: 0;
+  }
+
+  .sheet {
+    display: grid;
+    grid-template-columns: 22rem minmax(0, 1fr);
+    gap: 3rem;
+    max-width: 76rem;
+    margin: 0 auto;
+  }
+
+  .legendColumn {
+    position: sticky;
+    top: 4.5rem;
+    align-self: start;
+    padding-bottom: 2rem;
+  }
+
+  .role h1 {
+    font-size: 2.75rem;
+  }
+
+  /* The strip and the foot line up with the sheet's column. */
+  .strip,
+  .foot {
+    padding-inline: max(calc(var(--gutter) + 0.75rem), calc((100% - 76rem) / 2 + var(--gutter) + 0.75rem));
+  }
+
+  .questions {
+    margin-top: 1rem;
+  }
+
+  .count {
+    min-width: 5.5rem;
+    font-size: 5.5rem;
+  }
+
+  .countText {
+    font-size: 2rem;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass::before {
+    animation: none;
+  }
+
+  .key,
+  .lanes li {
+    transition: none;
+  }
+}
+
+@media print {
+  .glass::before {
+    display: none;
+  }
+}

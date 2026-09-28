@@ -1,0 +1,139 @@
+{
+  "model": "claude-opus-5-5",
+  "extractedAt": "2026-09-28T11:30:00.000Z",
+  "extraction": {
+    "brief": [
+      {
+        "field": "Job Title",
+        "items": [{ "value": "Senior Software Test Automation Engineer (AI-Driven)", "quote": "Senior Software Test Automation Engineer (AI-Driven)" }]
+      },
+      {
+        "field": "Location of the role(any travel required?)",
+        "items": [{ "value": "Based in Brazil", "quote": "You must be physically located in Brazil" }]
+      },
+      {
+        "field": "Key Responsibilities & Accountabilities",
+        "items": [
+          { "value": "Own the test automation strategy", "quote": "You'll take ownership of the test automation strategy" },
+          { "value": "Frameworks for web and desktop", "quote": "Design and implement scalable automation frameworks for modern web and desktop applications" },
+          { "value": "Tests at every layer", "quote": "Create and maintain automated tests across unit, integration, API, and end-to-end layers" },
+          { "value": "Test suites for 3D browser apps", "quote": "Build reliable, reusable test suites for interactive 3D browser applications" },
+          { "value": "Requirements into test scenarios", "quote": "Transform product requirements into comprehensive automated test scenarios" },
+          { "value": "CI/CD pipelines", "quote": "Develop and optimise CI/CD pipelines to ensure fast and reliable releases" },
+          { "value": "AI tools for coverage", "quote": "Use AI-assisted development tools to improve test coverage, productivity, and defect detection" },
+          { "value": "Performance and load testing", "quote": "Create performance and load testing solutions to measure application scalability" },
+          { "value": "Flaky tests and stability", "quote": "Investigate test failures, eliminate flaky tests, and continuously improve automation stability" },
+          { "value": "Quality dashboards", "quote": "Contribute to monitoring and quality metrics by building dashboards and actionable reporting" }
+        ]
+      },
+      {
+        "field": "Essential Experience/ Attributes",
+        "items": [
+          { "value": "8+ years in test automation", "quote": "8+ years' experience in Software Test Engineering, SDET, or Test Automation" },
+          { "value": "Expert Playwright and TypeScript", "quote": "Expert knowledge of Playwright and TypeScript" },
+          { "value": "Testing React apps", "quote": "Strong experience testing modern React applications" },
+          { "value": "Test strategy across layers", "quote": "Solid understanding of testing strategies across unit, integration, API, and end-to-end testing" },
+          { "value": "Designs frameworks", "quote": "Experience designing automation frameworks rather than simply maintaining existing ones" },
+          { "value": "AI development tools", "quote": "Hands-on experience using AI-powered development tools such as Cursor, Claude, GitHub Copilot, or similar" },
+          { "value": "Web, REST, browser debugging", "quote": "Strong understanding of web technologies, REST APIs, browser behaviour, and debugging tools" },
+          { "value": "Tests in CI/CD", "quote": "Experience integrating automated testing into CI/CD pipelines" },
+          { "value": "JavaScript/TypeScript", "quote": "Excellent JavaScript/TypeScript skills" },
+          { "value": "Good spoken English", "quote": "Good spoken English is required" }
+        ]
+      },
+      {
+        "field": "Desirable Experience/ Attributes",
+        "items": [
+          { "value": "Three.js, WebGL, 3D", "quote": "Experience testing applications built with Three.js, WebGL, or other 3D rendering technologies" },
+          { "value": "Performance and load testing", "quote": "Knowledge of performance, stress, or load testing" },
+          { "value": "Automation in Rust or C#", "quote": "Experience writing automation in Rust or C#" },
+          { "value": "CAD: Revit, Rhino", "quote": "Exposure to CAD or engineering software such as Revit or Rhino" },
+          { "value": ".NET desktop and plugins", "quote": "Experience testing .NET desktop applications, plugins, or native software" },
+          { "value": "Scaling QA across teams", "quote": "Previous experience helping scale QA practices across multiple products or engineering teams" }
+        ]
+      },
+      {
+        "field": "Other information",
+        "items": [{ "value": "CVs in English", "quote": "CVs must be submitted in English" }]
+      }
+    ],
+    "dimensions": [
+      {
+        "name": "Structure",
+        "evidence": null,
+        "question": "Is there a test strategy and framework to build on, or does this person start from a blank page?",
+        "rank": 2
+      },
+      {
+        "name": "Risk / Experimentation",
+        "evidence": null,
+        "question": "How much room is there to try new tools, AI-based testing included, before they are proven?",
+        "rank": 7
+      },
+      {
+        "name": "Autonomy",
+        "evidence": { "score": 4, "quote": "You'll take ownership of the test automation strategy", "reading": "Owns the automation strategy" },
+        "question": "",
+        "rank": 11
+      },
+      {
+        "name": "Ambiguity",
+        "evidence": null,
+        "question": "How settled are the products under test: stable releases, or features still changing week to week?",
+        "rank": 6
+      },
+      {
+        "name": "Communication / Collaboration",
+        "evidence": { "score": 4, "quote": "Work closely with software engineers, technical leads, and QA specialists", "reading": "Works closely with engineers and leads" },
+        "question": "",
+        "rank": 11
+      },
+      {
+        "name": "Product Thinking",
+        "evidence": null,
+        "question": "Should they help shape acceptance criteria with product, or turn finished requirements into tests?",
+        "rank": 5
+      },
+      {
+        "name": "Execution Style",
+        "evidence": null,
+        "question": "What is the release rhythm today, and is the aim to make it faster or more predictable?",
+        "rank": 4
+      },
+      {
+        "name": "Domain Orientation",
+        "evidence": null,
+        "question": "How well does this engineer need to understand how your users work in tools like Revit or Rhino to test the right things?",
+        "rank": 1
+      },
+      {
+        "name": "Challenge / Conflict",
+        "evidence": null,
+        "question": "When quality and a release date pull apart, how much say should this person have in holding a release?",
+        "rank": 3
+      },
+      {
+        "name": "AI Working Style",
+        "evidence": { "score": 4, "quote": "Use AI-assisted development tools to improve test coverage, productivity, and defect detection", "reading": "AI tools part of the daily testing work" },
+        "question": "",
+        "rank": 11
+      },
+      {
+        "name": "Learning / Adaptability",
+        "evidence": null,
+        "question": "Which parts of the stack are new to most QA hires, such as the desktop or plugin side, and how much ramp-up time is there?",
+        "rank": 8
+      }
+    ],
+    "contradictions": [
+      {
+        "note": "Desktop applications are part of the scope, while desktop testing experience is a nice-to-have. Worth confirming how much of the work is on the desktop side.",
+        "quotes": ["Design and implement scalable automation frameworks for modern web and desktop applications", "Experience testing .NET desktop applications, plugins, or native software"]
+      },
+      {
+        "note": "Test suites for 3D browser applications are part of the job, while experience testing 3D rendering is a nice-to-have. Worth confirming how much of the testing is on the 3D side.",
+        "quotes": ["Build reliable, reusable test suites for interactive 3D browser applications", "Experience testing applications built with Three.js, WebGL, or other 3D rendering technologies"]
+      }
+    ]
+  }
+}
