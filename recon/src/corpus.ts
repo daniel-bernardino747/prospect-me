@@ -28,8 +28,10 @@ export interface CorpusJson {
 }
 
 export function corpusRepo(): string {
-  // Defaults to a sibling checkout: prospect-me and career side by side.
-  return resolve(process.env.CORPUS_REPO ?? fileURLToPath(new URL('../../../career', import.meta.url)));
+  // A relative CORPUS_REPO is read from the prospect-me root, and an empty one
+  // (a copied .env.example) falls back to the default: the sibling ../career.
+  const root = fileURLToPath(new URL('../../', import.meta.url));
+  return resolve(root, process.env.CORPUS_REPO || '../career');
 }
 
 export function readCorpus(repo: string = corpusRepo()): CorpusJson {

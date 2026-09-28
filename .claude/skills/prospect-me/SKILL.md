@@ -102,7 +102,7 @@ JSON records** in the shape its brief names — no prose around it.
 | Problems | [agents/problems.md](agents/problems.md) | `findings`, `problems`, `traps` |
 
 The Doors subagent needs the Corpus: run `npm run --silent corpus:json` in the
-Corpus repository first and pass the output file path in its prompt.
+Corpus repository (`career`, `CORPUS_REPO`) first and pass the output file path in its prompt.
 
 **Merge.** Ids are the subagents' own; on a collision, rename one and fix every
 reference to it. Drop any record whose `anchorLink` does not
