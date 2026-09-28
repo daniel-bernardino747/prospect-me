@@ -18,7 +18,7 @@ const fillOf = (b: Band, pid: string) =>
     : b.tone === 'ref'
       ? 'var(--marca)'
       : b.tone === 'outros'
-        ? `url(#${pid}-dots)`
+        ? `url(#${pid}-outros)`
         : b.shade >= 5
           ? `url(#${pid}-hatch${b.shade})`
           : `var(--band-${b.shade})`;
@@ -155,9 +155,11 @@ export function MarketChart({ data, bands }: Props) {
                   <line x1="0" y1="0" x2="0" y2="5" style={{ stroke: 'var(--ink)', strokeOpacity: 0.14 }} strokeWidth="1" />
                 </pattern>
               ))}
-              <pattern id={`${pid}-dots`} width="4" height="4" patternUnits="userSpaceOnUse">
-                <rect width="4" height="4" style={{ fill: 'var(--band-outros)' }} />
-                <rect x="1.5" y="1.5" width="1" height="1" style={{ fill: 'var(--ink)', fillOpacity: 0.16 }} />
+              {/* "Outros" has to read as data, never as the empty plot behind it: a
+                  solid steel, hatched against the other bands' direction. */}
+              <pattern id={`${pid}-outros`} width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+                <rect width="5" height="5" style={{ fill: 'var(--band-outros)' }} />
+                <line x1="0" y1="0" x2="0" y2="5" style={{ stroke: 'var(--ink)', strokeOpacity: 0.25 }} strokeWidth="1" />
               </pattern>
             </defs>
             {stacks.map((st) => (
@@ -176,6 +178,8 @@ export function MarketChart({ data, bands }: Props) {
               .map((st) => (
                 <path key="ref-outline" d={pathOf(st.lo, st.hi)} style={{ fill: 'none', stroke: 'var(--marca-deep)', strokeWidth: 1 }} />
               ))}
+            {/* The stack always ends at 100%; its top edge is drawn so it never looks cut short. */}
+            <line x1="0" x2={w} y1="0.5" y2="0.5" style={{ stroke: 'var(--rule-strong)' }} strokeWidth="1" />
             {[0.5].map((g) => (
               <line key={g} x1="0" x2={w} y1={y(g)} y2={y(g)} style={{ stroke: 'var(--ground)', strokeOpacity: 0.7 }} strokeDasharray="2 3" />
             ))}

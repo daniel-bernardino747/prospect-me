@@ -16,10 +16,14 @@ import {
   type Model,
   monthTicks,
   parseScenario,
+  perMillionShort,
   type Prices,
   ratioTag,
   referenceOptions,
   scenarioQuery,
+  SHARE_KEYS,
+  shareSearch,
+  shareText,
   sharePct,
   usd,
   weekLabel,
@@ -253,6 +257,34 @@ describe('formatting', () => {
   it('sizes flaps to the widest bill, capped at 7 cells', () => {
     expect(flapWidth([91, 2880])).toBe(5);
     expect(flapWidth([1e9])).toBe(7);
+  });
+});
+
+describe('sharing', () => {
+  it('keeps only what differs from the default, and reads back to the same scenario', () => {
+    expect(shareSearch(DEFAULT_SCENARIO)).toEqual({});
+    const sc = { volume: '10b' as const, output: 20, cache: 0, ref: 'anthropic/claude-opus-5.5' };
+    const search = shareSearch(sc);
+    expect(search).toEqual({ t: '10b', ref: 'anthropic/claude-opus-5.5', c: '0' });
+    expect(Object.keys(search).every((k) => (SHARE_KEYS as readonly string[]).includes(k))).toBe(true);
+    expect(parseScenario(search, DATA)).toEqual(sc);
+  });
+
+  it('writes the link text from the same figures as the sentence, always illustrative', () => {
+    const t = shareText(DATA, DEFAULT_SCENARIO);
+    const a = answer(DATA, DEFAULT_SCENARIO);
+    expect(t.title).toContain(`US$ ${usd(a.refBill.total)}/mês no ${a.ref.name}`);
+    expect(t.title).toContain(`US$ ${usd(a.leaderBill.total)} no ${a.leader.model.name}`);
+    expect(t.short).toContain('cenário ilustrativo: 1 bi tokens/mês, 20% de saída, 50% de cache');
+    expect(t.description.startsWith(answerText(a))).toBe(true);
+  });
+
+  it('rounds the phone price line to two significant digits', () => {
+    expect(perMillionShort(0.04788)).toBe('0,048');
+    expect(perMillionShort(0.009576)).toBe('0,0096');
+    expect(perMillionShort(0.3)).toBe('0,3');
+    expect(perMillionShort(1.25)).toBe('1,25');
+    expect(perMillionShort(15)).toBe('15');
   });
 });
 

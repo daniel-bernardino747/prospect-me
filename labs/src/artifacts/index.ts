@@ -17,6 +17,7 @@ export const ARTIFACTS: readonly Artifact[] = [
     summary:
       'Quanto o volume de tokens do seu time custaria em cada modelo de LLM, com o cache como alavanca, ao lado dos modelos em que o mercado do OpenRouter de fato gasta seus tokens.',
     load: () => import('./conta-de-tokens/ContaDeTokens'),
+    share: () => import('./conta-de-tokens/share').then((m) => m.default),
   },
   {
     kind: 'showcase',

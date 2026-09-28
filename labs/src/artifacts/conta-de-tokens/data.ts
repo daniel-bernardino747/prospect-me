@@ -133,6 +133,19 @@ export function parseScenario(
   return { volume, output, cache, ref };
 }
 
+/** The query keys a shared link keeps: the same ones `parseScenario` reads. */
+export const SHARE_KEYS = ['t', 's', 'ref', 'c'] as const;
+
+/** The scenario as share params, only where it differs from the default: the default case is the bare URL. */
+export function shareSearch(s: Scenario): Record<string, string> {
+  const out: Record<string, string> = {};
+  if (s.volume !== DEFAULT_SCENARIO.volume) out.t = s.volume;
+  if (s.output !== DEFAULT_SCENARIO.output) out.s = String(s.output);
+  if (s.ref !== DEFAULT_SCENARIO.ref) out.ref = s.ref;
+  if (s.cache !== DEFAULT_SCENARIO.cache) out.c = String(s.cache);
+  return out;
+}
+
 export function scenarioQuery(s: Scenario): string {
   return `?t=${s.volume}&s=${s.output}&ref=${s.ref}&c=${s.cache}`;
 }
@@ -181,6 +194,8 @@ export function bill(prices: Prices, s: Pick<Scenario, 'volume' | 'output' | 'ca
 const whole = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 0 });
 const oneDecimal = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const price = new Intl.NumberFormat('pt-BR', { maximumSignificantDigits: 4 });
+const priceShort = new Intl.NumberFormat('pt-BR', { maximumSignificantDigits: 2 });
+const priceShortWide = new Intl.NumberFormat('pt-BR', { maximumSignificantDigits: 3 });
 
 /** Whole dollars; below US$ 10, one decimal. Without the "US$". */
 export function usd(v: number): string {
@@ -191,6 +206,9 @@ export function usd(v: number): string {
 
 /** A price per million as the catalog gives it: `0,075`, `2`, `0,0015`. */
 export const perMillion = (v: number) => price.format(v);
+
+/** A price per million rounded for a phone line: `0,048`, `0,0096`, `1,25`, `15`. */
+export const perMillionShort = (v: number) => (v < 1 ? priceShort : priceShortWide).format(v);
 
 /** `24,6%`, `<0,1%`, `—`. */
 export function sharePct(v: number | null): string {
@@ -217,7 +235,7 @@ export function weekLabel(w: { start: string; end: string }): string {
 export const monthShort = (iso: string) => MONTHS[Number(iso.slice(5, 7)) - 1];
 
 export const VOLUME_LABEL: Record<Volume, string> = { '100m': '100 mi', '1b': '1 bi', '10b': '10 bi' };
-const VOLUME_WORDS: Record<Volume, string> = {
+export const VOLUME_WORDS: Record<Volume, string> = {
   '100m': '100 milhões de tokens',
   '1b': '1 bilhão de tokens',
   '10b': '10 bilhões de tokens',
@@ -333,6 +351,30 @@ export function answer(data: ContaDeTokens, s: Scenario): Answer {
 }
 
 export const answerText = (a: Answer) => a.segments.map((x) => ('text' in x ? x.text : x.fig)).join('');
+
+/** "Com 50% de cache" / "Sem cache" / "Sem preço de cache": the lever, for a caption. */
+export function cacheWords(a: Answer, s: Scenario): string {
+  if (a.refBill.frozen) return 'Sem preço de cache no catálogo';
+  return s.cache === 0 ? 'Sem cache' : `Com ${s.cache}% de cache`;
+}
+
+/**
+ * The shared link's text, from the same figures as the page: the two bills and
+ * the scenario that produced them, always called illustrative.
+ */
+export function shareText(data: ContaDeTokens, s: Scenario): { title: string; description: string; short: string } {
+  const a = answer(data, s);
+  const same = a.ref.id === a.leader.model.id;
+  const bills = same
+    ? `US$ ${usd(a.refBill.total)}/mês no ${a.ref.name}`
+    : `US$ ${usd(a.refBill.total)}/mês no ${a.ref.name}, US$ ${usd(a.leaderBill.total)} no ${a.leader.model.name}`;
+  const scenario = `cenário ilustrativo: ${VOLUME_LABEL[s.volume]} tokens/mês, ${s.output}% de saída, ${s.cache}% de cache`;
+  return {
+    title: `Conta de tokens: ${bills}`,
+    description: `${answerText(a)} (${scenario[0].toUpperCase()}${scenario.slice(1)}; preços e participação: OpenRouter.)`,
+    short: `Conta de tokens: ${bills} (${scenario}).`,
+  };
+}
 
 // ---------------------------------------------------------------------------
 // The board
