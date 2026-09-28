@@ -42,4 +42,13 @@ export const ARTIFACTS: readonly Artifact[] = [
       'Quantos Pix por usuário a sua cidade fez em agosto de 2026, a posição dela entre os 5.571 municípios do Brasil e um cartão para compartilhar, com dados abertos do Banco Central.',
     load: () => import('./pix-na-minha-cidade/PixNaMinhaCidade'),
   },
+  {
+    kind: 'showcase',
+    slug: 'bastidores',
+    title: 'Bastidores',
+    summary:
+      'Como estas demos foram feitas por agentes de IA: um quadro de nivelamento com um cartão por agente, as fases, o paralelismo e as paradas em que Daniel decidiu, extraído da sessão real.',
+    load: () => import('./bastidores/Bastidores'),
+    share: () => import('./bastidores/share').then((m) => m.default),
+  },
 ];

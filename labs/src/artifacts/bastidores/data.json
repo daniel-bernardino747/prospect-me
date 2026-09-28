@@ -1,0 +1,2742 @@
+{
+ "asOf": "2026-09-28T11:01:51.480Z",
+ "from": "2026-09-25T16:02:04.000Z",
+ "tz": "America/Sao_Paulo",
+ "model": "claude-opus-5-5",
+ "runs": [
+  {
+   "id": "or-01",
+   "lane": "orquestrador",
+   "code": "OR",
+   "label": "orquestrador",
+   "workflow": null,
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:04:51.114Z",
+     "2026-09-25T16:14:50.253Z"
+    ]
+   ],
+   "turns": 20,
+   "tools": {
+    "Bash": 16,
+    "AskUserQuestion": 2,
+    "Agent": 1,
+    "Write": 3,
+    "Read": 1,
+    "Edit": 1
+   },
+   "skills": [],
+   "toolErrors": 1,
+   "tokens": {
+    "input": 42,
+    "cacheWrite": 57348,
+    "cacheRead": 1360034
+   },
+   "contextFinal": null,
+   "charsWritten": 32987,
+   "files": [
+    "docs/adr/0002-labs-also-serves-portfolio-showcases.md",
+    "labs/next.config.ts",
+    "labs/src/labs/artifact.test.ts",
+    "labs/src/labs/artifact.ts"
+   ],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "ni-nichos",
+   "lane": "nichos",
+   "code": "NI",
+   "label": "nichos",
+   "workflow": null,
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:08:06.347Z",
+     "2026-09-25T16:15:15.424Z"
+    ]
+   ],
+   "turns": 17,
+   "tools": {
+    "ToolSearch": 1,
+    "Skill": 1,
+    "Bash": 6,
+    "WebFetch": 13,
+    "WebSearch": 17,
+    "SendMessage": 1
+   },
+   "skills": [
+    "last30days:last30days"
+   ],
+   "toolErrors": 1,
+   "tokens": {
+    "input": 34,
+    "cacheWrite": 192103,
+    "cacheRead": 2391476
+   },
+   "contextFinal": null,
+   "charsWritten": 32737,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "or-02",
+   "lane": "orquestrador",
+   "code": "OR",
+   "label": "orquestrador",
+   "workflow": null,
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:37:12.199Z",
+     "2026-09-25T16:38:38.292Z"
+    ]
+   ],
+   "turns": 5,
+   "tools": {
+    "Bash": 1,
+    "Skill": 1,
+    "Workflow": 1
+   },
+   "skills": [
+    "workflow-authoring"
+   ],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 12,
+    "cacheWrite": 19744,
+    "cacheRead": 484823
+   },
+   "contextFinal": null,
+   "charsWritten": 16862,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "pe-caixa-preta",
+   "lane": "bastidores",
+   "code": "PE",
+   "label": "research:caixa-preta",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:38:27.048Z",
+     "2026-09-25T16:43:33.058Z"
+    ]
+   ],
+   "turns": 27,
+   "tools": {
+    "ToolSearch": 1,
+    "Bash": 22,
+    "WebSearch": 2,
+    "WebFetch": 4,
+    "Write": 1,
+    "StructuredOutput": 1
+   },
+   "skills": [],
+   "toolErrors": 1,
+   "tokens": {
+    "input": 56,
+    "cacheWrite": 96922,
+    "cacheRead": 1927601
+   },
+   "contextFinal": 96934,
+   "charsWritten": 19547,
+   "files": [],
+   "worktree": false,
+   "result": {
+    "viable": false
+   },
+   "flags": {
+    "blocked": true
+   }
+  },
+  {
+   "id": "pe-conta",
+   "lane": "conta-de-tokens",
+   "code": "PE",
+   "label": "research:conta-de-tokens",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:38:29.006Z",
+     "2026-09-25T16:42:45.340Z"
+    ]
+   ],
+   "turns": 17,
+   "tools": {
+    "ToolSearch": 1,
+    "Bash": 12,
+    "WebSearch": 3,
+    "WebFetch": 4,
+    "Write": 1,
+    "StructuredOutput": 1
+   },
+   "skills": [],
+   "toolErrors": 2,
+   "tokens": {
+    "input": 34,
+    "cacheWrite": 49109,
+    "cacheRead": 876700
+   },
+   "contextFinal": 73000,
+   "charsWritten": 28637,
+   "files": [
+    "labs/src/artifacts/conta-de-tokens/BRIEF.md"
+   ],
+   "worktree": false,
+   "result": {
+    "viable": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "pe-raio",
+   "lane": "raio-de-explosao",
+   "code": "PE",
+   "label": "research:raio-de-explosao",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:38:29.045Z",
+     "2026-09-25T16:45:31.779Z"
+    ]
+   ],
+   "turns": 27,
+   "tools": {
+    "ToolSearch": 1,
+    "Glob": 1,
+    "Read": 1,
+    "WebFetch": 9,
+    "WebSearch": 1,
+    "Bash": 24,
+    "Write": 1,
+    "StructuredOutput": 1
+   },
+   "skills": [],
+   "toolErrors": 1,
+   "tokens": {
+    "input": 54,
+    "cacheWrite": 66825,
+    "cacheRead": 1655985
+   },
+   "contextFinal": 90716,
+   "charsWritten": 40828,
+   "files": [
+    "labs/src/artifacts/raio-de-explosao/BRIEF.md"
+   ],
+   "worktree": false,
+   "result": {
+    "viable": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "pe-curtailment",
+   "lane": "curtailment-br",
+   "code": "PE",
+   "label": "research:curtailment-br",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:38:29.053Z",
+     "2026-09-25T16:49:21.125Z"
+    ]
+   ],
+   "turns": 37,
+   "tools": {
+    "ToolSearch": 1,
+    "Bash": 28,
+    "WebFetch": 4,
+    "WebSearch": 6,
+    "Write": 1,
+    "StructuredOutput": 1
+   },
+   "skills": [],
+   "toolErrors": 2,
+   "tokens": {
+    "input": 74,
+    "cacheWrite": 116146,
+    "cacheRead": 3294429
+   },
+   "contextFinal": 140037,
+   "charsWritten": 58116,
+   "files": [
+    "labs/src/artifacts/curtailment-br/BRIEF.md"
+   ],
+   "worktree": false,
+   "result": {
+    "viable": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "pe-pix",
+   "lane": "pix-na-minha-cidade",
+   "code": "PE",
+   "label": "research:pix-na-minha-cidade",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:38:29.056Z",
+     "2026-09-25T16:46:12.728Z"
+    ]
+   ],
+   "turns": 30,
+   "tools": {
+    "ToolSearch": 1,
+    "Bash": 21,
+    "WebSearch": 5,
+    "WebFetch": 7,
+    "Read": 1,
+    "Write": 1,
+    "Edit": 1,
+    "StructuredOutput": 2
+   },
+   "skills": [],
+   "toolErrors": 3,
+   "tokens": {
+    "input": 60,
+    "cacheWrite": 78440,
+    "cacheRead": 2067996
+   },
+   "contextFinal": 102331,
+   "charsWritten": 45225,
+   "files": [
+    "labs/src/artifacts/pix-na-minha-cidade/BRIEF.md"
+   ],
+   "worktree": false,
+   "result": {
+    "viable": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "de-conta",
+   "lane": "conta-de-tokens",
+   "code": "DE",
+   "label": "design:conta-de-tokens",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:42:48.130Z",
+     "2026-09-25T16:49:17.387Z"
+    ]
+   ],
+   "turns": 14,
+   "tools": {
+    "Read": 1,
+    "Skill": 1,
+    "Bash": 10,
+    "Write": 2,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 28,
+    "cacheWrite": 107189,
+    "cacheRead": 872515
+   },
+   "contextFinal": 107215,
+   "charsWritten": 46836,
+   "files": [
+    "labs/src/artifacts/conta-de-tokens/DESIGN.md",
+    "labs/src/artifacts/conta-de-tokens/PRODUCT.md"
+   ],
+   "worktree": false,
+   "result": {
+    "revise": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "de-raio",
+   "lane": "raio-de-explosao",
+   "code": "DE",
+   "label": "design:raio-de-explosao",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:45:34.152Z",
+     "2026-09-25T16:52:08.873Z"
+    ]
+   ],
+   "turns": 13,
+   "tools": {
+    "Read": 2,
+    "Skill": 1,
+    "Bash": 8,
+    "Write": 2,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 1,
+   "tokens": {
+    "input": 26,
+    "cacheWrite": 90142,
+    "cacheRead": 919322
+   },
+   "contextFinal": 114025,
+   "charsWritten": 43152,
+   "files": [
+    "labs/src/artifacts/raio-de-explosao/DESIGN.md",
+    "labs/src/artifacts/raio-de-explosao/PRODUCT.md"
+   ],
+   "worktree": false,
+   "result": {
+    "revise": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "de-pix",
+   "lane": "pix-na-minha-cidade",
+   "code": "DE",
+   "label": "design:pix-na-minha-cidade",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:46:14.843Z",
+     "2026-09-25T16:53:44.897Z"
+    ]
+   ],
+   "turns": 14,
+   "tools": {
+    "Read": 2,
+    "Skill": 1,
+    "Bash": 9,
+    "Write": 2,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 28,
+    "cacheWrite": 94586,
+    "cacheRead": 963232
+   },
+   "contextFinal": 118448,
+   "charsWritten": 45537,
+   "files": [
+    "labs/src/artifacts/pix-na-minha-cidade/DESIGN.md",
+    "labs/src/artifacts/pix-na-minha-cidade/PRODUCT.md"
+   ],
+   "worktree": false,
+   "result": {
+    "revise": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "de-curtailment",
+   "lane": "curtailment-br",
+   "code": "DE",
+   "label": "design:curtailment-br",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:49:23.260Z",
+     "2026-09-25T16:56:24.119Z"
+    ]
+   ],
+   "turns": 12,
+   "tools": {
+    "Read": 2,
+    "Skill": 1,
+    "Bash": 7,
+    "Write": 2,
+    "Edit": 1,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 24,
+    "cacheWrite": 98784,
+    "cacheRead": 904255
+   },
+   "contextFinal": 122667,
+   "charsWritten": 46220,
+   "files": [
+    "labs/src/artifacts/curtailment-br/DESIGN.md",
+    "labs/src/artifacts/curtailment-br/PRODUCT.md"
+   ],
+   "worktree": false,
+   "result": {
+    "revise": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "cr-art-director",
+   "lane": "arte",
+   "code": "CR",
+   "label": "art-director",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:56:26.028Z",
+     "2026-09-25T16:59:15.972Z"
+    ]
+   ],
+   "turns": 5,
+   "tools": {
+    "Bash": 3,
+    "Read": 4,
+    "StructuredOutput": 1
+   },
+   "skills": [],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 10,
+    "cacheWrite": 110384,
+    "cacheRead": 225586
+   },
+   "contextFinal": 110391,
+   "charsWritten": 12240,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "de2-conta",
+   "lane": "conta-de-tokens",
+   "code": "DE2",
+   "label": "revise:conta-de-tokens",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:59:17.871Z",
+     "2026-09-25T17:02:51.603Z"
+    ]
+   ],
+   "turns": 9,
+   "tools": {
+    "Read": 3,
+    "Skill": 1,
+    "Bash": 3,
+    "Write": 1,
+    "Edit": 4,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 18,
+    "cacheWrite": 69945,
+    "cacheRead": 605770
+   },
+   "contextFinal": 93828,
+   "charsWritten": 42774,
+   "files": [
+    "labs/src/artifacts/conta-de-tokens/DESIGN.md",
+    "labs/src/artifacts/conta-de-tokens/PRODUCT.md"
+   ],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "de2-raio",
+   "lane": "raio-de-explosao",
+   "code": "DE2",
+   "label": "revise:raio-de-explosao",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:59:17.877Z",
+     "2026-09-25T17:04:11.014Z"
+    ]
+   ],
+   "turns": 8,
+   "tools": {
+    "Bash": 3,
+    "Skill": 1,
+    "Read": 3,
+    "Write": 2,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 16,
+    "cacheWrite": 72281,
+    "cacheRead": 457918
+   },
+   "contextFinal": 96148,
+   "charsWritten": 53164,
+   "files": [
+    "labs/src/artifacts/raio-de-explosao/DESIGN.md",
+    "labs/src/artifacts/raio-de-explosao/PRODUCT.md"
+   ],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "de2-curtailment",
+   "lane": "curtailment-br",
+   "code": "DE2",
+   "label": "revise:curtailment-br",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:59:17.879Z",
+     "2026-09-25T17:03:27.845Z"
+    ]
+   ],
+   "turns": 10,
+   "tools": {
+    "Read": 3,
+    "Skill": 1,
+    "Bash": 6,
+    "Write": 1,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 1,
+   "tokens": {
+    "input": 20,
+    "cacheWrite": 77072,
+    "cacheRead": 757946
+   },
+   "contextFinal": 100934,
+   "charsWritten": 41611,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "de2-pix",
+   "lane": "pix-na-minha-cidade",
+   "code": "DE2",
+   "label": "revise:pix-na-minha-cidade",
+   "workflow": "showcase-research-design",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T16:59:17.880Z",
+     "2026-09-25T17:04:07.478Z"
+    ]
+   ],
+   "turns": 11,
+   "tools": {
+    "Bash": 8,
+    "Skill": 1,
+    "Read": 1,
+    "Write": 1,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 1,
+   "tokens": {
+    "input": 22,
+    "cacheWrite": 80090,
+    "cacheRead": 773746
+   },
+   "contextFinal": 103957,
+   "charsWritten": 51253,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "or-03",
+   "lane": "orquestrador",
+   "code": "OR",
+   "label": "orquestrador",
+   "workflow": null,
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T17:04:15.221Z",
+     "2026-09-25T17:08:06.250Z"
+    ]
+   ],
+   "turns": 10,
+   "tools": {
+    "Bash": 7,
+    "AskUserQuestion": 1,
+    "Workflow": 1
+   },
+   "skills": [],
+   "toolErrors": 1,
+   "tokens": {
+    "input": 22,
+    "cacheWrite": 33379,
+    "cacheRead": 1279655
+   },
+   "contextFinal": null,
+   "charsWritten": 19900,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "de-bastidores",
+   "lane": "bastidores",
+   "code": "DE",
+   "label": "design:bastidores",
+   "workflow": "showcase-build",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T17:07:57.372Z",
+     "2026-09-25T17:15:27.161Z"
+    ],
+    [
+     "2026-09-25T17:57:12.908Z",
+     "2026-09-25T18:05:17.534Z"
+    ]
+   ],
+   "turns": 42,
+   "tools": {
+    "Bash": 32,
+    "Read": 3,
+    "ToolSearch": 1,
+    "WebFetch": 5,
+    "WebSearch": 3,
+    "Write": 3,
+    "Skill": 1,
+    "Edit": 2,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 84,
+    "cacheWrite": 392505,
+    "cacheRead": 5299700
+   },
+   "contextFinal": 220316,
+   "charsWritten": 107288,
+   "files": [
+    "labs/src/artifacts/bastidores/BRIEF.md",
+    "labs/src/artifacts/bastidores/DESIGN.md",
+    "labs/src/artifacts/bastidores/PRODUCT.md"
+   ],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "bu-conta",
+   "lane": "conta-de-tokens",
+   "code": "BU",
+   "label": "build:conta-de-tokens",
+   "workflow": "showcase-build",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T17:07:58.822Z",
+     "2026-09-25T17:15:12.055Z"
+    ],
+    [
+     "2026-09-25T17:57:09.843Z",
+     "2026-09-25T17:57:10.843Z"
+    ]
+   ],
+   "turns": 22,
+   "tools": {
+    "Bash": 18,
+    "Read": 3,
+    "Skill": 1,
+    "Write": 3
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 1,
+   "tokens": {
+    "input": 44,
+    "cacheWrite": 145625,
+    "cacheRead": 2030407
+   },
+   "contextFinal": null,
+   "charsWritten": 42778,
+   "files": [
+    "labs/scripts/conta-de-tokens.ts",
+    "labs/src/artifacts/conta-de-tokens/build.ts",
+    "labs/src/artifacts/conta-de-tokens/data.ts"
+   ],
+   "worktree": true,
+   "result": {},
+   "flags": {
+    "stalledAfterS": 2951
+   }
+  },
+  {
+   "id": "bu-raio",
+   "lane": "raio-de-explosao",
+   "code": "BU",
+   "label": "build:raio-de-explosao",
+   "workflow": "showcase-build",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T17:08:00.059Z",
+     "2026-09-25T17:14:25.076Z"
+    ],
+    [
+     "2026-09-25T17:57:09.927Z",
+     "2026-09-25T18:09:22.031Z"
+    ],
+    [
+     "2026-09-25T21:09:54.251Z",
+     "2026-09-25T21:09:55.251Z"
+    ],
+    [
+     "2026-09-26T13:08:06.275Z",
+     "2026-09-26T13:08:07.275Z"
+    ]
+   ],
+   "turns": 39,
+   "tools": {
+    "Bash": 30,
+    "Read": 1,
+    "Write": 13,
+    "Edit": 1,
+    "Skill": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 4,
+   "tokens": {
+    "input": 80,
+    "cacheWrite": 274918,
+    "cacheRead": 4629126
+   },
+   "contextFinal": null,
+   "charsWritten": 141826,
+   "files": [
+    "labs/scripts/raio-de-explosao.ts",
+    "labs/src/artifacts/raio-de-explosao/Carta.tsx",
+    "labs/src/artifacts/raio-de-explosao/CopyButton.tsx",
+    "labs/src/artifacts/raio-de-explosao/RaioDeExplosao.tsx",
+    "labs/src/artifacts/raio-de-explosao/ZoneChart.tsx",
+    "labs/src/artifacts/raio-de-explosao/chart.ts",
+    "labs/src/artifacts/raio-de-explosao/data.test.ts",
+    "labs/src/artifacts/raio-de-explosao/data.ts",
+    "labs/src/artifacts/raio-de-explosao/load.ts",
+    "labs/src/artifacts/raio-de-explosao/raio.module.css",
+    "labs/src/artifacts/raio-de-explosao/rules.test.ts",
+    "labs/src/artifacts/raio-de-explosao/rules.ts"
+   ],
+   "worktree": true,
+   "result": {},
+   "flags": {
+    "stalledAfterS": 72006
+   }
+  },
+  {
+   "id": "bu-curtailment",
+   "lane": "curtailment-br",
+   "code": "BU",
+   "label": "build:curtailment-br",
+   "workflow": "showcase-build",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T17:08:01.243Z",
+     "2026-09-25T17:15:19.046Z"
+    ],
+    [
+     "2026-09-25T17:57:09.900Z",
+     "2026-09-25T17:57:10.900Z"
+    ]
+   ],
+   "turns": 29,
+   "tools": {
+    "Bash": 22,
+    "Read": 4,
+    "Write": 5,
+    "Edit": 1
+   },
+   "skills": [],
+   "toolErrors": 3,
+   "tokens": {
+    "input": 58,
+    "cacheWrite": 138013,
+    "cacheRead": 2808481
+   },
+   "contextFinal": null,
+   "charsWritten": 34025,
+   "files": [
+    "labs/.cache/curtailment-br/explore.ts",
+    "labs/.cache/curtailment-br/explore2.ts",
+    "labs/.cache/curtailment-br/explore3.ts",
+    "labs/src/artifacts/curtailment-br/data.ts"
+   ],
+   "worktree": true,
+   "result": {},
+   "flags": {
+    "stalledAfterS": 2949
+   }
+  },
+  {
+   "id": "bu-pix",
+   "lane": "pix-na-minha-cidade",
+   "code": "BU",
+   "label": "build:pix-na-minha-cidade",
+   "workflow": "showcase-build",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-25T17:08:02.271Z",
+     "2026-09-25T17:15:14.300Z"
+    ],
+    [
+     "2026-09-25T17:57:13.809Z",
+     "2026-09-25T18:08:28.968Z"
+    ],
+    [
+     "2026-09-25T21:09:53.815Z",
+     "2026-09-25T21:09:54.815Z"
+    ],
+    [
+     "2026-09-26T13:07:56.015Z",
+     "2026-09-26T13:07:57.015Z"
+    ]
+   ],
+   "turns": 46,
+   "tools": {
+    "Bash": 36,
+    "Read": 1,
+    "Skill": 1,
+    "Write": 15,
+    "Edit": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 2,
+   "tokens": {
+    "input": 92,
+    "cacheWrite": 283869,
+    "cacheRead": 5578196
+   },
+   "contextFinal": null,
+   "charsWritten": 138054,
+   "files": [
+    "labs/scripts/pix-na-minha-cidade.ts",
+    "labs/src/artifacts/index.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/PixNaMinhaCidade.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Sala.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Search.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Segmentos.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Share.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/card.test.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/card.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/data.test.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/data.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/format.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/load.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/pix.module.css",
+    "labs/src/artifacts/pix-na-minha-cidade/search.test.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/search.ts"
+   ],
+   "worktree": true,
+   "result": {},
+   "flags": {
+    "stalledAfterS": 71994
+   }
+  },
+  {
+   "id": "bu-conta-2",
+   "lane": "conta-de-tokens",
+   "code": "BU",
+   "label": "build:conta-de-tokens",
+   "workflow": "showcase-build",
+   "attempt": 2,
+   "spans": [
+    [
+     "2026-09-25T17:57:09.866Z",
+     "2026-09-25T18:09:27.117Z"
+    ],
+    [
+     "2026-09-25T21:09:52.660Z",
+     "2026-09-25T21:09:53.660Z"
+    ]
+   ],
+   "turns": 40,
+   "tools": {
+    "Bash": 21,
+    "Read": 3,
+    "Skill": 1,
+    "Write": 11,
+    "Edit": 7,
+    "Grep": 4
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 3,
+   "tokens": {
+    "input": 80,
+    "cacheWrite": 147864,
+    "cacheRead": 4684680
+   },
+   "contextFinal": null,
+   "charsWritten": 88982,
+   "files": [
+    "labs/src/artifacts/conta-de-tokens/Board.tsx",
+    "labs/src/artifacts/conta-de-tokens/Conta.tsx",
+    "labs/src/artifacts/conta-de-tokens/ContaDeTokens.tsx",
+    "labs/src/artifacts/conta-de-tokens/Fader.tsx",
+    "labs/src/artifacts/conta-de-tokens/FlapFigure.tsx",
+    "labs/src/artifacts/conta-de-tokens/MarketChart.tsx",
+    "labs/src/artifacts/conta-de-tokens/build.test.ts",
+    "labs/src/artifacts/conta-de-tokens/data.test.ts",
+    "labs/src/artifacts/conta-de-tokens/data.ts",
+    "labs/src/artifacts/conta-de-tokens/flap.ts",
+    "labs/src/artifacts/conta-de-tokens/load.ts"
+   ],
+   "worktree": true,
+   "result": {},
+   "flags": {
+    "stalledAfterS": 11563
+   }
+  },
+  {
+   "id": "bu-curtailment-2",
+   "lane": "curtailment-br",
+   "code": "BU",
+   "label": "build:curtailment-br",
+   "workflow": "showcase-build",
+   "attempt": 2,
+   "spans": [
+    [
+     "2026-09-25T17:57:09.905Z",
+     "2026-09-25T18:08:43.209Z"
+    ],
+    [
+     "2026-09-25T21:09:53.879Z",
+     "2026-09-25T21:09:54.879Z"
+    ],
+    [
+     "2026-09-26T13:07:55.709Z",
+     "2026-09-26T13:07:56.709Z"
+    ]
+   ],
+   "turns": 41,
+   "tools": {
+    "Bash": 36,
+    "Read": 2,
+    "Write": 7,
+    "Skill": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 3,
+   "tokens": {
+    "input": 82,
+    "cacheWrite": 167346,
+    "cacheRead": 4895564
+   },
+   "contextFinal": null,
+   "charsWritten": 39968,
+   "files": [
+    "labs/.cache/curtailment-br/desc.ts",
+    "labs/.cache/curtailment-br/desc2.ts",
+    "labs/.cache/curtailment-br/off.ts",
+    "labs/.cache/curtailment-br/size.ts",
+    "labs/scripts/curtailment-br.ts",
+    "labs/src/artifacts/curtailment-br/aggregate.ts",
+    "labs/src/artifacts/curtailment-br/geometry.ts"
+   ],
+   "worktree": true,
+   "result": {},
+   "flags": {
+    "stalledAfterS": 69046
+   }
+  },
+  {
+   "id": "bu-conta-3",
+   "lane": "conta-de-tokens",
+   "code": "BU",
+   "label": "build:conta-de-tokens",
+   "workflow": "showcase-build",
+   "attempt": 3,
+   "spans": [
+    [
+     "2026-09-25T21:09:52.704Z",
+     "2026-09-25T21:10:11.571Z"
+    ],
+    [
+     "2026-09-26T13:07:56.034Z",
+     "2026-09-26T13:27:26.085Z"
+    ]
+   ],
+   "turns": 52,
+   "tools": {
+    "Bash": 41,
+    "Read": 24,
+    "Skill": 1,
+    "Write": 3,
+    "Edit": 3,
+    "ToolSearch": 1,
+    "TaskStop": 3,
+    "PowerShell": 2,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 5,
+   "tokens": {
+    "input": 102,
+    "cacheWrite": 246551,
+    "cacheRead": 7700656
+   },
+   "contextFinal": 523980,
+   "charsWritten": 70396,
+   "files": [
+    "labs/src/artifacts/conta-de-tokens/DESIGN.md",
+    "labs/src/artifacts/conta-de-tokens/conta.module.css"
+   ],
+   "worktree": true,
+   "result": {
+    "done": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "bu-curtailment-3",
+   "lane": "curtailment-br",
+   "code": "BU",
+   "label": "build:curtailment-br",
+   "workflow": "showcase-build",
+   "attempt": 3,
+   "spans": [
+    [
+     "2026-09-26T13:07:56.010Z",
+     "2026-09-26T13:43:34.189Z"
+    ]
+   ],
+   "turns": 89,
+   "tools": {
+    "Bash": 63,
+    "Read": 25,
+    "Skill": 1,
+    "Write": 12,
+    "Edit": 42,
+    "ToolSearch": 1,
+    "TaskStop": 1,
+    "PowerShell": 5,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 3,
+   "tokens": {
+    "input": 178,
+    "cacheWrite": 306986,
+    "cacheRead": 18127495
+   },
+   "contextFinal": 636331,
+   "charsWritten": 183267,
+   "files": [
+    "labs/src/artifacts/curtailment-br/Console.tsx",
+    "labs/src/artifacts/curtailment-br/Curtailment.tsx",
+    "labs/src/artifacts/curtailment-br/DESIGN.md",
+    "labs/src/artifacts/curtailment-br/DaySelector.tsx",
+    "labs/src/artifacts/curtailment-br/LampGlyph.tsx",
+    "labs/src/artifacts/curtailment-br/NotFoundPlate.tsx",
+    "labs/src/artifacts/curtailment-br/board.test.ts",
+    "labs/src/artifacts/curtailment-br/board.ts",
+    "labs/src/artifacts/curtailment-br/curtailment.module.css",
+    "labs/src/artifacts/curtailment-br/data.test.ts",
+    "labs/src/artifacts/curtailment-br/data.ts",
+    "labs/src/artifacts/curtailment-br/geometry.test.ts",
+    "labs/src/artifacts/curtailment-br/load.ts",
+    "labs/src/artifacts/index.ts"
+   ],
+   "worktree": true,
+   "result": {
+    "done": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "bu-pix-2",
+   "lane": "pix-na-minha-cidade",
+   "code": "BU",
+   "label": "build:pix-na-minha-cidade",
+   "workflow": "showcase-build",
+   "attempt": 2,
+   "spans": [
+    [
+     "2026-09-26T13:07:56.026Z",
+     "2026-09-26T13:30:58.242Z"
+    ]
+   ],
+   "turns": 64,
+   "tools": {
+    "Bash": 52,
+    "Read": 30,
+    "Skill": 1,
+    "Write": 3,
+    "Edit": 9,
+    "PowerShell": 3,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 3,
+   "tokens": {
+    "input": 128,
+    "cacheWrite": 215967,
+    "cacheRead": 10018462
+   },
+   "contextFinal": 422002,
+   "charsWritten": 60406,
+   "files": [
+    "labs/src/artifacts/pix-na-minha-cidade/DESIGN.md",
+    "labs/src/artifacts/pix-na-minha-cidade/PixNaMinhaCidade.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/pix.module.css",
+    "labs/src/artifacts/pix-na-minha-cidade/snapshot.test.ts"
+   ],
+   "worktree": true,
+   "result": {
+    "done": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "bu-raio-2",
+   "lane": "raio-de-explosao",
+   "code": "BU",
+   "label": "build:raio-de-explosao",
+   "workflow": "showcase-build",
+   "attempt": 2,
+   "spans": [
+    [
+     "2026-09-26T13:08:06.409Z",
+     "2026-09-26T13:36:07.032Z"
+    ]
+   ],
+   "turns": 78,
+   "tools": {
+    "Bash": 47,
+    "Read": 29,
+    "Skill": 1,
+    "Write": 5,
+    "PowerShell": 16,
+    "Edit": 7,
+    "TaskStop": 1,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 7,
+   "tokens": {
+    "input": 156,
+    "cacheWrite": 229207,
+    "cacheRead": 14492039
+   },
+   "contextFinal": 461934,
+   "charsWritten": 69896,
+   "files": [
+    "labs/src/artifacts/raio-de-explosao/Carta.tsx",
+    "labs/src/artifacts/raio-de-explosao/DESIGN.md",
+    "labs/src/artifacts/raio-de-explosao/ZoneChart.tsx",
+    "labs/src/artifacts/raio-de-explosao/chart.test.ts",
+    "labs/src/artifacts/raio-de-explosao/data.test.ts"
+   ],
+   "worktree": true,
+   "result": {
+    "done": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "or-04",
+   "lane": "orquestrador",
+   "code": "OR",
+   "label": "orquestrador",
+   "workflow": null,
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-26T13:43:40.261Z",
+     "2026-09-26T13:45:05.898Z"
+    ]
+   ],
+   "turns": 8,
+   "tools": {
+    "Bash": 8
+   },
+   "skills": [],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 16,
+    "cacheWrite": 130447,
+    "cacheRead": 1125873
+   },
+   "contextFinal": null,
+   "charsWritten": 4231,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "or-05",
+   "lane": "orquestrador",
+   "code": "OR",
+   "label": "orquestrador",
+   "workflow": null,
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-26T13:48:27.082Z",
+     "2026-09-26T13:50:39.789Z"
+    ]
+   ],
+   "turns": 5,
+   "tools": {
+    "Bash": 2,
+    "Read": 8,
+    "AskUserQuestion": 1
+   },
+   "skills": [],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 10,
+    "cacheWrite": 13823,
+    "cacheRead": 824770
+   },
+   "contextFinal": null,
+   "charsWritten": 6361,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "or-06",
+   "lane": "orquestrador",
+   "code": "OR",
+   "label": "orquestrador",
+   "workflow": null,
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:04:32.543Z",
+     "2026-09-28T10:04:52.543Z"
+    ]
+   ],
+   "turns": 1,
+   "tools": {},
+   "skills": [],
+   "toolErrors": 1,
+   "tokens": {
+    "input": 0,
+    "cacheWrite": 0,
+    "cacheRead": 0
+   },
+   "contextFinal": null,
+   "charsWritten": 22,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "or-07",
+   "lane": "orquestrador",
+   "code": "OR",
+   "label": "orquestrador",
+   "workflow": null,
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:13:15.349Z",
+     "2026-09-28T10:13:54.787Z"
+    ]
+   ],
+   "turns": 3,
+   "tools": {
+    "Bash": 3
+   },
+   "skills": [],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 6,
+    "cacheWrite": 148519,
+    "cacheRead": 385720
+   },
+   "contextFinal": null,
+   "charsWritten": 2079,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "or-08",
+   "lane": "orquestrador",
+   "code": "OR",
+   "label": "orquestrador",
+   "workflow": null,
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:17:44.957Z",
+     "2026-09-28T10:27:02.882Z"
+    ]
+   ],
+   "turns": 15,
+   "tools": {
+    "Bash": 13,
+    "Agent": 1,
+    "Workflow": 1,
+    "AskUserQuestion": 2
+   },
+   "skills": [],
+   "toolErrors": 1,
+   "tokens": {
+    "input": 30,
+    "cacheWrite": 33246,
+    "cacheRead": 2913139
+   },
+   "contextFinal": null,
+   "charsWritten": 32575,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "ex-consulta",
+   "lane": "orquestrador",
+   "code": "EX",
+   "label": "consulta",
+   "workflow": null,
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:17:55.207Z",
+     "2026-09-28T10:19:00.890Z"
+    ]
+   ],
+   "turns": 8,
+   "tools": {
+    "Bash": 9,
+    "Grep": 1
+   },
+   "skills": [],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 16,
+    "cacheWrite": 60491,
+    "cacheRead": 263167
+   },
+   "contextFinal": null,
+   "charsWritten": 11389,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "cr-conta",
+   "lane": "conta-de-tokens",
+   "code": "CR",
+   "label": "critique:conta-de-tokens",
+   "workflow": "showcase-polish-share",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:23:36.724Z",
+     "2026-09-28T10:28:11.911Z"
+    ]
+   ],
+   "turns": 18,
+   "tools": {
+    "Bash": 9,
+    "Skill": 1,
+    "Read": 14,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 36,
+    "cacheWrite": 90242,
+    "cacheRead": 1213842
+   },
+   "contextFinal": null,
+   "charsWritten": 19133,
+   "files": [],
+   "worktree": false,
+   "result": {
+    "findings": {
+     "P0": 1,
+     "P1": 2,
+     "P2": 2,
+     "P3": 2
+    }
+   },
+   "flags": {}
+  },
+  {
+   "id": "cr-raio",
+   "lane": "raio-de-explosao",
+   "code": "CR",
+   "label": "critique:raio-de-explosao",
+   "workflow": "showcase-polish-share",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:23:38.350Z",
+     "2026-09-28T10:28:48.268Z"
+    ]
+   ],
+   "turns": 20,
+   "tools": {
+    "PowerShell": 1,
+    "Skill": 1,
+    "Bash": 12,
+    "Read": 13,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 1,
+   "tokens": {
+    "input": 40,
+    "cacheWrite": 68571,
+    "cacheRead": 1390411
+   },
+   "contextFinal": null,
+   "charsWritten": 22867,
+   "files": [],
+   "worktree": false,
+   "result": {
+    "findings": {
+     "P0": 0,
+     "P1": 5,
+     "P2": 3,
+     "P3": 3
+    }
+   },
+   "flags": {}
+  },
+  {
+   "id": "cr-curtailment",
+   "lane": "curtailment-br",
+   "code": "CR",
+   "label": "critique:curtailment-br",
+   "workflow": "showcase-polish-share",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:23:38.351Z",
+     "2026-09-28T10:29:13.709Z"
+    ]
+   ],
+   "turns": 25,
+   "tools": {
+    "Bash": 19,
+    "Skill": 1,
+    "Read": 14,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 2,
+   "tokens": {
+    "input": 50,
+    "cacheWrite": 79781,
+    "cacheRead": 1837594
+   },
+   "contextFinal": null,
+   "charsWritten": 24246,
+   "files": [],
+   "worktree": false,
+   "result": {
+    "findings": {
+     "P0": 1,
+     "P1": 3,
+     "P2": 6,
+     "P3": 2
+    }
+   },
+   "flags": {}
+  },
+  {
+   "id": "cr-pix",
+   "lane": "pix-na-minha-cidade",
+   "code": "CR",
+   "label": "critique:pix-na-minha-cidade",
+   "workflow": "showcase-polish-share",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:23:38.351Z",
+     "2026-09-28T10:27:37.923Z"
+    ]
+   ],
+   "turns": 20,
+   "tools": {
+    "Bash": 15,
+    "Skill": 1,
+    "Read": 16,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 40,
+    "cacheWrite": 79673,
+    "cacheRead": 1580362
+   },
+   "contextFinal": null,
+   "charsWritten": 20177,
+   "files": [],
+   "worktree": false,
+   "result": {
+    "findings": {
+     "P0": 1,
+     "P1": 3,
+     "P2": 2,
+     "P3": 2
+    }
+   },
+   "flags": {}
+  },
+  {
+   "id": "bu-bastidores",
+   "lane": "bastidores",
+   "code": "BU",
+   "label": "build:bastidores",
+   "workflow": "showcase-polish-share",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:23:39.144Z",
+     "2026-09-28T11:01:49.886Z"
+    ]
+   ],
+   "turns": 114,
+   "tools": {
+    "Bash": 89,
+    "Read": 21,
+    "PowerShell": 1,
+    "Write": 21,
+    "Edit": 4,
+    "Skill": 1,
+    "TaskStop": 5
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 9,
+   "tokens": {
+    "input": 228,
+    "cacheWrite": 364179,
+    "cacheRead": 27686695
+   },
+   "contextFinal": null,
+   "charsWritten": 259981,
+   "files": [
+    "labs/ogtest.mjs",
+    "labs/scripts/bastidores.ts",
+    "labs/src/artifacts/bastidores/Bastidores.tsx",
+    "labs/src/artifacts/bastidores/DESIGN.md",
+    "labs/src/artifacts/bastidores/Quadro.tsx",
+    "labs/src/artifacts/bastidores/ShareBar.tsx",
+    "labs/src/artifacts/bastidores/anotacoes.ts",
+    "labs/src/artifacts/bastidores/bastidores.module.css",
+    "labs/src/artifacts/bastidores/board.ts",
+    "labs/src/artifacts/bastidores/data.test.ts",
+    "labs/src/artifacts/bastidores/data.ts",
+    "labs/src/artifacts/bastidores/extract.ts",
+    "labs/src/artifacts/bastidores/load.ts",
+    "labs/src/artifacts/bastidores/peek.mts",
+    "labs/src/artifacts/bastidores/prof.test.ts",
+    "labs/src/artifacts/bastidores/selection.tsx",
+    "labs/src/artifacts/bastidores/share.tsx",
+    "labs/src/artifacts/bastidores/texts.ts",
+    "labs/src/artifacts/index.ts"
+   ],
+   "worktree": true,
+   "result": {},
+   "flags": {
+    "open": true
+   }
+  },
+  {
+   "id": "po-pix",
+   "lane": "pix-na-minha-cidade",
+   "code": "PO",
+   "label": "fix:pix-na-minha-cidade",
+   "workflow": "showcase-polish-share",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:27:39.038Z",
+     "2026-09-28T10:48:06.732Z"
+    ]
+   ],
+   "turns": 93,
+   "tools": {
+    "Bash": 65,
+    "Read": 25,
+    "Skill": 1,
+    "Edit": 30,
+    "Grep": 2,
+    "Write": 5,
+    "ToolSearch": 1,
+    "TaskStop": 5,
+    "PowerShell": 3,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 10,
+   "tokens": {
+    "input": 186,
+    "cacheWrite": 213194,
+    "cacheRead": 15483311
+   },
+   "contextFinal": null,
+   "charsWritten": 92712,
+   "files": [
+    "labs/scratch-bench/bench.tsx",
+    "labs/scratch-bench/bench2.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/DESIGN.md",
+    "labs/src/artifacts/pix-na-minha-cidade/PixNaMinhaCidade.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Search.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Segmentos.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/ShareRow.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/card.test.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/card.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/find.test.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/find.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/pix.module.css",
+    "labs/src/artifacts/pix-na-minha-cidade/share.tsx"
+   ],
+   "worktree": true,
+   "result": {
+    "done": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "po-conta",
+   "lane": "conta-de-tokens",
+   "code": "PO",
+   "label": "fix:conta-de-tokens",
+   "workflow": "showcase-polish-share",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:28:13.006Z",
+     "2026-09-28T10:45:49.334Z"
+    ]
+   ],
+   "turns": 94,
+   "tools": {
+    "Bash": 49,
+    "Read": 24,
+    "Skill": 1,
+    "Edit": 32,
+    "Write": 4,
+    "Grep": 1,
+    "PowerShell": 10,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 5,
+   "tokens": {
+    "input": 188,
+    "cacheWrite": 187867,
+    "cacheRead": 14394112
+   },
+   "contextFinal": null,
+   "charsWritten": 79045,
+   "files": [
+    "labs/src/artifacts/conta-de-tokens/Board.tsx",
+    "labs/src/artifacts/conta-de-tokens/Conta.tsx",
+    "labs/src/artifacts/conta-de-tokens/ContaDeTokens.tsx",
+    "labs/src/artifacts/conta-de-tokens/MarketChart.tsx",
+    "labs/src/artifacts/conta-de-tokens/ShareLinks.tsx",
+    "labs/src/artifacts/conta-de-tokens/conta.module.css",
+    "labs/src/artifacts/conta-de-tokens/data.test.ts",
+    "labs/src/artifacts/conta-de-tokens/data.ts",
+    "labs/src/artifacts/conta-de-tokens/share.tsx",
+    "labs/src/artifacts/index.ts"
+   ],
+   "worktree": true,
+   "result": {
+    "done": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "po-raio",
+   "lane": "raio-de-explosao",
+   "code": "PO",
+   "label": "fix:raio-de-explosao",
+   "workflow": "showcase-polish-share",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:28:49.412Z",
+     "2026-09-28T11:01:08.968Z"
+    ]
+   ],
+   "turns": 88,
+   "tools": {
+    "Bash": 78,
+    "Read": 21,
+    "Skill": 1,
+    "Write": 9,
+    "Edit": 1,
+    "TaskStop": 3
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 3,
+   "tokens": {
+    "input": 176,
+    "cacheWrite": 294807,
+    "cacheRead": 18353228
+   },
+   "contextFinal": null,
+   "charsWritten": 147401,
+   "files": [
+    "labs/src/artifacts/raio-de-explosao/ShareLinks.tsx",
+    "labs/src/artifacts/raio-de-explosao/chart.ts",
+    "labs/src/artifacts/raio-de-explosao/scene.ts",
+    "labs/src/artifacts/raio-de-explosao/share.tsx"
+   ],
+   "worktree": true,
+   "result": {},
+   "flags": {
+    "open": true
+   }
+  },
+  {
+   "id": "po-curtailment",
+   "lane": "curtailment-br",
+   "code": "PO",
+   "label": "fix:curtailment-br",
+   "workflow": "showcase-polish-share",
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:29:15.102Z",
+     "2026-09-28T10:52:43.300Z"
+    ]
+   ],
+   "turns": 102,
+   "tools": {
+    "Bash": 73,
+    "Read": 28,
+    "Skill": 1,
+    "Write": 7,
+    "Edit": 15,
+    "PowerShell": 6,
+    "ToolSearch": 1,
+    "TaskStop": 6,
+    "StructuredOutput": 1
+   },
+   "skills": [
+    "impeccable"
+   ],
+   "toolErrors": 7,
+   "tokens": {
+    "input": 204,
+    "cacheWrite": 266230,
+    "cacheRead": 20387485
+   },
+   "contextFinal": null,
+   "charsWritten": 112384,
+   "files": [
+    "labs/src/artifacts/curtailment-br/DESIGN.md",
+    "labs/src/artifacts/curtailment-br/ShareLinks.tsx",
+    "labs/src/artifacts/curtailment-br/curtailment.module.css",
+    "labs/src/artifacts/curtailment-br/data.test.ts",
+    "labs/src/artifacts/curtailment-br/data.ts",
+    "labs/src/artifacts/curtailment-br/share.tsx",
+    "labs/src/artifacts/index.ts"
+   ],
+   "worktree": true,
+   "result": {
+    "done": true
+   },
+   "flags": {}
+  },
+  {
+   "id": "or-09",
+   "lane": "orquestrador",
+   "code": "OR",
+   "label": "orquestrador",
+   "workflow": null,
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:31:00.354Z",
+     "2026-09-28T10:31:43.127Z"
+    ]
+   ],
+   "turns": 3,
+   "tools": {
+    "Bash": 2
+   },
+   "skills": [],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 6,
+    "cacheWrite": 4292,
+    "cacheRead": 641637
+   },
+   "contextFinal": null,
+   "charsWritten": 4644,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {}
+  },
+  {
+   "id": "or-10",
+   "lane": "orquestrador",
+   "code": "OR",
+   "label": "orquestrador",
+   "workflow": null,
+   "attempt": 1,
+   "spans": [
+    [
+     "2026-09-28T10:45:39.564Z",
+     "2026-09-28T10:45:59.564Z"
+    ]
+   ],
+   "turns": 1,
+   "tools": {},
+   "skills": [],
+   "toolErrors": 0,
+   "tokens": {
+    "input": 2,
+    "cacheWrite": 740,
+    "cacheRead": 216172
+   },
+   "contextFinal": null,
+   "charsWritten": 1340,
+   "files": [],
+   "worktree": false,
+   "result": {},
+   "flags": {
+    "open": true
+   }
+  }
+ ],
+ "prompts": [
+  "2026-09-25T16:04:46.054Z",
+  "2026-09-28T10:13:11.133Z",
+  "2026-09-28T10:17:31.377Z",
+  "2026-09-28T10:45:32.195Z"
+ ],
+ "checkpoints": [
+  {
+   "id": "d1",
+   "at": "2026-09-25T16:05:45.333Z",
+   "answeredAt": "2026-09-25T16:07:49.310Z",
+   "resumedAt": null,
+   "status": "respondida",
+   "questions": [
+    {
+     "header": "Onde",
+     "question": "Onde os demos vitalícios vivem?",
+     "options": [
+      "Labs + ADR-0002",
+      "App separado",
+      "Dentro do personal-website"
+     ],
+     "recommended": "Labs + ADR-0002",
+     "chosen": [
+      "Labs + ADR-0002"
+     ]
+    },
+    {
+     "header": "Execução",
+     "question": "Como quer que eu rode as fases?",
+     "options": [
+      "Workflow com checkpoints",
+      "Só até os nichos",
+      "Tudo direto"
+     ],
+     "recommended": "Workflow com checkpoints",
+     "chosen": [
+      "Workflow com checkpoints"
+     ]
+    },
+    {
+     "header": "Nichos",
+     "question": "Tem nichos que você quer forçar ou evitar?",
+     "options": [
+      "Ferramentas de IA/agentes",
+      "Fintech/Brasil",
+      "Dev tools",
+      "Deixe a pesquisa decidir"
+     ],
+     "recommended": null,
+     "chosen": [
+      "Ferramentas de IA/agentes",
+      "Dev tools",
+      "Deixe a pesquisa decidir"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d2",
+   "at": "2026-09-25T16:14:50.253Z",
+   "answeredAt": "2026-09-25T16:37:09.034Z",
+   "resumedAt": null,
+   "status": "respondida",
+   "questions": [
+    {
+     "header": "Os 5",
+     "question": "Quais 5 demos seguem para a pesquisa profunda e o design?",
+     "options": [
+      "A proposta como está",
+      "Trocar Pix por watt",
+      "Trocar caixa-preta por trajetoria",
+      "Mais IA/dev"
+     ],
+     "recommended": "A proposta como está",
+     "chosen": [
+      "A proposta como está"
+     ]
+    },
+    {
+     "header": "Commit",
+     "question": "Posso commitar a Fase 0 (ADR-0002 + rota /demo) na branch labs-showcase?",
+     "options": [
+      "Sim, commitar",
+      "Ainda não"
+     ],
+     "recommended": null,
+     "chosen": [
+      "Sim, commitar"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d3",
+   "at": "2026-09-25T17:05:12.664Z",
+   "answeredAt": "2026-09-25T17:05:40.119Z",
+   "resumedAt": null,
+   "status": "respondida",
+   "questions": [
+    {
+     "header": "5º demo",
+     "question": "Quem ocupa a vaga da caixa-preta (IA/agentes)?",
+     "options": [
+      "Replay desta orquestração",
+      "de-onde-vem-o-watt",
+      "Ficar com 4"
+     ],
+     "recommended": "Replay desta orquestração",
+     "chosen": [
+      "Replay desta orquestração"
+     ]
+    },
+    {
+     "header": "Aprovar",
+     "question": "As 4 direções estão aprovadas para implementar?",
+     "options": [
+      "Aprovadas",
+      "Quero ler antes"
+     ],
+     "recommended": null,
+     "chosen": [
+      "Aprovadas"
+     ]
+    },
+    {
+     "header": "Chave",
+     "question": "Você tem (ou cria) uma chave OpenRouter para o build do conta-de-tokens?",
+     "options": [
+      "Sim, coloco no .env",
+      "Não"
+     ],
+     "recommended": null,
+     "chosen": [
+      "Sim, coloco no .env"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d4",
+   "at": "2026-09-26T13:50:39.789Z",
+   "answeredAt": null,
+   "resumedAt": "2026-09-28T10:13:11.133Z",
+   "status": "interrompida",
+   "questions": [
+    {
+     "header": "Bastidores",
+     "question": "Aprova a direção do bastidores (quadro heijunka com paradas andon onde você decidiu)?",
+     "options": [
+      "Aprovo",
+      "Quero ver alternativas"
+     ],
+     "recommended": "Aprovo",
+     "chosen": []
+    },
+    {
+     "header": "Fase 5",
+     "question": "Fase 5: crítica independente + correção dos 4 (e build do bastidores em paralelo)?",
+     "options": [
+      "Sim, rodar",
+      "Pular para o deploy"
+     ],
+     "recommended": "Sim, rodar",
+     "chosen": []
+    },
+    {
+     "header": "Raio",
+     "question": "A manchete do raio-de-explosao pode ficar '4 dos 444' (o que o dado mostra) em vez do '5' aprovado?",
+     "options": [
+      "Sim, 4",
+      "Mudar o instante padrão"
+     ],
+     "recommended": "Sim, 4",
+     "chosen": []
+    }
+   ]
+  },
+  {
+   "id": "d5",
+   "at": "2026-09-28T10:23:53.422Z",
+   "answeredAt": "2026-09-28T10:26:36.242Z",
+   "resumedAt": null,
+   "status": "respondida",
+   "questions": [
+    {
+     "header": "Featured",
+     "question": "Quais dos 5 entram como Featured (card duplo + selo, e aparecem em /achievements)?",
+     "options": [
+      "Nenhum",
+      "Todos os 5",
+      "Alguns"
+     ],
+     "recommended": "Nenhum",
+     "chosen": [
+      "Nenhum"
+     ]
+    },
+    {
+     "header": "Repo",
+     "question": "Os cards linkam o código? O repo prospect-me é público.",
+     "options": [
+      "Sim, link para a pasta do demo",
+      "Não"
+     ],
+     "recommended": null,
+     "chosen": [
+      "Não"
+     ]
+    },
+    {
+     "header": "Títulos",
+     "question": "Títulos dos cards (o Corpus é em inglês, mas título é nome):",
+     "options": [
+      "Nomes em pt-BR",
+      "Traduzir para inglês"
+     ],
+     "recommended": "Nomes em pt-BR",
+     "chosen": [
+      "Nomes em pt-BR"
+     ]
+    },
+    {
+     "header": "Imagens",
+     "question": "Quer thumbnails (o OG de cada demo) nos cards do portfólio? Hoje o site não suporta imagem.",
+     "options": [
+      "Não agora",
+      "Sim, estender o site"
+     ],
+     "recommended": "Não agora",
+     "chosen": [
+      "Não agora"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d6",
+   "at": "2026-09-28T10:27:02.882Z",
+   "answeredAt": "2026-09-28T10:30:55.987Z",
+   "resumedAt": null,
+   "status": "respondida",
+   "questions": [
+    {
+     "header": "Corpus",
+     "question": "Posso gravar esses 5 textos no Corpus (content/accomplishments/) como estão?",
+     "options": [
+      "Sim, grave",
+      "Ajustar antes"
+     ],
+     "recommended": null,
+     "chosen": [
+      "Sim, grave"
+     ]
+    }
+   ]
+  }
+ ],
+ "commits": [
+  {
+   "hash": "4ee9ea9",
+   "at": "2026-09-25T16:37:15.000Z",
+   "subject": "feat: labs also serves portfolio showcases at /demo/<slug>",
+   "branch": "labs-showcase",
+   "merge": false,
+   "filesChanged": 11,
+   "insertions": 194,
+   "deletions": 34,
+   "files": [
+    "docs/adr/0002-labs-also-serves-portfolio-showcases.md",
+    "labs/next.config.ts",
+    "labs/src/app/[slug]/page.tsx",
+    "labs/src/app/demo/[slug]/page.tsx",
+    "labs/src/app/robots.ts",
+    "labs/src/app/sitemap.ts",
+    "labs/src/artifacts/index.ts",
+    "labs/src/labs/ShowcaseBanner.tsx",
+    "labs/src/labs/artifact.test.ts",
+    "labs/src/labs/artifact.ts"
+   ]
+  },
+  {
+   "hash": "3d082fb",
+   "at": "2026-09-25T17:07:00.000Z",
+   "subject": "docs(labs): research and design briefs for four showcases",
+   "branch": "labs-showcase",
+   "merge": false,
+   "filesChanged": 12,
+   "insertions": 2676,
+   "deletions": 0,
+   "files": [
+    "labs/src/artifacts/conta-de-tokens/BRIEF.md",
+    "labs/src/artifacts/conta-de-tokens/DESIGN.md",
+    "labs/src/artifacts/conta-de-tokens/PRODUCT.md",
+    "labs/src/artifacts/curtailment-br/BRIEF.md",
+    "labs/src/artifacts/curtailment-br/DESIGN.md",
+    "labs/src/artifacts/curtailment-br/PRODUCT.md",
+    "labs/src/artifacts/pix-na-minha-cidade/BRIEF.md",
+    "labs/src/artifacts/pix-na-minha-cidade/DESIGN.md",
+    "labs/src/artifacts/pix-na-minha-cidade/PRODUCT.md",
+    "labs/src/artifacts/raio-de-explosao/BRIEF.md",
+    "labs/src/artifacts/raio-de-explosao/DESIGN.md",
+    "labs/src/artifacts/raio-de-explosao/PRODUCT.md"
+   ]
+  },
+  {
+   "hash": "13bfd34",
+   "at": "2026-09-26T13:26:51.000Z",
+   "subject": "feat(labs): conta-de-tokens showcase",
+   "branch": "worktree-wf_4b209980-54e-2",
+   "merge": false,
+   "filesChanged": 17,
+   "insertions": 4248,
+   "deletions": 0,
+   "files": [
+    "labs/scripts/conta-de-tokens.ts",
+    "labs/src/artifacts/conta-de-tokens/Board.tsx",
+    "labs/src/artifacts/conta-de-tokens/Conta.tsx",
+    "labs/src/artifacts/conta-de-tokens/ContaDeTokens.tsx",
+    "labs/src/artifacts/conta-de-tokens/DESIGN.md",
+    "labs/src/artifacts/conta-de-tokens/Fader.tsx",
+    "labs/src/artifacts/conta-de-tokens/FlapFigure.tsx",
+    "labs/src/artifacts/conta-de-tokens/MarketChart.tsx",
+    "labs/src/artifacts/conta-de-tokens/build.test.ts",
+    "labs/src/artifacts/conta-de-tokens/build.ts",
+    "labs/src/artifacts/conta-de-tokens/conta.module.css",
+    "labs/src/artifacts/conta-de-tokens/data.json",
+    "labs/src/artifacts/conta-de-tokens/data.test.ts",
+    "labs/src/artifacts/conta-de-tokens/data.ts",
+    "labs/src/artifacts/conta-de-tokens/flap.ts",
+    "labs/src/artifacts/conta-de-tokens/load.ts",
+    "labs/src/artifacts/index.ts"
+   ]
+  },
+  {
+   "hash": "62939ae",
+   "at": "2026-09-26T13:30:31.000Z",
+   "subject": "feat(labs): pix-na-minha-cidade showcase",
+   "branch": "worktree-wf_4b209980-54e-5",
+   "merge": false,
+   "filesChanged": 20,
+   "insertions": 4074,
+   "deletions": 0,
+   "files": [
+    "labs/scripts/pix-na-minha-cidade.ts",
+    "labs/src/artifacts/index.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/DATA-LICENSE",
+    "labs/src/artifacts/pix-na-minha-cidade/DESIGN.md",
+    "labs/src/artifacts/pix-na-minha-cidade/PixNaMinhaCidade.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Sala.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Search.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Segmentos.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Share.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/card.test.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/card.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/data.json",
+    "labs/src/artifacts/pix-na-minha-cidade/data.test.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/data.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/find.test.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/find.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/format.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/load.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/pix.module.css",
+    "labs/src/artifacts/pix-na-minha-cidade/snapshot.test.ts"
+   ]
+  },
+  {
+   "hash": "b82b2fb",
+   "at": "2026-09-26T13:35:38.000Z",
+   "subject": "feat(labs): raio-de-explosao showcase",
+   "branch": "worktree-wf_4b209980-54e-3",
+   "merge": false,
+   "filesChanged": 18,
+   "insertions": 4127,
+   "deletions": 1,
+   "files": [
+    "labs/package.json",
+    "labs/scripts/raio-de-explosao.ts",
+    "labs/src/artifacts/index.ts",
+    "labs/src/artifacts/raio-de-explosao/Carta.tsx",
+    "labs/src/artifacts/raio-de-explosao/CopyButton.tsx",
+    "labs/src/artifacts/raio-de-explosao/DESIGN.md",
+    "labs/src/artifacts/raio-de-explosao/RaioDeExplosao.tsx",
+    "labs/src/artifacts/raio-de-explosao/ZoneChart.tsx",
+    "labs/src/artifacts/raio-de-explosao/chart.test.ts",
+    "labs/src/artifacts/raio-de-explosao/chart.ts",
+    "labs/src/artifacts/raio-de-explosao/data.json",
+    "labs/src/artifacts/raio-de-explosao/data.test.ts",
+    "labs/src/artifacts/raio-de-explosao/data.ts",
+    "labs/src/artifacts/raio-de-explosao/load.ts",
+    "labs/src/artifacts/raio-de-explosao/raio.module.css",
+    "labs/src/artifacts/raio-de-explosao/rules.test.ts",
+    "labs/src/artifacts/raio-de-explosao/rules.ts"
+   ]
+  },
+  {
+   "hash": "17deb90",
+   "at": "2026-09-26T13:43:00.000Z",
+   "subject": "feat(labs): curtailment-br showcase",
+   "branch": "worktree-wf_4b209980-54e-4",
+   "merge": false,
+   "filesChanged": 19,
+   "insertions": 5057,
+   "deletions": 0,
+   "files": [
+    "labs/package.json",
+    "labs/scripts/curtailment-br.ts",
+    "labs/src/artifacts/curtailment-br/Console.tsx",
+    "labs/src/artifacts/curtailment-br/Curtailment.tsx",
+    "labs/src/artifacts/curtailment-br/DESIGN.md",
+    "labs/src/artifacts/curtailment-br/DaySelector.tsx",
+    "labs/src/artifacts/curtailment-br/LampGlyph.tsx",
+    "labs/src/artifacts/curtailment-br/NotFoundPlate.tsx",
+    "labs/src/artifacts/curtailment-br/board.test.ts",
+    "labs/src/artifacts/curtailment-br/board.ts",
+    "labs/src/artifacts/curtailment-br/curtailment.module.css",
+    "labs/src/artifacts/curtailment-br/data.json",
+    "labs/src/artifacts/curtailment-br/data.test.ts",
+    "labs/src/artifacts/curtailment-br/data.ts",
+    "labs/src/artifacts/curtailment-br/geometry.test.ts",
+    "labs/src/artifacts/curtailment-br/geometry.ts",
+    "labs/src/artifacts/curtailment-br/load.ts",
+    "labs/src/artifacts/index.ts"
+   ]
+  },
+  {
+   "hash": "29d09e8",
+   "at": "2026-09-26T13:43:53.000Z",
+   "subject": "Merge showcase branch worktree-wf_4b209980-54e-2",
+   "branch": "labs-showcase",
+   "merge": true,
+   "filesChanged": 17,
+   "insertions": 4248,
+   "deletions": 0,
+   "files": [
+    "labs/scripts/conta-de-tokens.ts",
+    "labs/src/artifacts/conta-de-tokens/Board.tsx",
+    "labs/src/artifacts/conta-de-tokens/Conta.tsx",
+    "labs/src/artifacts/conta-de-tokens/ContaDeTokens.tsx",
+    "labs/src/artifacts/conta-de-tokens/DESIGN.md",
+    "labs/src/artifacts/conta-de-tokens/Fader.tsx",
+    "labs/src/artifacts/conta-de-tokens/FlapFigure.tsx",
+    "labs/src/artifacts/conta-de-tokens/MarketChart.tsx",
+    "labs/src/artifacts/conta-de-tokens/build.test.ts",
+    "labs/src/artifacts/conta-de-tokens/build.ts",
+    "labs/src/artifacts/conta-de-tokens/conta.module.css",
+    "labs/src/artifacts/conta-de-tokens/data.json",
+    "labs/src/artifacts/conta-de-tokens/data.test.ts",
+    "labs/src/artifacts/conta-de-tokens/data.ts",
+    "labs/src/artifacts/conta-de-tokens/flap.ts",
+    "labs/src/artifacts/conta-de-tokens/load.ts",
+    "labs/src/artifacts/index.ts"
+   ]
+  },
+  {
+   "hash": "69a5936",
+   "at": "2026-09-26T13:44:09.000Z",
+   "subject": "Merge showcase branch worktree-wf_4b209980-54e-3",
+   "branch": "labs-showcase",
+   "merge": true,
+   "filesChanged": 18,
+   "insertions": 4127,
+   "deletions": 1,
+   "files": [
+    "labs/package.json",
+    "labs/scripts/raio-de-explosao.ts",
+    "labs/src/artifacts/index.ts",
+    "labs/src/artifacts/raio-de-explosao/Carta.tsx",
+    "labs/src/artifacts/raio-de-explosao/CopyButton.tsx",
+    "labs/src/artifacts/raio-de-explosao/DESIGN.md",
+    "labs/src/artifacts/raio-de-explosao/RaioDeExplosao.tsx",
+    "labs/src/artifacts/raio-de-explosao/ZoneChart.tsx",
+    "labs/src/artifacts/raio-de-explosao/chart.test.ts",
+    "labs/src/artifacts/raio-de-explosao/chart.ts",
+    "labs/src/artifacts/raio-de-explosao/data.json",
+    "labs/src/artifacts/raio-de-explosao/data.test.ts",
+    "labs/src/artifacts/raio-de-explosao/data.ts",
+    "labs/src/artifacts/raio-de-explosao/load.ts",
+    "labs/src/artifacts/raio-de-explosao/raio.module.css",
+    "labs/src/artifacts/raio-de-explosao/rules.test.ts",
+    "labs/src/artifacts/raio-de-explosao/rules.ts"
+   ]
+  },
+  {
+   "hash": "a4f11f3",
+   "at": "2026-09-26T13:44:38.000Z",
+   "subject": "Merge showcase branch worktree-wf_4b209980-54e-4",
+   "branch": "labs-showcase",
+   "merge": true,
+   "filesChanged": 19,
+   "insertions": 5057,
+   "deletions": 0,
+   "files": [
+    "labs/package.json",
+    "labs/scripts/curtailment-br.ts",
+    "labs/src/artifacts/curtailment-br/Console.tsx",
+    "labs/src/artifacts/curtailment-br/Curtailment.tsx",
+    "labs/src/artifacts/curtailment-br/DESIGN.md",
+    "labs/src/artifacts/curtailment-br/DaySelector.tsx",
+    "labs/src/artifacts/curtailment-br/LampGlyph.tsx",
+    "labs/src/artifacts/curtailment-br/NotFoundPlate.tsx",
+    "labs/src/artifacts/curtailment-br/board.test.ts",
+    "labs/src/artifacts/curtailment-br/board.ts",
+    "labs/src/artifacts/curtailment-br/curtailment.module.css",
+    "labs/src/artifacts/curtailment-br/data.json",
+    "labs/src/artifacts/curtailment-br/data.test.ts",
+    "labs/src/artifacts/curtailment-br/data.ts",
+    "labs/src/artifacts/curtailment-br/geometry.test.ts",
+    "labs/src/artifacts/curtailment-br/geometry.ts",
+    "labs/src/artifacts/curtailment-br/load.ts",
+    "labs/src/artifacts/index.ts"
+   ]
+  },
+  {
+   "hash": "0c207e3",
+   "at": "2026-09-26T13:44:59.000Z",
+   "subject": "Merge showcase branch worktree-wf_4b209980-54e-5",
+   "branch": "labs-showcase",
+   "merge": true,
+   "filesChanged": 20,
+   "insertions": 4074,
+   "deletions": 0,
+   "files": [
+    "labs/scripts/pix-na-minha-cidade.ts",
+    "labs/src/artifacts/index.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/DATA-LICENSE",
+    "labs/src/artifacts/pix-na-minha-cidade/DESIGN.md",
+    "labs/src/artifacts/pix-na-minha-cidade/PixNaMinhaCidade.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Sala.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Search.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Segmentos.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Share.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/card.test.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/card.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/data.json",
+    "labs/src/artifacts/pix-na-minha-cidade/data.test.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/data.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/find.test.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/find.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/format.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/load.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/pix.module.css",
+    "labs/src/artifacts/pix-na-minha-cidade/snapshot.test.ts"
+   ]
+  },
+  {
+   "hash": "8207226",
+   "at": "2026-09-26T13:50:19.000Z",
+   "subject": "chore: ignore agent worktrees",
+   "branch": "labs-showcase",
+   "merge": false,
+   "filesChanged": 1,
+   "insertions": 3,
+   "deletions": 0,
+   "files": []
+  },
+  {
+   "hash": "4dab64c",
+   "at": "2026-09-28T10:22:42.000Z",
+   "subject": "feat(labs): showcases share with their own OG image and link state",
+   "branch": "labs-showcase",
+   "merge": false,
+   "filesChanged": 15,
+   "insertions": 831,
+   "deletions": 9,
+   "files": [
+    "labs/next.config.ts",
+    "labs/src/app/demo/[slug]/og/route.tsx",
+    "labs/src/app/demo/[slug]/page.tsx",
+    "labs/src/app/icon.svg",
+    "labs/src/app/layout.tsx",
+    "labs/src/app/robots.ts",
+    "labs/src/app/sitemap.ts",
+    "labs/src/artifacts/bastidores/BRIEF.md",
+    "labs/src/artifacts/bastidores/DESIGN.md",
+    "labs/src/artifacts/bastidores/PRODUCT.md",
+    "labs/src/labs/ShowcaseBanner.tsx",
+    "labs/src/labs/artifact.ts",
+    "labs/src/labs/origin.ts",
+    "labs/src/labs/share.test.ts",
+    "labs/src/labs/share.ts"
+   ]
+  },
+  {
+   "hash": "93c441a",
+   "at": "2026-09-28T10:45:26.000Z",
+   "subject": "fix(labs): conta-de-tokens polish, OG image and share links",
+   "branch": "worktree-wf_c7e50fbf-994-7",
+   "merge": false,
+   "filesChanged": 17,
+   "insertions": 895,
+   "deletions": 39,
+   "files": [
+    "labs/src/artifacts/conta-de-tokens/Board.tsx",
+    "labs/src/artifacts/conta-de-tokens/Conta.tsx",
+    "labs/src/artifacts/conta-de-tokens/ContaDeTokens.tsx",
+    "labs/src/artifacts/conta-de-tokens/DESIGN.md",
+    "labs/src/artifacts/conta-de-tokens/MarketChart.tsx",
+    "labs/src/artifacts/conta-de-tokens/ShareLinks.tsx",
+    "labs/src/artifacts/conta-de-tokens/conta.module.css",
+    "labs/src/artifacts/conta-de-tokens/data.test.ts",
+    "labs/src/artifacts/conta-de-tokens/data.ts",
+    "labs/src/artifacts/conta-de-tokens/fonts/Chivo-Bold.ttf",
+    "labs/src/artifacts/conta-de-tokens/fonts/Chivo-Medium.ttf",
+    "labs/src/artifacts/conta-de-tokens/fonts/ChivoMono-Regular.ttf",
+    "labs/src/artifacts/conta-de-tokens/fonts/ChivoMono-SemiBold.ttf",
+    "labs/src/artifacts/conta-de-tokens/fonts/OFL-Chivo.txt",
+    "labs/src/artifacts/conta-de-tokens/fonts/OFL-ChivoMono.txt",
+    "labs/src/artifacts/conta-de-tokens/share.tsx",
+    "labs/src/artifacts/index.ts"
+   ]
+  },
+  {
+   "hash": "17661ce",
+   "at": "2026-09-28T10:47:40.000Z",
+   "subject": "fix(labs): pix-na-minha-cidade polish, OG image and share links",
+   "branch": "worktree-wf_c7e50fbf-994-6",
+   "merge": false,
+   "filesChanged": 22,
+   "insertions": 967,
+   "deletions": 155,
+   "files": [
+    "labs/src/artifacts/index.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/DESIGN.md",
+    "labs/src/artifacts/pix-na-minha-cidade/PixNaMinhaCidade.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Search.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Segmentos.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/Share.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/ShareRow.tsx",
+    "labs/src/artifacts/pix-na-minha-cidade/card.test.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/card.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/data.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/find.test.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/find.ts",
+    "labs/src/artifacts/pix-na-minha-cidade/fonts/Archivo-ExtraBold.ttf",
+    "labs/src/artifacts/pix-na-minha-cidade/fonts/Archivo-Medium.ttf",
+    "labs/src/artifacts/pix-na-minha-cidade/fonts/Archivo_Expanded-Black.ttf",
+    "labs/src/artifacts/pix-na-minha-cidade/fonts/MartianMono-Bold.ttf",
+    "labs/src/artifacts/pix-na-minha-cidade/fonts/MartianMono-Regular.ttf",
+    "labs/src/artifacts/pix-na-minha-cidade/fonts/MartianMono_SemiExpanded-Bold.ttf",
+    "labs/src/artifacts/pix-na-minha-cidade/fonts/OFL-Archivo.txt",
+    "labs/src/artifacts/pix-na-minha-cidade/fonts/OFL-MartianMono.txt",
+    "labs/src/artifacts/pix-na-minha-cidade/pix.module.css",
+    "labs/src/artifacts/pix-na-minha-cidade/share.tsx"
+   ]
+  }
+ ],
+ "events": [
+  {
+   "at": "2026-09-25T16:43:13.956Z",
+   "kind": "bloqueio",
+   "run": "pe-caixa-preta"
+  },
+  {
+   "at": "2026-09-25T16:43:33.058Z",
+   "kind": "inviavel",
+   "run": "pe-caixa-preta"
+  },
+  {
+   "at": "2026-09-25T16:43:33.058Z",
+   "kind": "erro-script",
+   "run": "pe-caixa-preta"
+  },
+  {
+   "at": "2026-09-25T16:59:15.972Z",
+   "kind": "devolvida",
+   "run": "de-conta"
+  },
+  {
+   "at": "2026-09-25T16:59:15.972Z",
+   "kind": "devolvida",
+   "run": "de-raio"
+  },
+  {
+   "at": "2026-09-25T16:59:15.972Z",
+   "kind": "devolvida",
+   "run": "de-curtailment"
+  },
+  {
+   "at": "2026-09-25T16:59:15.972Z",
+   "kind": "devolvida",
+   "run": "de-pix"
+  },
+  {
+   "at": "2026-09-25T17:57:09.866Z",
+   "kind": "reinicio",
+   "run": "bu-conta"
+  },
+  {
+   "at": "2026-09-25T17:57:09.905Z",
+   "kind": "reinicio",
+   "run": "bu-curtailment"
+  },
+  {
+   "at": "2026-09-25T21:09:52.704Z",
+   "kind": "reinicio",
+   "run": "bu-conta-2"
+  },
+  {
+   "at": "2026-09-26T13:07:56.010Z",
+   "kind": "reinicio",
+   "run": "bu-curtailment-2"
+  },
+  {
+   "at": "2026-09-26T13:07:56.026Z",
+   "kind": "reinicio",
+   "run": "bu-pix"
+  },
+  {
+   "at": "2026-09-26T13:08:06.409Z",
+   "kind": "reinicio",
+   "run": "bu-raio"
+  }
+ ],
+ "workflows": [
+  {
+   "name": "showcase-research-design",
+   "start": "2026-09-25T16:38:26.711Z",
+   "end": "2026-09-25T17:04:12.978Z",
+   "phases": [
+    "Research",
+    "Design",
+    "Cross-review",
+    "Revise"
+   ],
+   "agents": 14
+  },
+  {
+   "name": "showcase-build",
+   "start": "2026-09-25T17:07:57.263Z",
+   "end": "2026-09-26T13:43:36.583Z",
+   "phases": [
+    "Build",
+    "Design 5th"
+   ],
+   "agents": 11
+  },
+  {
+   "name": "showcase-polish-share",
+   "start": "2026-09-28T10:23:36.724Z",
+   "end": null,
+   "phases": [
+    "Critique",
+    "Fix + share",
+    "Bastidores"
+   ],
+   "agents": 9
+  }
+ ]
+}
