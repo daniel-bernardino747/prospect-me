@@ -40,6 +40,6 @@ It stays under about two hundred words, asks for twenty minutes, and carries a s
 
 Each approach now costs Daniel up to a weekend of building, which is the point — the approach is worth sending because it cost something — and also a limit on volume that the old skill did not have. The sixteen-hour ceiling exists to keep that cost bounded; a solution that needs more can appear in the dossier as a next step, not among the three.
 
-The Corpus stays in `personal-website` and is read through its `corpus:json` contract (see that repository's ADR-0011). Recon uses every Accomplishment that carries a Metric and is not a draft — not only Featured ones — because the email goes to one person, not to the web.
+The Corpus stays in `personal-website` and is read through its `corpus:json` contract (see that repository's ADR-0011). *(Since personal-website ADR-0013, the Corpus lives in the private `career` repository, which now serves the same `corpus:json` contract unchanged.)* Recon uses every Accomplishment that carries a Metric and is not a draft — not only Featured ones — because the email goes to one person, not to the web.
 
 The four dossiers written by the old skill are kept under `recon/legacy/` as reference and are not converted. Their perishable findings have expired; a company approached again goes through phase one from the start.
