@@ -9,6 +9,7 @@ import s from './techifide.module.css';
 import { day, firstScreen, laneLabel, laneOf } from './view';
 import { CallSheet } from './CallSheet';
 import { Candidate } from './Candidate';
+import { HeroVideo } from './HeroVideo';
 
 const legend = Sofia_Sans_Extra_Condensed({ subsets: ['latin'], weight: ['500', '600', '700', '800'], variable: '--font-legend' });
 const prose = Sofia_Sans_Condensed({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-prose' });
@@ -72,7 +73,13 @@ export default function Techifide({ searchParams }: ArtifactProps) {
                 );
               })}
             </ul>
+            {ad.candidate && (
+              <a className={s.screenLink} href="#candidate">
+                See a CV screened against this role
+              </a>
+            )}
           </section>
+          <HeroVideo where="column" />
         </div>
 
         <div className={s.work}>
