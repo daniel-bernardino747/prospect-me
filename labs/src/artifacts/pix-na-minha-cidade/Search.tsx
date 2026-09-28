@@ -15,15 +15,37 @@ interface Option {
  * The dispenser's search. A real GET form (`?q=`), so it works before and
  * without JavaScript; with it, a combobox over the whole index in the browser.
  */
-export function Search({ index, capitals, initial }: { index: Entry[]; capitals: number[]; initial: string }) {
+export function Search({
+  index,
+  capitals,
+  initial,
+  current,
+}: {
+  index: Entry[];
+  capitals: number[];
+  /** The `?q=` text when it did not resolve to one município; otherwise empty. */
+  initial: string;
+  /** The ticket's município: the field says which city is loaded ("Manaus - AM"). */
+  current: { ibge: number; label: string };
+}) {
   const { pending, go } = usePrinting();
-  const [query, setQuery] = useState(initial);
+  const [query, setQuery] = useState(initial || current.label);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1);
   const [chosen, setChosen] = useState<string | null>(null);
   const listId = useId();
   const input = useRef<HTMLInputElement>(null);
+  const selecting = useRef(false);
   const capitalSet = useMemo(() => new Set(capitals), [capitals]);
+
+  // A new ticket (a pick here, a capital link, back/forward): the field names it.
+  const [shownFor, setShownFor] = useState(current.ibge);
+  if (shownFor !== current.ibge) {
+    setShownFor(current.ibge);
+    setQuery(current.label);
+    setOpen(false);
+  }
+  const idle = query === current.label;
 
   const results = useMemo(() => (query.trim() ? search(index, query, capitalSet) : []), [index, query, capitalSet]);
   const hints = useMemo(
@@ -33,20 +55,19 @@ export function Search({ index, capitals, initial }: { index: Entry[]; capitals:
   const options: Option[] = (results.length ? results : hints).map((entry) => ({ entry }));
   const expanded = open && query.trim().length > 0;
 
-  // Once the new ticket is out, the field is free for the next city.
+  // Once the new ticket is out, the announcement is done.
   const wasPending = useRef(false);
   useEffect(() => {
-    if (wasPending.current && !pending) {
-      setQuery('');
-      setChosen(null);
-    }
+    if (wasPending.current && !pending) setChosen(null);
     wasPending.current = pending;
   }, [pending]);
 
   const pick = (e: Entry) => {
     setOpen(false);
     setActive(-1);
-    setQuery(e[1]);
+    const label = `${e[1]} - ${e[2]}`;
+    setQuery(label);
+    if (e[0] === current.ibge) return;
     setChosen(e[1]);
     go(`c=${e[0]}`);
   };
@@ -97,7 +118,18 @@ export function Search({ index, capitals, initial }: { index: Entry[]; capitals:
               setOpen(true);
               setActive(-1);
             }}
-            onFocus={() => setOpen(true)}
+            onFocus={(e) => {
+              // The loaded city's name: the first keystroke replaces it, and no list opens for it.
+              if (idle) {
+                e.currentTarget.select();
+                selecting.current = true;
+              } else setOpen(true);
+            }}
+            onMouseUp={(e) => {
+              // Safari's mouseup would collapse the selection the focus just made.
+              if (selecting.current) e.preventDefault();
+              selecting.current = false;
+            }}
             onBlur={() => setOpen(false)}
             onKeyDown={(e) => {
               if (e.key === 'ArrowDown') {

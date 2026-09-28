@@ -5,6 +5,8 @@
  * `CardData`; the browser measures, fits and draws it.
  */
 
+import { shown } from './data';
+
 export interface CardData {
   name: string;
   uf: string;
@@ -23,6 +25,16 @@ export interface CardData {
   fileName: string;
   shareTitle: string;
   shareText: string;
+}
+
+/**
+ * The sparkline's end labels, rounded like the ticket's number (70,9 → "71"),
+ * so the image never prints two different numbers for the same month.
+ */
+export function sparkEnds(series: Pick<CardData['series'], 'city' | 'brasil'>): [city: string, brasil: string] {
+  const lastCity = [...series.city].reverse().find((v): v is number => v !== null) ?? 0;
+  const lastBr = series.brasil[series.brasil.length - 1];
+  return [String(shown(lastCity)), `BR ${shown(lastBr)}`];
 }
 
 export const W = 1080;
@@ -363,8 +375,9 @@ export async function renderCard(d: CardData, f: Faces): Promise<Blob> {
     yCity = mid + (up ? -10 : 10);
     yBr = mid + (up ? 10 : -10);
   }
-  ctx.fillText(d.bars[0].shown.split(',')[0], CX0 + plotW + 12, yCity);
-  ctx.fillText(`BR ${d.bars[1].shown.split(',')[0]}`, CX0 + plotW + 12, yBr);
+  const [cityEnd, brEnd] = sparkEnds(d.series);
+  ctx.fillText(cityEnd, CX0 + plotW + 12, yCity);
+  ctx.fillText(brEnd, CX0 + plotW + 12, yBr);
   setFont(ctx, `400 16px ${f.thermal}`);
   ctx.fillStyle = LIGHT.inkSoft;
   ctx.fillText(d.series.from, CX0, plotTop + 84 + 20);

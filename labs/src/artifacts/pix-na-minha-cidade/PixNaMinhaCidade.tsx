@@ -3,6 +3,7 @@ import Link from 'next/link';
 import type { CSSProperties } from 'react';
 
 import type { ArtifactProps } from '@/labs/artifact';
+import { shareQuery, shareUrl } from '@/labs/share';
 
 import type { CardData } from './card';
 import {
@@ -12,6 +13,8 @@ import {
   monthShort,
   monthStamp,
   pickCity,
+  SHARE_KEYS,
+  SLUG,
   sentence,
   shareText,
   shown,
@@ -24,7 +27,7 @@ import { OnChange, PrintError, Printer, SalaProvider, BusyLamp } from './Sala';
 import { resolveQuery, type Resolution } from './find';
 import { Search } from './Search';
 import { ledText, Segmentos } from './Segmentos';
-import { Share } from './Share';
+import { ShareRow } from './ShareRow';
 
 const print = Archivo({ subsets: ['latin', 'latin-ext'], axes: ['wdth'], variable: '--font-print' });
 const thermal = Martian_Mono({ subsets: ['latin', 'latin-ext'], axes: ['wdth'], variable: '--font-thermal' });
@@ -114,6 +117,7 @@ export default function PixNaMinhaCidade({ searchParams }: ArtifactProps) {
                 index={p.index}
                 capitals={p.capitals.map((c) => c.ibge)}
                 initial={found && found.kind !== 'one' ? q : ''}
+                current={{ ibge: city.ibge, label: `${city.name} - ${city.uf}` }}
               />
               <div className={s.slot}>
                 <BusyLamp />
@@ -136,7 +140,11 @@ export default function PixNaMinhaCidade({ searchParams }: ArtifactProps) {
               </Printer>
             </div>
 
-            <Share card={card} query={`c=${city.ibge}`} />
+            <ShareRow
+              card={card}
+              url={shareUrl(SLUG, shareQuery(SHARE_KEYS, { c: String(city.ibge) }))}
+              text={card.shareText}
+            />
             <noscript>
               <style>{'[data-share-row]{display:none!important}'}</style>
               <p className={s.noJsLink}>
@@ -242,7 +250,7 @@ function Senha({ p, city, rows }: { p: Loaded; city: City; rows: [string, string
       )}
       <dl className={s.rows}>
         {rows.map(([k, v]) => (
-          <div key={k} className={s.row}>
+          <div key={k} className={s.row} data-phrase={/\d/.test(v.split(' ')[0]) ? undefined : ''}>
             <dt>{k}</dt>
             <dd>{v}</dd>
           </div>

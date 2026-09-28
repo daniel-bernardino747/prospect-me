@@ -112,6 +112,10 @@ export const CAPITALS: Record<number, string> = {
 
 export const DEFAULT_CITY = 3550308;
 
+export const SLUG = 'pix-na-minha-cidade';
+/** The query keys a shared senha carries: the city (the page and share.tsx read the same one). */
+export const SHARE_KEYS = ['c'] as const;
+
 /** Below this many payers the exact place in line is noise: say the decile instead. */
 export const SMALL_SAMPLE = 2000;
 
