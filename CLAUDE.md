@@ -8,7 +8,7 @@ Prospecção direta: investigar uma empresa, construir algo para ela e só entã
 - `labs/` — app Next.js único em `labs.teamdbsolutions.com`, serviço próprio no Railway. Só ele vai para um builder. Um artefato existe só se está em `src/artifacts/index.ts`, e o caminho carrega o tipo (ADR-0002):
   - **prospect** em `/<slug>`, por `src/app/[slug]/page.tsx`, que aplica as regras do ADR-0001 (404 fora do registro, encerrado após `expiresAt`, banner, `noindex`), com o `labsSlug` e o `expiresAt` do brief.
   - **showcase** em `/demo/<slug>`, por `src/app/demo/[slug]/page.tsx`: demo de portfólio sem empresa, sem fim, indexado e no sitemap; `PRODUCT.md` e `DESIGN.md` próprios na pasta do artefato.
-  - O serviço do Railway está em `.railway/railway.ts` (build, start, domínio, `PORT` e `HOSTNAME=::`). Mudança lá: `railway config plan`, depois `apply`.
+  - O serviço do Railway está em `.railway/railway.ts` (build, start, `watchPatterns`, domínio, `PORT` e `HOSTNAME=::`) e é a única config do serviço. Mudança lá: `railway config plan`, depois `apply`, com o CLI global (≥ 5.42.1). A devDependency `railway` é só o SDK que o `railway.ts` importa: `npx railway` roda o SDK, não o CLI, e falha.
   - O `data.json` de um artefato é lido uma vez e fica em memória (`load.ts`): depois de regerar os dados, reinicie o `labs dev`, senão a página continua servindo a versão anterior.
 
 ## Corpus
