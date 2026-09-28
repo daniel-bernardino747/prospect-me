@@ -46,4 +46,13 @@ export const ARTIFACTS: readonly Artifact[] = [
     load: () => import('./pix-na-minha-cidade/PixNaMinhaCidade'),
     share: () => import('./pix-na-minha-cidade/share').then((m) => m.default),
   },
+  {
+    kind: 'showcase',
+    slug: 'bastidores',
+    title: 'Bastidores',
+    summary:
+      'Como estas demos foram feitas por agentes de IA: um quadro de nivelamento com um cartão por agente, as fases, o paralelismo e as paradas em que Daniel decidiu, extraído da sessão real.',
+    load: () => import('./bastidores/Bastidores'),
+    share: () => import('./bastidores/share').then((m) => m.default),
+  },
 ];

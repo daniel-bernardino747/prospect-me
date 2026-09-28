@@ -436,3 +436,17 @@ pt-BR, direct, no hype, no adjectives about the process ("impressionante", "pode
 - No coloured `border-left` on anything; the ficha, list rows and notes carry no accent edge.
 - No dollar figures, no output-token figures, no transcript text, no absolute paths, no ids.
 - Never state a quality result for the showcases beyond linking to them.
+
+## Desvios na implementação
+
+Recorded after the build (2026-09-28), against what shipped. Ground truth wins.
+
+- **The board is HTML and CSS, not one SVG.** Every card, stop and commit is a real link (`?r=<id>#ficha`), so the board works without JavaScript, a selection is a shareable URL, and Tab walks the cards in time order. The arrow-key roving and the separate live region were dropped: the cards are native links with full `aria-label`s, and focus moves to the ficha on selection. "Ver o quadro como lista" stays as the plain-text board.
+- **Long waits collapse too.** The data has a 44-hour wait (the session ended with a question open, D4). Waits of eight pitches or more keep their first three pitches and their last one; the middle becomes a break drawn on the stop stripes. Breaks are 1.2 pitches wide (not 12px) so their length ("+2 h 55 min") reads vertically inside them; the clock axis restarts with the day after each break.
+- **Ficha under the board on every width.** On the phone the page scrolls to it (smoothly unless reduced motion) instead of inserting it between pitch rows.
+- **Andon strip.** The word "parada" was left out; under a stop band the count of working agents sits on a small enamel chip over the stripes.
+- **Stations added by the data:** `CR` also covers the per-demo independent critique of the polish workflow (`critique:<slug>`), `PO` covers its fix-and-share agents (`fix:<slug>`), and `EX` is a quick helper the orchestrator spawned (nichos stock). Daniel's typed messages are ink pins in his row (when, never what).
+- **Restarted agents.** The build workflow restarted stalled agents; each stalled card carries a drawn restart glyph and its ficha says how long it went without progress. Extracted from the workflow's log lines as label, seconds and attempt only.
+- **Share state.** `?r=` (a run id, `d<n>` or `c-<hash>`) is the only shared key. The OG image (`share.tsx`) redraws the board in miniature with the selected card or stop lit and the rest dimmed; it avoids box shadows (they cost seconds in Satori).
+- **Not built:** the runtime error boundary (the SSR board is complete without the client layer) and scroll-snap on half-hour ticks.
+- **Figures** are Overpass Mono wherever a number is tabulated, so Overpass's own tabular figures were not needed.
