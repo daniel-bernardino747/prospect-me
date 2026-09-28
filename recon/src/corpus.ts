@@ -3,8 +3,8 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 /**
- * The Corpus lives in personal-website and is read only through its
- * `corpus:json` contract (personal-website ADR-0011), never by parsing its
+ * The Corpus lives in the private `career` repository and is read only through
+ * its `corpus:json` contract (personal-website ADR-0011, ADR-0013), never by parsing its
  * markdown here. `CORPUS_REPO` points at that checkout.
  */
 export const CORPUS_JSON_VERSION = 1;
@@ -28,8 +28,8 @@ export interface CorpusJson {
 }
 
 export function corpusRepo(): string {
-  // Defaults to a sibling checkout: prospect-me and personal-website side by side.
-  return resolve(process.env.CORPUS_REPO ?? fileURLToPath(new URL('../../../personal-website', import.meta.url)));
+  // Defaults to a sibling checkout: prospect-me and career side by side.
+  return resolve(process.env.CORPUS_REPO ?? fileURLToPath(new URL('../../../career', import.meta.url)));
 }
 
 export function readCorpus(repo: string = corpusRepo()): CorpusJson {

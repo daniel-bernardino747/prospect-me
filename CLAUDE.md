@@ -13,7 +13,7 @@ Prospecção direta: investigar uma empresa, construir algo para ela e só entã
 
 ## Corpus
 
-Vem do `personal-website` pelo contrato `npm run corpus:json` (ADR-0011 de lá), nunca parseando o markdown aqui. `CORPUS_REPO` no `.env` aponta o checkout; o padrão é o diretório irmão.
+Vem do repo privado `career` pelo contrato `npm run corpus:json` (ADRs 0011 e 0013 do `personal-website`), nunca parseando o markdown aqui. `CORPUS_REPO` no `.env` aponta o checkout; o padrão é o diretório irmão `../career`.
 
 ## Comandos
 
