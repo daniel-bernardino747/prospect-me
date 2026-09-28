@@ -150,7 +150,7 @@ Restrained: black ground, one signal colour, one prose colour. No Techifide mage
 
 Mobile-first, one column, with `.sheet` padded `gutter + 0.75rem`. On a phone the strip scrolls away with the page. At 64rem+: a sticky strip, and a two-column sheet (22rem legend column, sticky at 4.5rem, holding role and must-haves; the work on the right), max 76rem, strip and footer aligned to the column. Blocks sit 3rem apart; `scroll-margin-top` clears the strip on anchors.
 
-**The First Screen Rule.** At 390 × 844, with no scrolling: the ad keys, the role, every must-have, the count with its headline and the first three questions. At 390 × 664 (a LinkedIn in-app browser, measured by simulation), the first two questions show whole.
+**The First Screen Rule.** The role, then the screening video, visible without scrolling on every screen. Since 2026-09-28 this replaces the earlier rule that a 390 × 844 phone show the first three questions above the fold: the demo has to be seen to be believed, and the questions follow it.
 
 ## Elevation & Depth
 
@@ -180,7 +180,7 @@ Three 44px keys in the strip (Fullstack / ML / QA), links to `?ad=`, outlined am
 - **Evidence rows:** each must-have in the ad's order; evidenced rows are `<details>` with an unbroken rail and a **Cnn** plate (the CV's own lanes), opening to the CV quote in the hairline frame captioned "CV line Cnn"; a must-have the CV does not show gets a gapped rail, an **Ask** plate and "Not in the CV: ask about it in the interview."
 - **Interview questions:** the question-list grammar (number, dimension prefix, prose) with a small underlined **Cnn** link to the CV line it builds on.
 - **The CV:** every line as lanes `C00`–`Cnn`, rings on cited lines, `:target` doubling like the ad's lanes. Always open, so a Cnn link lands.
-- **Screening video:** a 10 s silent loop (720×900, WebM VP9 then MP4 H.264, ~0.8 MB each, poster at 6.5 s) in the page's own world: the CV drops in, the twelve rails draw one by one with the cited CV line lit, WebAssembly lands gapped on **Ask**, then the "11" plate and three questions. Framed by a 1px amber border with a dim caption. At 64rem+ it sits in the fixed legend column; below, it opens the candidate section and the first screen gets one amber link, "See a CV screened against this role". Rendered in one place only (client check of the width), autoplays muted and looped, and under `prefers-reduced-motion` shows the poster with native controls instead.
+- **Screening video:** a 10 s silent loop (720×900, WebM VP9 then MP4 H.264, ~0.8 MB each, poster at 6.5 s) in the page's own world: the CV drops in, the twelve rails draw one by one with the cited CV line lit, WebAssembly lands gapped on **Ask**, then the "11" plate and three questions. Framed by a 1px amber border with a dim caption ending in "See it below" (to the candidate section). It sits right under the role in the legend column on every screen (the column scrolls with the page at 64rem+ now, since it holds the video). It always autoplays muted and looped — a silent ten-second product loop is not decorative motion — and a **Pause / Play** key (44px, outlined, doubled when paused, top-right over the video's empty header) stops it, per WCAG 2.2.2.
 
 ### Must-haves
 A wrapping legend of short labels, each followed by its lane tag (`L21`). Each is a link to that lane of the ad, with a hit area extended by `::after` beyond its line height.

@@ -1,60 +1,56 @@
 'use client';
 
 /**
- * The screening demo as a short silent loop. On a wide screen it sits in the
- * fixed legend column; on a phone it opens the candidate section, so the first
- * screen keeps the call's questions. Rendered in one place only, so the file
- * is fetched once, and never autoplayed for a reader who asked for less motion.
+ * The screening demo as a short silent loop, right under the role on every
+ * screen: it plays on its own, muted, and a visible key pauses it (WCAG 2.2.2),
+ * so a reader who wants it still is one tap away rather than left with a
+ * poster they never asked for.
  */
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import s from './techifide.module.css';
 
-const WIDE = '(min-width: 64rem)';
 const MEDIA = '/techifide/media';
 
-export function HeroVideo({ where }: { where: 'column' | 'section' }) {
-  const [show, setShow] = useState(false);
-  const [still, setStill] = useState(false);
+export function HeroVideo() {
+  const video = useRef<HTMLVideoElement>(null);
+  const [paused, setPaused] = useState(false);
 
-  useEffect(() => {
-    const wide = window.matchMedia(WIDE);
-    const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => {
-      setShow(wide.matches === (where === 'column'));
-      setStill(calm.matches);
-    };
-    update();
-    wide.addEventListener('change', update);
-    calm.addEventListener('change', update);
-    return () => {
-      wide.removeEventListener('change', update);
-      calm.removeEventListener('change', update);
-    };
-  }, [where]);
+  const toggle = () => {
+    const v = video.current;
+    if (!v) return;
+    if (v.paused) void v.play();
+    else v.pause();
+  };
 
-  if (!show) return null;
   return (
-    <figure className={where === 'column' ? s.heroColumn : s.heroSection}>
-      <video
-        className={s.heroVideo}
-        width={1080}
-        height={1350}
-        poster={`${MEDIA}/cv-screen-poster.jpg`}
-        muted
-        playsInline
-        loop={!still}
-        autoPlay={!still}
-        controls={still}
-        preload={still ? 'none' : 'auto'}
-        aria-label="A synthetic CV dropping into the call sheet: eleven must-haves tied to the CV lines that show them, WebAssembly left to ask, then the interview questions."
-      >
-        <source src={`${MEDIA}/cv-screen.webm`} type="video/webm" />
-        <source src={`${MEDIA}/cv-screen.mp4`} type="video/mp4" />
-      </video>
+    <figure className={s.hero}>
+      <div className={s.heroFrame}>
+        <video
+          ref={video}
+          className={s.heroVideo}
+          width={1080}
+          height={1350}
+          poster={`${MEDIA}/cv-screen-poster.jpg`}
+          muted
+          playsInline
+          loop
+          autoPlay
+          preload="auto"
+          onPlay={() => setPaused(false)}
+          onPause={() => setPaused(true)}
+          aria-label="A synthetic CV dropping into the call sheet: eleven must-haves tied to the CV lines that show them, WebAssembly left to ask, then the interview questions."
+        >
+          <source src={`${MEDIA}/cv-screen.webm`} type="video/webm" />
+          <source src={`${MEDIA}/cv-screen.mp4`} type="video/mp4" />
+        </video>
+        <button type="button" className={s.heroToggle} onClick={toggle} aria-pressed={paused}>
+          {paused ? 'Play' : 'Pause'}
+        </button>
+      </div>
       <figcaption>
         A synthetic CV screened against this brief, every line checked word for word.{' '}
-        {where === 'column' && <a href="#candidate">See it below</a>}
+        <a href="#candidate">See it below</a>
       </figcaption>
     </figure>
   );
