@@ -97,6 +97,43 @@ export function Segmentos({ text, className }: { text: string; className?: strin
   );
 }
 
+/**
+ * The same four cells with their colours inline and no hook, for the OG image
+ * (Satori draws SVG attributes, not CSS classes). The glow is two faint wide
+ * strokes rather than a blur filter, which would cost the render ~50ms.
+ */
+export function SegmentosFlat({ text, lit, ghost, width }: { text: string; lit: string; ghost: string; width: number }) {
+  const cells = text.padStart(4, ' ').slice(-4).split('');
+  const vw = PITCH * 4 - 10 + LEAN;
+  return (
+    <svg width={width} height={Math.round((width * 100) / vw)} viewBox={`0 0 ${vw} 100`}>
+      {cells.map((ch, i) => (
+        <g key={i} transform={`translate(${i * PITCH + LEAN} 0) skewX(-6)`}>
+          {ORDER.map((seg) => (
+            <polygon key={seg} points={SEGMENTS[seg]} fill={ghost} />
+          ))}
+          {[6, 3].map((w) =>
+            (DIGITS[ch] ?? []).map((seg) => (
+              <polygon
+                key={`${w}${seg}`}
+                points={SEGMENTS[seg]}
+                fill="none"
+                stroke={lit}
+                strokeWidth={w}
+                strokeLinejoin="round"
+                strokeOpacity={0.14}
+              />
+            )),
+          )}
+          {(DIGITS[ch] ?? []).map((seg) => (
+            <polygon key={seg} points={SEGMENTS[seg]} fill={lit} />
+          ))}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 /** What the four cells show: the senha, or dashes when the exact place is withheld. */
 export function ledText(rank: number, small: boolean): string {
   if (small) return '----';

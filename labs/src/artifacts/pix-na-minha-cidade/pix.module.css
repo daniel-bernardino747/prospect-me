@@ -255,13 +255,6 @@
   opacity: 1;
 }
 
-/* From 1080px the visible label is back above the field; the placeholder would only repeat it. */
-@media (min-width: 1080px) {
-  .field input::placeholder {
-    color: transparent;
-  }
-}
-
 .field input::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
@@ -409,16 +402,21 @@
   clip-path: inset(0 -48px -120px -48px);
 }
 
+/* The old senha stays on the wall while the new one feeds over it, then tears
+   away: the slot is never an empty wall mid-print (520ms in all). */
 .tearing {
   position: absolute;
+  z-index: 0;
   inset: 0 0 auto 0;
   transform-origin: 100% 0;
-  animation: tear 200ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  animation: tear 200ms cubic-bezier(0.4, 0, 1, 1) 320ms forwards;
   pointer-events: none;
 }
 
 .feeding {
-  animation: feed 640ms steps(20, end) 200ms both;
+  position: relative;
+  z-index: 1;
+  animation: feed 480ms steps(16, end) both;
 }
 
 .paperShadow {
@@ -584,6 +582,19 @@
   text-align: right;
 }
 
+/* A phrase instead of a number (small samples): the key on its line, the phrase on the next, no leader. */
+.row[data-phrase] {
+  display: block;
+}
+
+.row[data-phrase] dt::after {
+  content: none;
+}
+
+.row[data-phrase] dd {
+  text-align: left;
+}
+
 .source {
   margin: 8px 0 0;
   font-family: var(--thermal);
@@ -595,14 +606,78 @@
 
 /* ------------------------------------------------------------ share row */
 
-.shareRow {
+.share {
   position: relative;
   z-index: 3;
-  display: grid;
-  gap: 8px;
   width: var(--paper-w);
   margin-top: 12px;
+  transition: opacity 120ms ease-out;
+}
+
+/* Mid-print every action still carries the previous city. */
+.share[data-printing] {
+  opacity: 0.4;
+}
+
+.share[data-printing] a {
+  pointer-events: none;
+}
+
+.shareRow {
+  position: relative;
+  display: grid;
+  gap: 8px;
   visibility: hidden;
+}
+
+/* "Enviar por": one print line of plain links, there with or without JavaScript. */
+.sendVia {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 4px;
+  margin: 4px 0 0;
+  color: var(--wall-ink);
+}
+
+.sendLabel {
+  margin-right: 6px;
+  font: 700 0.75rem/1 var(--thermal);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sendVia a,
+.sendButton {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: 600 0.9375rem/1 var(--print);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.sendButton {
+  margin-left: auto;
+}
+
+@media (hover: hover) {
+  .sendVia a:hover,
+  .sendButton:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+.sala .sendVia a:focus-visible,
+.sala .sendButton:focus-visible {
+  outline-color: var(--wall-ink);
+  outline-offset: -2px;
 }
 
 .shareRow[data-ready] {
@@ -610,9 +685,11 @@
 }
 
 @media (min-width: 1080px) {
+  .share {
+    margin-top: 20px;
+  }
   .shareRow {
     grid-template-columns: 1fr auto;
-    margin-top: 20px;
   }
 }
 
@@ -1385,11 +1462,11 @@
 /* --------------------------------------------------------------- motion */
 
 .crossfade {
-  animation: fade 150ms ease-out 840ms both;
+  animation: fade 150ms ease-out 480ms both;
 }
 
 .blink {
-  animation: blink 360ms linear 840ms both;
+  animation: blink 360ms linear 480ms both;
 }
 
 @keyframes drop {
@@ -1488,7 +1565,7 @@
   .sala {
     background: none;
   }
-  .shareRow,
+  .share,
   .search {
     display: none;
   }

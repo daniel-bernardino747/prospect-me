@@ -24,36 +24,24 @@ const UFS = new Set([
 ]);
 
 /**
- * "bom jesus pi", "Bom Jesus - PI" and "bom jesus/pi" narrow to that UF; a
- * query that is only a UF ("SP") lists that state.
+ * "bom jesus pi", "Bom Jesus - PI" and "bom jesus/pi" name a UF; a query that
+ * is only a UF ("SP") lists that state. `marked` is set when a separator
+ * ("-", "/", ",") sets the UF apart: without one, "sao pa" is more likely São
+ * Paulo half-typed than a city in the Pará.
  */
-function parse(query: string): { name: string; uf?: string } {
+function parse(query: string): { name: string; uf?: string; marked?: boolean } {
   const q = fold(query);
   if (UFS.has(q)) return { name: '', uf: q };
   const words = q.split(' ');
   const last = words[words.length - 1];
-  if (words.length > 1 && UFS.has(last)) return { name: words.slice(0, -1).join(' '), uf: last };
+  if (words.length > 1 && UFS.has(last)) {
+    return { name: words.slice(0, -1).join(' '), uf: last, marked: /[-/,]\s*\p{L}{2}\s*$/u.test(query) };
+  }
   return { name: q };
 }
 
-/**
- * Up to `limit` options: names starting with the query, then names with a word
- * starting with it, then names containing it; each tier keeps the index order
- * (most payers first). A bare UF lists the state, capital first.
- */
-export function search(
-  index: readonly Entry[],
-  query: string,
-  capitals: ReadonlySet<number> = new Set(),
-  limit = MAX_OPTIONS,
-): Entry[] {
-  const { name, uf } = parse(query);
-  if (!name && !uf) return [];
-  const pool = uf ? index.filter((e) => e[2].toLowerCase() === uf) : index;
-  if (!name) {
-    const capital = pool.filter((e) => capitals.has(e[0]));
-    return [...capital, ...pool.filter((e) => !capitals.has(e[0]))].slice(0, limit);
-  }
+/** Names starting with `name`, then with a word starting with it, then containing it. */
+function byName(pool: readonly Entry[], name: string, limit: number): Entry[] {
   const tiers: Entry[][] = [[], [], []];
   for (const e of pool) {
     const n = fold(e[1]);
@@ -63,6 +51,32 @@ export function search(
     if (tiers[0].length >= limit) break;
   }
   return tiers.flat().slice(0, limit);
+}
+
+/**
+ * Up to `limit` options: names starting with the query, then names with a word
+ * starting with it, then names containing it; each tier keeps the index order
+ * (most payers first). A bare UF lists the state, capital first. A trailing UF
+ * with no separator narrows only after the whole query's own matches.
+ */
+export function search(
+  index: readonly Entry[],
+  query: string,
+  capitals: ReadonlySet<number> = new Set(),
+  limit = MAX_OPTIONS,
+): Entry[] {
+  const { name, uf, marked } = parse(query);
+  if (!name && !uf) return [];
+  const pool = uf ? index.filter((e) => e[2].toLowerCase() === uf) : index;
+  if (!name) {
+    const capital = pool.filter((e) => capitals.has(e[0]));
+    return [...capital, ...pool.filter((e) => !capitals.has(e[0]))].slice(0, limit);
+  }
+  const narrowed = byName(pool, name, limit);
+  if (!uf || marked) return narrowed;
+  const whole = byName(index, fold(query), limit);
+  const seen = new Set(whole.map((e) => e[0]));
+  return [...whole, ...narrowed.filter((e) => !seen.has(e[0]))].slice(0, limit);
 }
 
 /** When nothing matches: the names sharing the longest prefix with the query. */
@@ -87,6 +101,8 @@ export type Resolution =
  */
 export function resolveQuery(index: readonly Entry[], query: string, capitals?: ReadonlySet<number>): Resolution {
   const { name, uf } = parse(query);
+  const whole = index.filter((e) => fold(e[1]) === fold(query));
+  if (whole.length === 1) return { kind: 'one', entry: whole[0] };
   if (name) {
     const exact = index.filter((e) => fold(e[1]) === name && (!uf || e[2].toLowerCase() === uf));
     if (exact.length === 1) return { kind: 'one', entry: exact[0] };

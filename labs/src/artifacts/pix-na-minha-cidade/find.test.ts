@@ -53,6 +53,20 @@ describe('search', () => {
     expect(search(INDEX, 'Bom Jesus - SC')).toEqual([[4202453, 'Bom Jesus', 'SC']]);
   });
 
+  it('reads a half-typed word as the name, not as a UF', () => {
+    const index: Entry[] = [[1507607, 'São Miguel do Guamá', 'PA'], ...INDEX];
+    // "pa" is also Pará: the whole query's own matches come first.
+    expect(search(index, 'sao pa')[0][1]).toBe('São Paulo');
+    expect(search(index, 'sao pa').map((e) => e[1])).toContain('São Miguel do Guamá');
+    expect(search(index, 'Sao Pa').map((e) => e[2])[0]).toBe('SP');
+  });
+
+  it('still narrows when the whole query matches nothing or the UF is marked', () => {
+    expect(search(INDEX, 'bom jesus pi')).toEqual([[2201903, 'Bom Jesus', 'PI']]);
+    expect(search(INDEX, 'Bom Jesus - PI')).toEqual([[2201903, 'Bom Jesus', 'PI']]);
+    expect(search(INDEX, 'sao / sp').every((e) => e[2] === 'SP')).toBe(true);
+  });
+
   it('caps the list at seven', () => {
     const many = Array.from({ length: 20 }, (_, i): Entry => [i, `Santa ${i}`, 'SP']);
     expect(search(many, 'santa')).toHaveLength(7);
@@ -80,6 +94,11 @@ describe('resolveQuery (the no-JS form)', () => {
 
   it('picks the homonym the UF names', () => {
     expect(resolveQuery(INDEX, 'bom jesus pi')).toMatchObject({ kind: 'one', entry: [2201903, 'Bom Jesus', 'PI'] });
+  });
+
+  it('resolves the field\'s own "Name - UF" label to that one município', () => {
+    expect(resolveQuery(INDEX, 'Bom Jesus - PI')).toMatchObject({ kind: 'one', entry: [2201903, 'Bom Jesus', 'PI'] });
+    expect(resolveQuery(INDEX, 'São Paulo - SP')).toMatchObject({ kind: 'one', entry: [3550308, 'São Paulo', 'SP'] });
   });
 
   it('lists partial matches', () => {

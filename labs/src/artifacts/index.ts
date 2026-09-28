@@ -44,5 +44,6 @@ export const ARTIFACTS: readonly Artifact[] = [
     summary:
       'Quantos Pix por usuário a sua cidade fez em agosto de 2026, a posição dela entre os 5.571 municípios do Brasil e um cartão para compartilhar, com dados abertos do Banco Central.',
     load: () => import('./pix-na-minha-cidade/PixNaMinhaCidade'),
+    share: () => import('./pix-na-minha-cidade/share').then((m) => m.default),
   },
 ];
