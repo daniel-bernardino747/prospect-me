@@ -22,7 +22,7 @@
   --housing-edge: #4a5058;
   --flap-face: #f2f1ec;
   --flap-lower: #e6e5df;
-  --flap-hinge: #000;
+  --flap-hinge: rgb(0 0 0 / 0.22);
   --flap-blank: #cfcec8;
   --flap-glyph: #0d1826;
   --marca: #d4f23a;
@@ -33,7 +33,7 @@
   --band-4: #677384;
   --band-5: #aeb8c3;
   --band-6: #7f8b99;
-  --band-outros: #dce2e8;
+  --band-outros: #9aa3ae;
   --frozen: #5b6776;
   --leader: var(--ink);
   --rail-bg: var(--ink);
@@ -78,7 +78,7 @@
     --band-4: #6e7c8f;
     --band-5: #46546a;
     --band-6: #56647a;
-    --band-outros: #243040;
+    --band-outros: #4b586a;
     --frozen: #8d99a8;
     --rail-bg: #0a1019;
     --rail-ink: #e9edf1;
@@ -219,7 +219,6 @@
   composes: signage;
   color: var(--muted);
   margin: 0 0 8px;
-  max-width: 44ch;
 }
 
 .answer {
@@ -287,14 +286,13 @@ a.note::before {
   transform: translate(-50%, -50%);
 }
 
+/* On a plate the marker hangs off "/mês", in the same colour, as a footnote does. */
 .noteBand {
   color: var(--housing-label);
-  font-size: 0.75rem;
-  align-self: flex-end;
-  margin-left: -4px;
-  padding-bottom: 1.1em;
-  vertical-align: baseline;
-  line-height: 1;
+  font-size: 0.75em;
+  margin-left: 1px;
+  vertical-align: super;
+  line-height: 0;
 }
 
 @media (min-width: 64rem) {
@@ -545,7 +543,8 @@ a.note::before {
   z-index: 2;
 }
 
-/* The hinge. */
+/* The hinge: a faint seam, not a rule. A full-black line across the glyph read
+   as a strikethrough (a cancelled price), on the plates as much as in the table. */
 .cell::after {
   content: '';
   position: absolute;
@@ -557,13 +556,12 @@ a.note::before {
   z-index: 3;
 }
 
-/* Small cells read at text size: a full-black hinge there reads as a strikethrough,
-   and a hinge across a blank cell reads as a dash. */
 .flapSm .cell::after {
-  background: rgb(0 0 0 / 0.3);
+  background: rgb(0 0 0 / 0.18);
 }
 
-.flapSm .cell:has(> .up[data-blank='true']:not(.ov))::after {
+/* A seam across a blank cell reads as a dash, the glyph of "no bill". */
+.cell:has(> .up[data-blank='true']:not(.ov))::after {
   display: none;
 }
 
@@ -989,6 +987,87 @@ a.note::before {
   margin: 0;
 }
 
+/* ---------- share: the scenario's link, as a row of board keys ---------- */
+
+.shareRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 8px;
+  margin-top: 12px;
+}
+
+.shareLabel {
+  composes: signage;
+  margin: 0;
+  color: var(--muted);
+}
+
+.shareKeys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shareKey {
+  composes: signage;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--flap-face);
+  color: var(--flap-glyph);
+  box-shadow: var(--shadow-cell-sheet);
+  cursor: pointer;
+}
+
+.sheet a.shareKey {
+  color: var(--flap-glyph);
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .shareKey:hover {
+    background: var(--ink);
+    color: var(--ground-raised);
+  }
+
+  .sheet a.shareKey:hover {
+    color: var(--ground-raised);
+  }
+}
+
+.shareKey:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.shareSaid {
+  composes: signage;
+  flex-basis: 100%;
+  min-height: 1.2em;
+  margin: 0;
+  color: var(--ink);
+}
+
+@media (min-width: 64rem) {
+  .shareRow {
+    justify-content: flex-end;
+  }
+
+  .shareSaid {
+    text-align: right;
+  }
+}
+
 @media (min-width: 64rem) {
   .stamp {
     margin-top: 0;
@@ -1410,6 +1489,35 @@ a.note::before {
   font-family: var(--font-sign), sans-serif;
 }
 
+/* Phone rows: provider and share on one line, the three labelled prices on the
+   next. A pair never breaks inside; the line breaks only between pairs. */
+.rowMeta,
+.rowPrices {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 12px;
+}
+
+.rowPrices {
+  column-gap: 9px;
+  color: var(--muted);
+  font-family: var(--font-flap), ui-monospace, monospace;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.rowPair {
+  white-space: nowrap;
+}
+
+.rowPairKey {
+  font-family: var(--font-sign), sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .rowNoteWide {
   display: block;
   color: var(--muted);
@@ -1533,6 +1641,7 @@ a.note::before {
 
 @media (min-width: 64rem) {
   .rowMeta,
+  .rowPrices,
   .headHint {
     display: none;
   }

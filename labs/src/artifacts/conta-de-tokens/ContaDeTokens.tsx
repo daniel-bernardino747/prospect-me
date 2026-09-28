@@ -73,7 +73,8 @@ export default function ContaDeTokens({ searchParams }: ArtifactProps) {
               </p>
               <p>
                 Os preços são do catálogo público do OpenRouter, lido em {pricesDate}. A participação vem do conjunto de dados diário do
-                OpenRouter com os 50 modelos que mais processaram tokens em cada dia, mais uma linha “outros”; aqui ela é somada em{' '}
+                OpenRouter com os 50 modelos que mais processaram tokens em cada dia, mais uma linha “outros”
+                {viaMirror ? ', lido da cópia pública das respostas (IAPS-AI) enquanto não há chave de acesso' : ''}; aqui ela é somada em{' '}
                 {data.weeks.length} semanas de sete dias, a última terminando em {dataDate}. Não existe divisão entre entrada e saída nem taxa
                 de cache por modelo nesses dados: a proporção de saída e o cache são hipóteses suas.
               </p>
@@ -134,7 +135,7 @@ function Fallback({ data }: { data: ReturnType<typeof loadContaDeTokens> }) {
   const b = board(data, sc, false);
   return (
     <div className={s.wrap}>
-      <p className={s.kicker}>Participação entre os tokens que passam pelo OpenRouter · cenário ilustrativo</p>
+      <p className={s.kicker}>Cenário ilustrativo · preços e participação do OpenRouter (só o tráfego que passa por ele)</p>
       <h1 className={s.answer}>{answerText(answer(data, sc))}</h1>
       <p className={s.muted}>A parte interativa falhou; os números acima são do caso padrão.</p>
       <table className={s.table}>

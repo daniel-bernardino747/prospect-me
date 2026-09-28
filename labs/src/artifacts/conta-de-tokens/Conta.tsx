@@ -19,7 +19,10 @@ import {
   referenceOptions,
   type Scenario,
   scenarioQuery,
+  SHARE_KEYS,
   sharePct,
+  shareSearch,
+  shareText,
   usd,
   VOLUME_KEYS,
   VOLUME_LABEL,
@@ -28,6 +31,7 @@ import { Fader } from './Fader';
 import { prefersReducedMotion } from './flap';
 import { FlapFigure } from './FlapFigure';
 import { MarketChart } from './MarketChart';
+import { ShareLinks } from './ShareLinks';
 import s from './conta.module.css';
 
 interface Props {
@@ -120,12 +124,13 @@ export function Conta({ data, initial }: Props) {
   const boardWidth = flapWidth(b.paid.map((r) => r.bill?.total ?? 0), 3);
   const tag = a.ref.id === a.leader.model.id ? null : ratioTag(a.refBill.total, a.leaderBill.total);
   const pricesDate = dateLabel(data.sources.catalog.fetchedAt);
+  const shared = useMemo(() => shareText(data, sc), [data, sc]);
 
   return (
     <>
       <div className={s.wrap}>
         <div className={s.lede}>
-          <p className={s.kicker}>Participação entre os tokens que passam pelo OpenRouter · cenário ilustrativo</p>
+          <p className={s.kicker}>Cenário ilustrativo · preços e participação do OpenRouter (só o tráfego que passa por ele)</p>
           <Sentence a={a} />
         </div>
       </div>
@@ -139,8 +144,10 @@ export function Conta({ data, initial }: Props) {
             <span className={s.plateRow}>
               <span className={s.plateCur}>US$</span>
               <FlapFigure value={usd(a.refBill.total)} width={plateWidth} size="lg" surface="band" label={`US$ ${usd(a.refBill.total)} por mês`} settleOnce />
-              {a.refBill.frozen ? null : <span className={s.plateUnit}>/mês</span>}
-              <Note n={1} onBand />
+              <span className={s.plateUnit}>
+                {a.refBill.frozen ? null : '/mês'}
+                <Note n={1} onBand />
+              </span>
             </span>
             {a.refBill.frozen ? (
               <span className={s.plateFrozen}>
@@ -163,8 +170,10 @@ export function Conta({ data, initial }: Props) {
                 label={`US$ ${usd(a.leaderBill.total)} por mês`}
                 settleOnce
               />
-              <span className={s.plateUnit}>/mês</span>
-              <Note n={1} onBand />
+              <span className={s.plateUnit}>
+                /mês
+                <Note n={1} onBand />
+              </span>
               {tag ? <span className={s.plateTag}>{tag}</span> : null}
             </span>
           </button>
@@ -243,6 +252,8 @@ export function Conta({ data, initial }: Props) {
             <p className={s.muted}>Nada do que você escolhe aqui sai do navegador.</p>
           </div>
         </details>
+
+        <ShareLinks search={shareSearch(sc)} keys={SHARE_KEYS} text={shared.short} title={shared.title} />
       </div>
 
       <div className={`${s.wrap} ${s.market}`}>

@@ -2,7 +2,7 @@
 
 import { Fragment, type ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-import { type Bill, type Board as BoardData, perMillion, type Row, sharePct, usd } from './data';
+import { type Bill, type Board as BoardData, perMillion, perMillionShort, type Row, sharePct, usd } from './data';
 import { prefersReducedMotion } from './flap';
 import { FlapFigure } from './FlapFigure';
 import s from './conta.module.css';
@@ -46,6 +46,29 @@ function prices(r: Row): string {
   const p = r.model.prices;
   if (!p) return '—';
   return `${perMillion(p.input)} · ${p.cacheRead === null ? '—' : perMillion(p.cacheRead)} · ${perMillion(p.output)}`;
+}
+
+/**
+ * The phone's price line: each price labelled and kept whole, rounded to two
+ * significant digits; the exact values stay in the row's detail.
+ */
+function PriceLine({ r }: { r: Row }) {
+  const p = r.model.prices;
+  if (!p) return null;
+  const pairs: [string, string][] = [
+    ['ent', perMillionShort(p.input)],
+    ['cache', p.cacheRead === null ? '—' : perMillionShort(p.cacheRead)],
+    ['saída', perMillionShort(p.output)],
+  ];
+  return (
+    <span className={s.rowPrices}>
+      {pairs.map(([k, v]) => (
+        <span key={k} className={s.rowPair}>
+          <span className={s.rowPairKey}>{k}</span> {v}
+        </span>
+      ))}
+    </span>
+  );
 }
 
 function billLabel(b: Bill | null) {
@@ -136,9 +159,12 @@ export function Board({ board, width, showAll, onShowAll, pricesDate, header }: 
               </span>
               <span className={s.rowProv}>{r.model.provider}</span>
               <span className={s.rowMeta}>
-                {r.model.provider} · {sharePct(r.model.share)} · {prices(r)}
-                {note ? <span className={s.rowNote}> · {note}</span> : null}
+                <span className={s.rowPair}>
+                  {r.model.provider} · {sharePct(r.model.share)}
+                </span>
+                {note ? <span className={s.rowNote}>{note}</span> : null}
               </span>
+              <PriceLine r={r} />
             </button>
           </th>
           <td className={s.cShare}>
@@ -194,7 +220,7 @@ export function Board({ board, width, showAll, onShowAll, pricesDate, header }: 
           <tr>
             <th scope="col" className={s.cName}>
               Modelo
-              <span className={s.headHint}>fornecedor · part. semana · US$/milhão entrada · cache · saída</span>
+              <span className={s.headHint}>fornecedor · part. semana · preços em US$/milhão</span>
             </th>
             <th scope="col" className={s.cShare}>
               Part. semana

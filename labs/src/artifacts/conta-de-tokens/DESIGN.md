@@ -17,7 +17,7 @@ colors:
   housing-label-strong: "#D6DDE4"
   flap-face: "#F2F1EC"
   flap-lower: "#E6E5DF"
-  flap-hinge: "#000000"
+  flap-hinge: "rgb(0 0 0 / 0.22)"
   flap-blank: "#CFCEC8"
   flap-glyph: "#0D1826"
   marca: "#D4F23A"
@@ -28,7 +28,7 @@ colors:
   band-4: "#677384"
   band-5: "#AEB8C3"
   band-6: "#7F8B99"
-  band-outros: "#DCE2E8"
+  band-outros: "#9AA3AE"
   frozen: "#5B6776"
 typography:
   answer:
@@ -188,7 +188,7 @@ Strategy: **Restrained**, blue-steel and navy ink plus one accent that carries m
 - Nothing chartreuse is ever text or glyph colour on the band.
 
 ### Flaps
-- **Flap face** `#F2F1EC` (upper half) and **Flap lower** `#E6E5DF` (lower half), split by a 1px **Flap hinge** `#000000` line at 50% height. Glyph **Flap glyph** `#0D1826` (15.9:1 on face).
+- **Flap face** `#F2F1EC` (upper half) and **Flap lower** `#E6E5DF` (lower half), split by a 1px **Flap hinge** seam, black at 22%, at 50% height (none on blank cells). Glyph **Flap glyph** `#0D1826` (15.9:1 on face).
 - Cell depth, the only depth on the page: `box-shadow: 0 1px 0 rgb(0 0 0 / 0.55), inset 0 -1px 0 rgb(0 0 0 / 0.08)` on the band; on the light sheet (board rows) `0 1px 0 rgb(13 24 38 / 0.28), inset 0 -1px 0 rgb(0 0 0 / 0.06)`.
 - **Flap blank** `#CFCEC8`: padding cells (no glyph) so figures keep a fixed width.
 
@@ -198,7 +198,7 @@ Strategy: **Restrained**, blue-steel and navy ink plus one accent that carries m
 - The fader cap's 2px centre line is Marca on the Ink cap: a line on a control, not text.
 
 ### Chart bands (no brand colours)
-Top 8 providers + outros, stacked bottom-up by last-week share. The leader gets **Ink**. The reference model's provider gets **Marca** with a 1px Marca-deep outline (if the reference provider is also the leader, it gets Marca and the next one gets Ink). The rest take `band-1…band-6` in stacking order, alternating light/dark so neighbours differ by ≥ 1.5:1; bands 5 and 6 add a 45° hairline hatch (1px ink at 14% opacity every 5px) so no two adjacent bands depend on tone alone. **Outros** is `band-outros` with a dotted pattern (1px dots, 4px grid, ink 16%). Every band is labelled in text, so colour is never the only carrier.
+Top 8 providers + outros, stacked bottom-up by last-week share. The leader gets **Ink**. The reference model's provider gets **Marca** with a 1px Marca-deep outline (if the reference provider is also the leader, it gets Marca and the next one gets Ink). The rest take `band-1…band-6` in stacking order, alternating light/dark so neighbours differ by ≥ 1.5:1; bands 5 and 6 add a 45° hairline hatch (1px ink at 14% opacity every 5px) so no two adjacent bands depend on tone alone. **Outros** is `band-outros` with a −45° hatch (1px ink at 25% every 5px, against the direction of bands 5 and 6), and the plot draws a 1px Rule-strong edge at 100%. Every band is labelled in text, so colour is never the only carrier.
 
 ### Frozen
 - **Frozen** `#5B6776` (3.7:1 on Ground, a non-text graphic): the lock glyph on rows that do not respond to the fader. The accompanying text uses Muted.
@@ -217,7 +217,7 @@ Top 8 providers + outros, stacked bottom-up by last-week share. The leader gets 
 | headrail bg / text | `#0A1019` / `#E9EDF1` |
 | leader band | `#E9EDF1` |
 | bands 1–6 | `#3A4757 #5A687A #2F3B4A #6E7C8F #46546A #56647A` |
-| band-outros | `#243040` |
+| band-outros | `#4B586A` |
 | marca / marca-deep | `#D4F23A` unchanged (text on it stays `#0D1826`) / `#B6D12A` for outlines |
 
 The rhythm holds in night: the band (`#0A0B0D`) is still the darkest surface, and its flaps are still the brightest. The fader cap becomes `#E9EDF1` with the chartreuse centre line.
@@ -265,7 +265,7 @@ Mobile-first. One breakpoint that matters, `min-width: 64rem` (1024px), plus a w
 Top to bottom, 16px gutters:
 1. **Labs banner** (global, ~56px).
 2. **Headrail** (40px, full bleed, Ink): "CONTA DE TOKENS" signage in Ground raised left; "dados 24 set 2026" in data face right.
-3. 20px. **Kicker** (signage, Muted): "Participação entre os tokens que passam pelo OpenRouter · cenário ilustrativo". Two lines at most.
+3. 20px. **Kicker** (signage, Muted): "Cenário ilustrativo · preços e participação do OpenRouter (só o tráfego que passa por ele)". Two lines at most.
 4. 8px. **Answer** (h1, 22px, ~5 lines, ~145px): "Com **50%** de cache, 1 bilhão de tokens por mês custa **US$ 2.880** no Claude Sonnet 5 e **US$ 91** no DeepSeek V4.1 Flash — e a DeepSeek ficou com **24,6%** dos tokens do OpenRouter na última semana; a Anthropic, com **2,8%**." (generated from data; figures in Chivo Mono.)
 5. 20px. **Board band** (full bleed, Housing, 16px padding top and bottom): the two **quote plates** stacked 8px apart, full content width (358px), each 96px tall:
    - Plate A (reference, 6px Marca left edge): signage label in Housing label "SEU MODELO DE REFERÊNCIA · " + model name in Housing label strong "CLAUDE SONNET 5"; below, flap-large row: static "US$" in signage (Housing label) baseline-aligned to the flaps' bottom, 6 cells (`_2.880`), then "/mês" in data face Housing label.
@@ -335,7 +335,7 @@ A real `<table>` with a visually hidden caption "Fatura mensal estimada por mode
 - **Section header row:** h2 + compact fader (see Fader).
 - **Column header row:** Ground sunk, signage Muted: `MODELO` · `PART. SEMANA` · `US$/MILHÃO ENTRADA · CACHE · SAÍDA` · `FATURA/MÊS`.
 - **Rows (≥ 64rem):** 56px, 1px Rule divider. Model name Chivo 600 0.9375rem with provider in data face Muted below; share: 64px Ground sunk track with Ink fill plus value in data face (`12,6%`; `<0,1%`; `—` when not ranked); prices in data face `0,075 · 0,0015 · 0,30`; bill in flap-small cells (sheet surface), right-aligned, width fixed to the widest bill in the scenario (max 7 cells).
-- **Rows (< 64rem):** two lines, 64px min. Line 1: name left, bill flaps right. Line 2 data face Muted: provider · share · prices. < 360px: prices wrap to a third line.
+- **Rows (< 64rem):** two lines, 64px min. Line 1: name left, bill flaps right. Line 2 data face Muted: provider · share. Line 3: the three prices, each with its label (`ENT 0,075  CACHE 0,0015  SAÍDA 0,3`), rounded to two significant digits; a pair never breaks, the line wraps between pairs.
 - **Order:** ascending by bill, re-sorted live. Paid models only; `:free` in a separate group.
 - **Default rows:** top 12 by weekly volume plus the brief's reference models and the chosen reference, deduplicated (~16). Full-width button "Ver todos os N modelos" (signage, 48px, 1px Ink border) reveals all (~60) with a 240ms clip-path from top.
 - **Reference row:** Marca background across the row, ink text (light surface, so the highlighter is legal here, and in night too since the row text stays `#0D1826`). Never pinned; it keeps its sort position.
@@ -431,6 +431,17 @@ Registrados na construção (2026-09-26); o resto segue o documento acima.
 - **Flaps pequenos (tabela e leitura do fader):** a dobradiça fica em preto a 30% e some nas células em branco; as células em branco sobre a folha ganham só um contorno de 1px. Em 16–19px, a dobradiça preta cheia parecia um tachado, e numa célula em branco parecia um "—", o mesmo glifo de "sem fatura". Os flaps grandes da faixa ficam como especificados.
 - **Os marcadores ¹ nas placas não são links.** A placa inteira é um botão, e um link dentro de um botão é HTML inválido. O marcador fica visível (Housing label) e o link para `#fontes` está nos mesmos números da frase logo acima.
 - **Etiqueta "N× MENOS" no celular:** abaixo de 64rem ela quebra para uma linha própria, alinhada à direita, e a placa B fica com uns 140px em vez de 96. Com seis células de 40px, "US$", "/mês" e a etiqueta não cabem em 358px.
-- **Cabeçalho da tabela no celular:** abaixo de 64rem a coluna "Modelo" traz uma segunda linha em data face, "fornecedor · part. semana · US$/milhão entrada · cache · saída". Sem ela, os números da segunda linha de cada modelo ficariam sem rótulo, porque as colunas de participação e preços são ocultadas.
+- **Cabeçalho da tabela no celular:** abaixo de 64rem a coluna "Modelo" traz uma segunda linha em data face, "fornecedor · part. semana · preços em US$/milhão" (cada preço traz o próprio rótulo na linha). Sem ela, os números da segunda linha de cada modelo ficariam sem rótulo, porque as colunas de participação e preços são ocultadas.
 - **Legenda do gráfico no celular:** usa colunas de no mínimo 150px (duas em 390px, uma em 320px), em vez de duas fixas. Em 320px os nomes dos fornecedores eram cortados.
 - **Frozen no modo noturno:** `#8D99A8`. O `#5B6776` do modo claro some sobre o fundo `#161E2A`. O documento não definia esse valor para a noite.
+
+Registrados no polimento (2026-09-28), depois da crítica independente:
+
+- **Dobradiça dos flaps grandes também desbotada.** A linha preta cheia a 50% cortava cada algarismo das placas e se alinhava de célula a célula: `US$ 2.880` parecia um preço riscado, cancelado. Agora a dobradiça é uma costura de 1px em preto a 22%, em todos os tamanhos, e some nas células em branco. A diferença de tom entre as metades (Flap face / Flap lower) continua carregando a leitura de "flap".
+- **"Outros" deixou de ser quase o fundo.** O `#DCE2E8` pontilhado se confundia com a folha, e a pilha parecia parar em 70–80%. Agora é `#9AA3AE` (noite `#4B586A`) com hachura a −45°, e o gráfico desenha a borda de 100%.
+- **Linha de preços no celular.** A linha única "fornecedor · part. · entrada · cache · saída" quebrava no meio da lista e deixava números sem rótulo. Virou duas linhas: fornecedor e participação; depois os três preços rotulados e arredondados a dois algarismos significativos. O valor exato fica no detalhe da linha e na coluna do desktop.
+- **Kicker reescrito** para enquadrar o cenário e a fonte antes da frase, sem limite de 44ch (duas linhas em 390px). A linha opcional sob o h1 ("Mova o cache…") não entrou: empurraria o fader para fora da primeira dobra em 390 × 844.
+- **Marcador ¹ nas placas** agora fica dentro de "/mês", sobrescrito, na mesma cor.
+- **O carimbo de data da atribuição continua literal** (`as of 2026-09-25T12:06:35.101Z`): a linha é citada ao pé da letra (Brand Commitments), então não foi aparada. O parágrafo do método passou a dizer que a participação foi lida da cópia pública (IAPS-AI).
+- **Compartilhar esta conta.** Abaixo do carimbo do cenário, uma fileira de teclas no estilo das teclas do painel (Flap face, sombra de célula): "Compartilhar…" (só onde o navegador oferece `navigator.share`), "Copiar link" (confirma "LINK COPIADO" numa região `aria-live`), WhatsApp, LinkedIn e X. Todas são links simples sem JavaScript. O link leva só o que difere do caso padrão (`t`, `s`, `ref`, `c`); o caso padrão é a URL limpa.
+- **Imagem de compartilhamento (`share.tsx`)** é a primeira dobra acesa em 1200 × 630: headrail, kicker do cenário, a pergunta, a faixa preta com as duas placas de flaps (Chivo Mono 600, dobradiça desbotada, borda chartreuse só na placa de referência) e a linha de fontes com a atribuição literal. Tudo sai do `data.json` e do cenário do link. Satori não lê a fonte variável do `next/font`, então `fonts/` guarda Chivo 500/700 e Chivo Mono 400/600 estáticas (OFL). As metades do flap são dois retângulos sob um glifo só, sem recorte nem filtro de sombra: assim cada imagem sai em ~0,4 s.
