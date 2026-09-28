@@ -31,7 +31,9 @@ import {
   pickDay,
   plateDate,
   type Point,
+  shareCopy,
   shortRestriction,
+  substation,
   sundaysLead,
   worstDays,
   worstWeek,
@@ -260,5 +262,32 @@ describe('dataProblems', () => {
     const lamp = encodeLamp(zeros(), zeros(), zeros().map(() => 60));
     const missing: CurtailmentData = { ...data, days: [{ ...day16, points: { 0: { lamp, cutMwh: 0, refMwh: 0 } } }] };
     expect(dataProblems(missing).join()).toMatch(/missing restriction/);
+  });
+});
+
+describe('substation', () => {
+  it('unglues the name, the voltage and the bar', () => {
+    expect(substation('MONTE VERDE500kVA')).toBe('MONTE VERDE - 500 kV (A)');
+    expect(substation('ARINOS 2500kVA')).toBe('ARINOS 2 - 500 kV (A)');
+    expect(substation('TRES MARIAS 3138kVA')).toBe('TRES MARIAS 3 - 138 kV (A)');
+    expect(substation('PIRAPORA 2345kVA')).toBe('PIRAPORA 2 - 345 kV (A)');
+  });
+
+  it('leaves the spelled-out form and anything it cannot read alone', () => {
+    expect(substation('JAGUARUANA II - 230 kV (A)')).toBe('JAGUARUANA II - 230 kV (A)');
+    expect(substation('SE Qualquer')).toBe('SE Qualquer');
+  });
+
+  it('leaves no substation in the data glued', () => {
+    for (const p of data.points) if (p.sub) expect(substation(p.sub)).not.toMatch(/[^\s(]\d*kV/i);
+  });
+});
+
+describe('shareCopy', () => {
+  it('says the day, the cut and the reason that carried it, from the data', () => {
+    const copy = shareCopy(day16);
+    expect(copy.title).toBe('O corte de eólicas e solares em 16/08/2026');
+    expect(copy.description).toMatch(/^400 GWh de eólicas e solares cortados por ordem do ONS; 82% por sobra de energia/);
+    expect(copy.post).toMatch(/^Em 16\/08\/2026, o ONS mandou cortar 400 GWh/);
   });
 });

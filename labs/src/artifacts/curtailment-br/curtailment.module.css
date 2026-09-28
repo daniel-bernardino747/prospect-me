@@ -21,7 +21,7 @@
   --rede: #d63a22;
   --rede-deep: #9e2412;
   --window-off: #e4eae5;
-  --window-off-ink: #5e6e66;
+  --window-off-ink: #4e5c55;
   --heat-0: #dde6df;
   --heat-1: #f2d892;
   --heat-2: #f4b02a;
@@ -220,7 +220,7 @@
 .console {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: 'head' 'panel' 'why' 'dock';
+  grid-template-areas: 'head' 'panel' 'why' 'share' 'dock';
 }
 
 .panel {
@@ -231,7 +231,24 @@
 .mapWrap {
   position: relative;
   width: 100%;
+  aspect-ratio: var(--ar);
   scroll-margin-top: 72px;
+}
+
+/* Phone: the canvas is the whole board. Desktop crops it (see the ≥64rem block). */
+.mapClip {
+  position: absolute;
+  inset: 0;
+}
+
+.mapCanvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.mapCanvas > svg {
+  pointer-events: auto;
 }
 
 .margin {
@@ -277,43 +294,51 @@
   stroke-linecap: square;
 }
 
-.lamp {
+/* A map lamp is a translated <g> of five parts in a fixed order: bezel, glass, lit, fleck, bar. */
+.lamps > g {
   transition: opacity 180ms ease-out;
 }
 
-.lamps[data-dim] .lamp:not([data-on]) {
+.lamps[data-dim] > g:not([data-on]) {
   opacity: 0.22;
 }
 
-.bezel {
+.bezel,
+.lamps > g > :nth-child(1) {
   fill: var(--socket);
   stroke: var(--bezel);
   stroke-width: 1.5;
 }
 
-.glass {
+.glass,
+.lamps > g > :nth-child(2) {
   fill: var(--glass-off);
 }
 
-.lit {
+.lit,
+.lamps > g > :nth-child(3) {
   fill: transparent;
 }
 
-.lit[data-glass='sobra'] {
+.lit[data-glass='sobra'],
+.lamps > g > [data-glass='sobra'] {
   fill: var(--sobra);
 }
 
-.lit[data-glass='rede'] {
+.lit[data-glass='rede'],
+.lamps > g > [data-glass='rede'] {
   fill: var(--rede);
 }
 
-.fleck {
+.fleck,
+.lamps > g > :nth-child(4) {
   fill: #fff;
   opacity: 0.25;
   pointer-events: none;
 }
 
-.bar {
+.bar,
+.lamps > g > :nth-child(5) {
   stroke: var(--plate);
   stroke-width: 1.2;
   stroke-linecap: butt;
@@ -818,6 +843,72 @@
   background: currentColor;
   opacity: 0.4;
   transform-origin: left;
+}
+
+/* ---------------------------------------------------------------- share */
+
+.share {
+  grid-area: share;
+  padding-top: 28px;
+}
+
+/* Phone: two keys a row, full width, so none is left alone on a line. */
+.shareRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Pushbuttons on the panel: plate body, engraved caps. Never amber or red (the Two Glasses Rule). */
+.shareKey {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--plate);
+  color: var(--plate-ink);
+  box-shadow: var(--laminate);
+  font-family: var(--font-engrave), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.shareKey:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 0 rgb(0 0 0 / 0.5);
+}
+
+.board .shareKey:focus-visible {
+  outline-color: var(--ink);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .shareKey:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+}
+
+.shareSaid {
+  min-height: 1.4em;
+  margin: 8px 0 0;
+  font-family: var(--font-engrave), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 /* ---------------------------------------------------------------- dock */
@@ -1512,6 +1603,15 @@
     padding: 24px;
   }
 
+  .shareRow {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .shareKey {
+    width: auto;
+  }
+
   .window {
     min-height: 72px;
   }
@@ -1527,9 +1627,10 @@
   .console {
     grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
     /* The flexible last row takes the reading column's excess, so the dock sits right under the map. */
-    grid-template-rows: auto auto 1fr;
+    grid-template-rows: auto auto auto 1fr;
     grid-template-areas:
       'head panel'
+      'share panel'
       'why panel'
       'why dock';
     column-gap: 24px;
@@ -1574,14 +1675,28 @@
     flex: none;
     width: auto;
     height: var(--map-h);
+    aspect-ratio: var(--ar-crop);
   }
 
   .panel {
-    --map-h: clamp(460px, calc(100vh - 336px), 640px);
+    --map-h: clamp(460px, calc(100vh - 320px), 720px);
+    padding-block: 16px;
   }
 
-  .map {
-    width: auto;
+  .mapClip {
+    overflow: hidden;
+  }
+
+  .mapCanvas {
+    inset: auto;
+    left: var(--crop-x);
+    top: var(--crop-y);
+    width: var(--crop-w);
+    height: var(--crop-h);
+  }
+
+  .share {
+    padding-top: 20px;
   }
 
   .legendStrip,
@@ -1597,15 +1712,21 @@
     display: block;
   }
 
+  .ufPlate {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+  }
+
+  .windowTag {
+    font-size: 0.6875rem;
+  }
+
   .margin {
     display: flex;
     flex-direction: column;
     gap: 20px;
     flex: 1;
     min-width: 0;
-    max-height: var(--map-h);
-    overflow-y: auto;
-    scrollbar-width: thin;
   }
 
   .dock {
@@ -1686,7 +1807,7 @@
     gap: 6px;
     font-family: var(--font-engrave), sans-serif;
     font-weight: 700;
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     letter-spacing: 0.06em;
   }
 
@@ -1730,7 +1851,7 @@
     margin: 0;
     font-family: var(--font-engrave), sans-serif;
     font-weight: 700;
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     letter-spacing: 0.06em;
   }
 
@@ -1756,12 +1877,29 @@
 
   .offStacked .offUnit {
     grid-column: 1 / -1;
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     color: rgb(241 244 239 / 0.8);
   }
 
   .ufList {
     display: none;
+  }
+
+  .method .methodBody {
+    display: grid;
+    grid-template-columns: minmax(0, 36rem) minmax(0, 1fr);
+    column-gap: 48px;
+    align-items: start;
+  }
+
+  .methodBody > p {
+    grid-column: 1;
+  }
+
+  .methodBody > .credits {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+    margin-top: 0;
   }
 
   .daysFrame {
@@ -1837,11 +1975,25 @@
     text-align: left;
   }
 
+  .ufList .ufRest th,
+  .ufList .ufRest td {
+    color: var(--ink-2);
+    font-weight: 400;
+  }
+
   .ufList thead th {
     font-family: var(--font-engrave), sans-serif;
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     color: var(--ink-2);
+  }
+}
+
+/* A short wide screen: the margin column would outgrow the board and push the
+   botoeira out of the first view. The day's value per state stays on the UF plates. */
+@media (min-width: 80rem) and (max-height: 859.98px) {
+  .ufList {
+    display: none;
   }
 }
 
@@ -1849,7 +2001,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .recRow,
-  .lamp,
+  .lamps > g,
   .push {
     transition: none;
   }

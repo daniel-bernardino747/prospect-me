@@ -208,6 +208,20 @@ export function shortRestriction(dsc: string): string {
   return s.replace(/(\d)\s*KV\b/gi, '$1 kV');
 }
 
+/**
+ * A SIGA connection point as a reader can cite it. The file writes it two ways,
+ * `JAGUARUANA II - 230 kV (A)` and `JAGUARUANA II230kVA` (name, voltage and bar
+ * glued); the second comes back in the first's form. Only the grid's own
+ * voltages are recognised, so `ARINOS 2500kVA` reads `ARINOS 2 - 500 kV (A)`.
+ */
+export function substation(sub: string): string {
+  const s = sub.replace(/\s+/g, ' ').trim();
+  const glued = /^(.*?\S)\s?(13[.,]8|34[.,]5|69|88|138|230|345|440|500|525|765)\s?kV\s?\(?([A-Z])?\)?$/i.exec(s);
+  if (!glued || / - \d/.test(s)) return s;
+  const [, name, kv, bar] = glued;
+  return `${name} - ${kv} kV${bar ? ` (${bar.toUpperCase()})` : ''}`;
+}
+
 /** Engraved caps that keep `kV` in its correct case. */
 export function engrave(label: string): string {
   return label.toLocaleUpperCase('pt-BR').replace(/(\d) KV\b/g, '$1 kV');
@@ -349,6 +363,33 @@ export function deck(day: Day): Deck {
     second: bySobra
       ? ' do corte do dia foi por sobra de energia no sistema, não por falta de linha.'
       : ' do corte do dia foi porque a rede não aguentou, não por sobra de energia.',
+  };
+}
+
+export interface ShareCopy {
+  /** Link title: the day, never a claim. */
+  title: string;
+  /** Link description: the cut and the reason that carried it, attributed to the ONS. */
+  description: string;
+  /** The short text that goes with the link on WhatsApp and X. */
+  post: string;
+}
+
+/** What a shared link to one day says, from that day's numbers only. */
+export function shareCopy(day: Day): ShareCopy {
+  const cut = `${gwhWhole(day.cutMwh)} GWh`;
+  const sobra = sobraShare(day);
+  const why =
+    day.cutMwh <= 0
+      ? ''
+      : sobra >= 0.5
+        ? `${pctWhole(sobra)} por sobra de energia no sistema`
+        : `${pctWhole(1 - sobra)} porque a rede não aguentou`;
+  const date = dateBr(day.date);
+  return {
+    title: `O corte de eólicas e solares em ${date}`,
+    description: `${cut} de eólicas e solares cortados por ordem do ONS${why ? `; ${why}` : ''}. Mapa do Nordeste, meia hora a meia hora.`,
+    post: `Em ${date}, o ONS mandou cortar ${cut} de eólicas e solares${why ? `, ${why}` : ''}. O mapa, meia hora a meia hora:`,
   };
 }
 
