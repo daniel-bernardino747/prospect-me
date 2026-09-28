@@ -6,6 +6,8 @@ const config: NextConfig = {
   // Artifacts read their data from disk on the server (see each `load.ts`).
   outputFileTracingIncludes: {
     '/[slug]': ['./src/artifacts/**/data.json'],
+    // A prospect's media is read from disk by its own route, never put in public/.
+    '/[slug]/media/[file]': ['./src/artifacts/*/media/*'],
     '/demo/[slug]': ['./src/artifacts/**/data.json'],
     // A showcase's OG image may read its data and the fonts beside its `share.tsx`.
     '/demo/[slug]/og': ['./src/artifacts/**/data.json', './src/artifacts/**/fonts/*'],

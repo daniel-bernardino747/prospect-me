@@ -1,0 +1,29 @@
+{
+  "synthetic": true,
+  "label": "Candidate A",
+  "writtenAt": "2026-09-28",
+  "lines": [
+    "Candidate A (synthetic CV, written for this demo)",
+    "Senior Fullstack Engineer · Belo Horizonte, Brazil · English: C1",
+    "Summary",
+    "Nine years building web products, the last four at Senior level on a React and TypeScript application for structural engineers.",
+    "Experience",
+    "Senior Fullstack Engineer, Vigacor Engineering Software (fictional), 2022–present",
+    "Own the load-calculation workspace end to end, from the React/TypeScript client to the Python services that run the solvers.",
+    "Integrated an LLM assistant that drafts calculation notes; handled streaming responses, tool calls and partial results in the UI.",
+    "Built the retry and rate-limit layer for three third-party APIs, including Autodesk Platform Services.",
+    "Cut first render of large models from 9 s to 2.1 s by moving geometry parsing into a Web Worker and profiling browser memory.",
+    "Traced production incidents from browser to Postgres logs in Grafana; wrote the team's on-call runbook.",
+    "Fullstack Engineer, Rota Bancária (fictional), 2019–2022",
+    "Rebuilt the account dashboard's state management and component architecture in React and TypeScript.",
+    "Wrote Python services for payment reconciliation; introduced contract tests between front end and API.",
+    "Developer, Pixel Norte (fictional agency), 2017–2019",
+    "Shipped marketing sites and small apps for clients in logistics and retail.",
+    "Skills",
+    "React, TypeScript, Next.js, Python (FastAPI), PostgreSQL, Three.js, AWS (ECS, S3), GitLab CI",
+    "Uses Claude and Cursor daily for refactors, test scaffolding and code review.",
+    "How I work",
+    "I like joining a product while it is still being shaped, and I ask a lot of questions early.",
+    "Pair regularly with product managers and designers; ran the fortnightly demo for the engineering and ML teams."
+  ]
+}

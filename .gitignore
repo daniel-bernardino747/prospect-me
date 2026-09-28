@@ -18,3 +18,6 @@ labs/.cache/
 
 # Agent worktrees
 .claude/worktrees/
+
+# HyperFrames video projects: only rendered media goes into labs/
+.hyperframes/

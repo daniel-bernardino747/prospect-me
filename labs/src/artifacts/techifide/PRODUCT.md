@@ -23,6 +23,8 @@ The missing step between the "Submit Vacancy" page, which promises an "advanced 
 ## Capabilities and Constraints
 
 - Three ads, captured once (2026-09-28), precomputed; the page works unchanged after they close. No runtime model call, no paste mode: a visitor costs nothing.
+- Screening demo: one CV per ad, **synthetic** — written for the demo, about no real person, labelled as such in its first line and on the page. Read against the ad's must-haves the way the ad was read (evidence only where a line of the CV says it, checked word for word by code), with behavioural interview questions for the dimensions the call left open. Precomputed; no CV upload, no runtime model.
+- The screening video (`media/`, rendered once with HyperFrames from `.hyperframes/techifide-cv-screen/`, gitignored) is served by `/<slug>/media/<file>`, which applies the same 404-after-expiry rule as the page; nothing goes in `public/`.
 - The call sheet lives in the visitor's browser (`localStorage`, per ad) and is never sent anywhere: no submit to Techifide, no account, no server write. Exports are built in the browser.
 - Every claim quotes its ad line verbatim, checked by code; a field with no quote is shown empty, never guessed.
 - The headline counts questions ("N questions your intake call still has to answer"), never coverage ("X of 11").

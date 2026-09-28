@@ -175,6 +175,13 @@ Three 44px keys in the strip (Fullstack / ML / QA), links to `?ad=`, outlined am
 - **Bar:** fixed to the bottom once the sheet is touched, "Call sheet in progress, kept in this browser." with a **Profile** key; the page reserves its height below the last line, and it hides while a text field has focus.
 - **Print sheet:** Print / PDF shows only a plain black-on-white sheet: title, ad URL, "prepared on <date>", the filled template as a two-column table and the profile as a headed table (Dimension / Level / Note from the call), with the Labs banner above.
 
+### Screening a candidate
+- **Summary:** the candidate's label in legend caps and "N of M must-haves shown in the CV · K to ask", numerals in amber legend type (not plates: the count keeps the page's one inversion).
+- **Evidence rows:** each must-have in the ad's order; evidenced rows are `<details>` with an unbroken rail and a **Cnn** plate (the CV's own lanes), opening to the CV quote in the hairline frame captioned "CV line Cnn"; a must-have the CV does not show gets a gapped rail, an **Ask** plate and "Not in the CV: ask about it in the interview."
+- **Interview questions:** the question-list grammar (number, dimension prefix, prose) with a small underlined **Cnn** link to the CV line it builds on.
+- **The CV:** every line as lanes `C00`–`Cnn`, rings on cited lines, `:target` doubling like the ad's lanes. Always open, so a Cnn link lands.
+- **Screening video:** a 10 s silent loop (720×900, WebM VP9 then MP4 H.264, ~0.8 MB each, poster at 6.5 s) in the page's own world: the CV drops in, the twelve rails draw one by one with the cited CV line lit, WebAssembly lands gapped on **Ask**, then the "11" plate and three questions. Framed by a 1px amber border with a dim caption. At 64rem+ it sits in the fixed legend column; below, it opens the candidate section and the first screen gets one amber link, "See a CV screened against this role". Rendered in one place only (client check of the width), autoplays muted and looped, and under `prefers-reduced-motion` shows the poster with native controls instead.
+
 ### Must-haves
 A wrapping legend of short labels, each followed by its lane tag (`L21`). Each is a link to that lane of the ad, with a hit area extended by `::after` beyond its line height.
 

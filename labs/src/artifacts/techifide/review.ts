@@ -6,6 +6,7 @@
  */
 import type {
   AdSource,
+  CandidateView,
   BriefField,
   Contradiction,
   Dimension,
@@ -143,6 +144,42 @@ export function review(
   });
 
   return { brief, dimensions: results, contradictions, dropped };
+}
+
+/** What the model returns for a CV read against one ad. */
+export interface CandidateExtraction {
+  mustHaves: { value: string; quote: string | null }[];
+  questions: { dimension: string; question: string; quote: string | null }[];
+}
+
+/**
+ * The same review for a CV: a must-have counts as evidenced only when its quote
+ * is literally in the CV; otherwise it is left for the interview. Every
+ * must-have of the ad appears once, in the ad's order, and only the dimensions
+ * the call left open get a question, in the order worth asking.
+ */
+export function reviewCandidate(
+  extraction: CandidateExtraction,
+  cv: { label: string; writtenAt: string; lines: string[] },
+  mustHaves: readonly string[],
+  openDimensions: readonly string[],
+): CandidateView {
+  let dropped = 0;
+  const verified = (quote: string | null) => {
+    if (!quote) return null;
+    const found = findQuote(quote, cv.lines);
+    if (!found) dropped++;
+    return found ?? null;
+  };
+  const evidence = mustHaves.map((value) => {
+    const got = extraction.mustHaves.find((m) => m.value === value);
+    return { value, quote: got ? verified(got.quote) : null };
+  });
+  const questions = openDimensions.flatMap((dimension) => {
+    const got = extraction.questions.find((q) => q.dimension === dimension);
+    return got?.question.trim() ? [{ dimension, question: got.question.trim(), quote: verified(got.quote) }] : [];
+  });
+  return { label: cv.label, writtenAt: cv.writtenAt, lines: cv.lines, evidence, questions, dropped };
 }
 
 /** Only reached if the model skipped a dimension: Techifide's own description, as a question. */

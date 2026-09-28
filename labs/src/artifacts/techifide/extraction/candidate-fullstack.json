@@ -1,0 +1,47 @@
+{
+  "model": "claude-opus-5-5",
+  "extractedAt": "2026-09-28T13:00:00.000Z",
+  "extraction": {
+    "mustHaves": [
+      { "value": "Senior or Staff, production web apps", "quote": "the last four at Senior level on a React and TypeScript application for structural engineers" },
+      { "value": "React and TypeScript", "quote": "React, TypeScript, Next.js" },
+      { "value": "WebAssembly in the browser", "quote": null },
+      { "value": "LLMs and agents in production", "quote": "Integrated an LLM assistant that drafts calculation notes" },
+      { "value": "Streaming, tool calls, partial results", "quote": "handled streaming responses, tool calls and partial results in the UI" },
+      { "value": "External APIs", "quote": "Built the retry and rate-limit layer for three third-party APIs" },
+      { "value": "Debugging across the stack", "quote": "Traced production incidents from browser to Postgres logs in Grafana" },
+      { "value": "Front-end architecture", "quote": "Rebuilt the account dashboard's state management and component architecture" },
+      { "value": "Python or Rust in production", "quote": "the Python services that run the solvers" },
+      { "value": "AI-assisted development", "quote": "Uses Claude and Cursor daily for refactors, test scaffolding and code review" },
+      { "value": "Works across teams", "quote": "ran the fortnightly demo for the engineering and ML teams" },
+      { "value": "At ease in an evolving codebase", "quote": "I like joining a product while it is still being shaped" }
+    ],
+    "questions": [
+      {
+        "dimension": "Challenge / Conflict",
+        "question": "Tell me about a product or architecture decision at Vigacor you disagreed with. What did you do, and how did it end?",
+        "quote": "I ask a lot of questions early"
+      },
+      {
+        "dimension": "Structure",
+        "question": "You joined the load-calculation workspace while it was still being shaped. How did you decide what to build first without a finished spec?",
+        "quote": "Own the load-calculation workspace end to end"
+      },
+      {
+        "dimension": "Execution Style",
+        "question": "Walk me through the render work: did you ship it in steps or plan it through before release, and why that way?",
+        "quote": "Cut first render of large models from 9 s to 2.1 s"
+      },
+      {
+        "dimension": "Domain Orientation",
+        "question": "How much did you learn about how structural engineers work, and what did it change in something you built?",
+        "quote": "a React and TypeScript application for structural engineers"
+      },
+      {
+        "dimension": "Risk / Experimentation",
+        "question": "The LLM assistant was new ground. How did you decide it was safe to put in front of engineers, and what did you try that did not work?",
+        "quote": "Integrated an LLM assistant that drafts calculation notes"
+      }
+    ]
+  }
+}

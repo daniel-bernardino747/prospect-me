@@ -1,0 +1,24 @@
+{
+  "synthetic": true,
+  "label": "Candidate C",
+  "writtenAt": "2026-09-28",
+  "lines": [
+    "Candidate C (synthetic CV, written for this demo)",
+    "Senior QA Automation Engineer · Florianópolis, Brazil · English: B2",
+    "Summary",
+    "Seven years in test automation for web products, the last three on a browser-based 3D viewer for building models.",
+    "Experience",
+    "Senior SDET, Planta Viva (fictional), 2022–present",
+    "Designed the Playwright and TypeScript framework we use across unit, API and end-to-end suites.",
+    "Built visual regression tests for a Three.js viewer, comparing canvas snapshots across GPU drivers.",
+    "Moved the suites into GitLab CI with sharding; pipeline time fell from 38 to 11 minutes.",
+    "Cut flaky tests from 9% to under 1% by rewriting waits and isolating test data.",
+    "QA Engineer, Carga Certa (fictional), 2019–2022",
+    "Automated regression for a React logistics dashboard and its REST APIs with Cypress and Postman.",
+    "Wrote the first load tests with k6 for the booking API.",
+    "Skills",
+    "Playwright, TypeScript, JavaScript, Cypress, k6, GitLab CI, GitHub Actions, Chrome DevTools",
+    "Use GitHub Copilot and Claude to draft test cases from acceptance criteria, then review every one.",
+    "Comfortable presenting in English to product teams; B2 certificate."
+  ]
+}
