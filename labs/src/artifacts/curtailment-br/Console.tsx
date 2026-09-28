@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  type CSSProperties,
   type KeyboardEvent,
   type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
@@ -25,7 +26,7 @@ import {
   stepBand,
   stepLine,
 } from './board';
-import { engrave, type Glass, gwh, hourClock, hourProse, mw, PATAMARES } from './data';
+import { engrave, type Glass, gwh, hourClock, hourProse, mw, PATAMARES, substation } from './data';
 import { LampGlyph } from './LampGlyph';
 import s from './curtailment.module.css';
 
@@ -33,6 +34,14 @@ const STEP_MS = 250;
 const STEP_MS_REDUCED = 500;
 const POOL = 12;
 const LIVE_EVERY = 6;
+/**
+ * Desktop crops the board to where it has lamps: the plate rail on top (the
+ * legend lives in the margin column there) and the empty west band. Paracatu
+ * (MG) is the westernmost lamp, at x = 64 with a bezel of at most 13.
+ */
+const CROP_WEST = 48;
+/** States listed by name under POR ESTADO; the rest fold into one row. */
+const UF_ROWS = 6;
 
 function useMedia(query: string): boolean {
   return useSyncExternalStore(
@@ -65,9 +74,10 @@ interface Props {
   head: ReactNode;
   deck: ReactNode;
   reasons: ReactNode;
+  share: ReactNode;
 }
 
-export function Console({ board, head, deck, reasons }: Props) {
+export function Console({ board, head, deck, reasons, share }: Props) {
   const points = useMemo(() => decodePoints(board), [board]);
   const onMap = useMemo(() => points.map((p, j) => ({ p, j })).filter((x) => x.p.x !== null), [points]);
   const { width: W, height: H, rail } = board.map;
@@ -112,8 +122,6 @@ export function Console({ board, head, deck, reasons }: Props) {
     (at: number, f: number) => {
       for (const { p, j } of onMap) {
         const fr = lampFrame(p, board, at, f);
-        const x = p.x!;
-        const y = p.y!;
         glassEls.current[j]?.setAttribute('r', fr.rg.toFixed(2));
         const lit = litEls.current[j];
         if (lit) {
@@ -124,15 +132,15 @@ export function Console({ board, head, deck, reasons }: Props) {
         if (fleck) {
           const on = fr.rc >= 4;
           fleck.setAttribute('r', on ? (0.28 * fr.rc).toFixed(2) : '0');
-          fleck.setAttribute('cx', (x - 0.3 * fr.rc).toFixed(2));
-          fleck.setAttribute('cy', (y - 0.3 * fr.rc).toFixed(2));
+          fleck.setAttribute('cx', (-0.3 * fr.rc).toFixed(2));
+          fleck.setAttribute('cy', (-0.3 * fr.rc).toFixed(2));
         }
         const bar = barEls.current[j];
         if (bar) {
           const on = fr.glass === 'rede' && fr.rc >= 3;
           const half = on ? 0.7 * fr.rc : 0;
-          bar.setAttribute('x1', (x - half).toFixed(2));
-          bar.setAttribute('x2', (x + half).toFixed(2));
+          bar.setAttribute('x1', (-half).toFixed(2));
+          bar.setAttribute('x2', half.toFixed(2));
         }
       }
     },
@@ -374,49 +382,38 @@ export function Console({ board, head, deck, reasons }: Props) {
     for (const { p } of onMap) onMapByUf.set(p.uf, (onMapByUf.get(p.uf) ?? 0) + p.cutMwh);
     return board.map.ufs.filter((u) => onMapByUf.has(u.uf)).map((u) => ({ ...u, mwh: onMapByUf.get(u.uf)! }));
   }, [onMap, board.map.ufs]);
-  const ufNow = useMemo(
-    () =>
-      Object.entries(board.ufMw)
-        .map(([uf, v]) => ({ uf, now: v[t], day: board.byUf[uf] ?? 0 }))
-        .sort((a, b) => b.day - a.day),
-    [board.ufMw, board.byUf, t],
-  );
+  const ufNow = useMemo(() => {
+    const all = Object.entries(board.ufMw)
+      .map(([uf, v]) => ({ uf, now: v[t], day: board.byUf[uf] ?? 0 }))
+      .sort((a, b) => b.day - a.day);
+    if (all.length <= UF_ROWS + 1) return { rows: all, rest: null };
+    const rest = all.slice(UF_ROWS);
+    return {
+      rows: all.slice(0, UF_ROWS),
+      rest: { n: rest.length, now: rest.reduce((s, u) => s + u.now, 0), day: rest.reduce((s, u) => s + u.day, 0) },
+    };
+  }, [board.ufMw, board.byUf, t]);
 
   // Lamps render once per day and highlight; the replay moves them by attribute, not by React.
   const lampNodes = useMemo(
     () =>
       onMap.map(({ p, j }) => {
           const fr = lampFrame(p, board, initial);
-          const x = p.x!;
-          const y = p.y!;
           const bar = fr.glass === 'rede' && fr.rc >= 3 ? 0.7 * fr.rc : 0;
+          // One translated group per lamp, its parts at the origin and styled by
+          // position (bezel, glass, lit, fleck, bar), so 240 lamps stay light in the HTML.
           return (
-            <g key={p.id} className={s.lamp} data-on={hi && hiSet.has(p.i) ? '' : undefined}>
-              <circle className={s.bezel} cx={x} cy={y} r={p.rb} />
-              <circle ref={(el) => void (glassEls.current[j] = el)} className={s.glass} cx={x} cy={y} r={fr.rg.toFixed(2)} />
-              <circle
-                ref={(el) => void (litEls.current[j] = el)}
-                className={s.lit}
-                cx={x}
-                cy={y}
-                r={fr.rc.toFixed(2)}
-                data-glass={fr.glass ?? 'none'}
-              />
+            <g key={p.id} transform={`translate(${p.x} ${p.y})`} data-on={hi && hiSet.has(p.i) ? '' : undefined}>
+              <circle r={p.rb.toFixed(2)} />
+              <circle ref={(el) => void (glassEls.current[j] = el)} r={fr.rg.toFixed(2)} />
+              <circle ref={(el) => void (litEls.current[j] = el)} r={fr.rc.toFixed(2)} data-glass={fr.glass ?? 'none'} />
               <circle
                 ref={(el) => void (fleckEls.current[j] = el)}
-                className={s.fleck}
-                cx={(x - 0.3 * fr.rc).toFixed(2)}
-                cy={(y - 0.3 * fr.rc).toFixed(2)}
+                cx={(-0.3 * fr.rc).toFixed(2)}
+                cy={(-0.3 * fr.rc).toFixed(2)}
                 r={fr.rc >= 4 ? (0.28 * fr.rc).toFixed(2) : 0}
               />
-              <line
-                ref={(el) => void (barEls.current[j] = el)}
-                className={s.bar}
-                x1={(x - bar).toFixed(2)}
-                x2={(x + bar).toFixed(2)}
-                y1={y}
-                y2={y}
-              />
+              <line ref={(el) => void (barEls.current[j] = el)} x1={(-bar).toFixed(2)} x2={bar.toFixed(2)} />
             </g>
           );
       }),
@@ -442,7 +439,22 @@ export function Console({ board, head, deck, reasons }: Props) {
       <div className={s.head}>{head}</div>
 
       <section className={s.panel} aria-label="Painel do dia: mapa do corte por ponto">
-        <div className={s.mapWrap} ref={mapRef} style={{ aspectRatio: `${W} / ${H}` }}>
+        <div
+          className={s.mapWrap}
+          ref={mapRef}
+          style={
+            {
+              '--ar': `${W} / ${H}`,
+              '--ar-crop': `${W - CROP_WEST} / ${(H - rail).toFixed(1)}`,
+              '--crop-w': `${((W / (W - CROP_WEST)) * 100).toFixed(3)}%`,
+              '--crop-h': `${((H / (H - rail)) * 100).toFixed(3)}%`,
+              '--crop-x': `${((-CROP_WEST / (W - CROP_WEST)) * 100).toFixed(3)}%`,
+              '--crop-y': `${((-rail / (H - rail)) * 100).toFixed(3)}%`,
+            } as CSSProperties
+          }
+        >
+          <div className={s.mapClip}>
+          <div className={s.mapCanvas}>
           <svg
             ref={svgRef}
             className={s.map}
@@ -454,9 +466,10 @@ export function Console({ board, head, deck, reasons }: Props) {
             onPointerLeave={() => setHover(null)}
           >
             <defs>
+              {/* Each state's outline is written once and reused for the land seams' clip. */}
               <clipPath id={`${ids}-land`}>
                 {board.map.ufs.map((u) => (
-                  <path key={u.uf} d={u.d} />
+                  <use key={u.uf} href={`#${ids}-uf-${u.uf}`} />
                 ))}
               </clipPath>
             </defs>
@@ -464,7 +477,7 @@ export function Console({ board, head, deck, reasons }: Props) {
             <path className={s.seamSea} d={board.map.seams} />
             <g className={s.land}>
               {board.map.ufs.map((u) => (
-                <path key={u.uf} d={u.d} />
+                <path key={u.uf} id={`${ids}-uf-${u.uf}`} d={u.d} />
               ))}
             </g>
             <path className={s.seamLand} d={board.map.seams} clipPath={`url(#${ids}-land)`} />
@@ -480,7 +493,10 @@ export function Console({ board, head, deck, reasons }: Props) {
             </g>
             {sel && sel.x !== null && <circle className={s.ring} cx={sel.x} cy={sel.y!} r={sel.rb + 2.5} />}
           </svg>
+          </div>
+          </div>
 
+          <div className={s.mapCanvas}>
           <div className={s.ufPlates} aria-hidden="true">
             {ufPlates.map((u) => (
               <span key={u.uf} className={s.ufPlate} style={{ left: `${(u.cx / W) * 100}%`, top: `${(u.cy / H) * 100}%` }}>
@@ -501,6 +517,7 @@ export function Console({ board, head, deck, reasons }: Props) {
               <span className={s.tooltipValue}>{lampNow(hov, board, t)}</span>
             </span>
           )}
+          </div>
 
           <div className={s.rail} style={{ height: `${(rail / H) * 100}%` }}>
             {hi ? (
@@ -559,13 +576,20 @@ export function Console({ board, head, deck, reasons }: Props) {
                   </tr>
                 </thead>
                 <tbody>
-                  {ufNow.map((u) => (
+                  {ufNow.rows.map((u) => (
                     <tr key={u.uf}>
                       <th scope="row">{u.uf}</th>
                       <td>{mw(u.now)}</td>
                       <td>{gwh(u.day)}</td>
                     </tr>
                   ))}
+                  {ufNow.rest && (
+                    <tr className={s.ufRest}>
+                      <th scope="row">Outros {ufNow.rest.n}</th>
+                      <td>{mw(ufNow.rest.now)}</td>
+                      <td>{gwh(ufNow.rest.day)}</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -613,6 +637,8 @@ export function Console({ board, head, deck, reasons }: Props) {
           })}
         </div>
       </section>
+
+      {share}
 
       <div className={s.dock} onKeyDown={onDockKey}>
         {!wide && tag}
@@ -750,7 +776,7 @@ function PointTag({
         <div>
           <dt>Onde</dt>
           <dd>
-            {point.uf} · {point.sub ?? 'subestação não informada'} · {sourceWord(point.source)}
+            {point.uf} · {point.sub ? substation(point.sub) : 'subestação não informada'} · {sourceWord(point.source)}
             {point.x === null && ' · fora do mapa'}
           </dd>
         </div>

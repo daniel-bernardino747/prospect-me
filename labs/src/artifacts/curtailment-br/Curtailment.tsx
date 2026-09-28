@@ -1,6 +1,7 @@
 import { Atkinson_Hyperlegible_Next, B612 } from 'next/font/google';
 
 import type { ArtifactProps } from '@/labs/artifact';
+import { shareQuery, shareUrl } from '@/labs/share';
 
 import { boardDay, clockProse, heatRuns, offMapShare, solarCentreHour } from './board';
 import { Console } from './Console';
@@ -16,6 +17,7 @@ import {
   pctFine,
   pickDay,
   plateDate,
+  shareCopy,
   sobraShare,
   sundaysLead,
   weekday,
@@ -26,6 +28,7 @@ import { type DayRow, DaySelector } from './DaySelector';
 import { LampGlyph } from './LampGlyph';
 import { NotFoundPlate } from './NotFoundPlate';
 import { loadCurtailment } from './load';
+import { ShareLinks } from './ShareLinks';
 import s from './curtailment.module.css';
 
 // Next ships no metric overrides for this face, so it cannot build an adjusted fallback.
@@ -51,6 +54,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 -->`;
 
 const DEFAULT_DAY = '2026-08-16';
+const SLUG = 'curtailment-br';
 const REPO = 'https://github.com/daniel-bernardino747/prospect-me/blob/master/labs/src/artifacts/curtailment-br';
 const SCRIPT = 'https://github.com/daniel-bernardino747/prospect-me/blob/master/labs/scripts/curtailment-br.ts';
 
@@ -67,6 +71,9 @@ export default function Curtailment({ searchParams }: ArtifactProps) {
   const week = worstWeek(data.days);
   const solar = solarCentreHour(data);
   const outside = offMapShare(board.points, day.cutMwh);
+  // The link carries `?dia=` only when the reader picked a day that exists.
+  const link = shareUrl(SLUG, shareQuery(['dia'], found && searchParams.dia ? { dia: day.date } : {}));
+  const copy = shareCopy(day);
   const rows: DayRow[] = data.days.map((x) => ({
     date: x.date,
     cutMwh: x.cutMwh,
@@ -110,7 +117,14 @@ export default function Curtailment({ searchParams }: ArtifactProps) {
       <div hidden dangerouslySetInnerHTML={{ __html: DIRECTION }} />
       <script dangerouslySetInnerHTML={{ __html: JS_FLAG }} />
 
-      <Console key={day.date} board={board} head={head} deck={deckNode} reasons={<ReasonBar day={day} />} />
+      <Console
+        key={day.date}
+        board={board}
+        head={head}
+        deck={deckNode}
+        reasons={<ReasonBar day={day} />}
+        share={<ShareLinks url={link} title={copy.title} post={copy.post} date={dateBr(day.date)} />}
+      />
 
       <section className={s.section} id="dias" aria-labelledby="dias-h">
         <span className={s.plate}>
@@ -134,9 +148,8 @@ export default function Curtailment({ searchParams }: ArtifactProps) {
       </section>
 
       <section className={`${s.section} ${s.method}`} id="metodo" aria-labelledby="metodo-h">
-        <span className={s.plate}>MÉTODO E FONTES</span>
         <h2 className={s.headline} id="metodo-h">
-          O que é este número, e o que ele não é.
+          Método e fontes: o que é este número, e o que ele não é.
         </h2>
         <div className={s.methodBody}>
           <p>
@@ -250,8 +263,12 @@ function ReasonBar({ day }: { day: Day }) {
           </span>
         </span>
         <span className={s.busNote}>
-          {pctFine(day.byReason.ENE / total)} do corte veio de sobra de energia no sistema
-          {rede > 0 ? `; ${gwh(rede)}, de limites da rede.` : '.'}
+          {rede > 0
+            ? `${gwh(rede)} ${rede >= 2000 ? 'vieram' : 'veio'} de limites da rede (${parts
+                .filter((p) => p.glass === 'rede')
+                .map((p) => `${p.code} ${f1(p.mwh)}`)
+                .join(' + ')}).`
+            : 'Nada veio de limites da rede neste dia.'}
         </span>
       </figcaption>
     </figure>

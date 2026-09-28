@@ -35,6 +35,7 @@ export const ARTIFACTS: readonly Artifact[] = [
     summary:
       'Mapa do Nordeste que reproduz, meia hora a meia hora, quanta energia eólica e solar o ONS mandou cortar em cada dia de agosto e setembro de 2026, e por quê.',
     load: () => import('./curtailment-br/Curtailment'),
+    share: () => import('./curtailment-br/share').then((m) => m.default),
   },
   {
     kind: 'showcase',
