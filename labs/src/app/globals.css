@@ -27,6 +27,8 @@ body {
 }
 
 .labs-banner {
+  position: relative;
+  z-index: 1;
   background: var(--banner-bg);
   color: var(--banner-ink);
   font-size: 0.8125rem;

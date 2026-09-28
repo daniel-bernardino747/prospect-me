@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { ARTIFACTS } from '@/artifacts';
 
-import { type Prospect, registryProblems, resolveProspect, resolveShowcase, type Showcase } from './artifact';
+import { type Prospect, prospectTitle, registryProblems, resolveProspect, resolveShowcase, type Showcase } from './artifact';
 
 const prospect = (over: Partial<Prospect> = {}): Prospect => ({
   kind: 'prospect',
@@ -10,6 +10,7 @@ const prospect = (over: Partial<Prospect> = {}): Prospect => ({
   company: 'Acme',
   title: 'Thing',
   expiresAt: '2026-11-23T23:59:00-03:00',
+  locale: 'pt-BR',
   load: async () => ({ default: () => null }),
   ...over,
 });
@@ -77,7 +78,23 @@ describe('registryProblems', () => {
     expect(registryProblems([showcase({ summary: ' ' })])).toHaveLength(1);
   });
 
+  it('refuses a prospect whose locale the chrome does not speak', () => {
+    expect(registryProblems([prospect({ locale: 'fr' as Prospect['locale'] })])).toHaveLength(1);
+  });
+
   it('holds for the registry Labs actually serves', () => {
     expect(registryProblems(ARTIFACTS)).toEqual([]);
+  });
+});
+
+describe('locale', () => {
+  it('titles a prospect in the language of its reader', () => {
+    expect(prospectTitle(prospect())).toBe('Thing · protótipo independente');
+    expect(prospectTitle(prospect({ locale: 'en' }))).toBe('Thing · independent prototype');
+  });
+
+  it('keeps the Tarken prospect in Portuguese', () => {
+    const tarken = ARTIFACTS.find((a): a is Prospect => a.kind === 'prospect' && a.slug === 'tarken-fila-da-safra');
+    expect(tarken?.locale).toBe('pt-BR');
   });
 });

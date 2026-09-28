@@ -1,0 +1,143 @@
+{
+  "model": "claude-opus-5-5",
+  "extractedAt": "2026-09-28T11:30:00.000Z",
+  "extraction": {
+    "brief": [
+      {
+        "field": "Job Title",
+        "items": [{ "value": "Senior or Staff Fullstack Engineer", "quote": "We're looking for a Senior or Staff Fullstack Engineer" }]
+      },
+      {
+        "field": "Key Responsibilities & Accountabilities",
+        "items": [
+          { "value": "Own features end to end", "quote": "Own features from concept through production across React/TypeScript, Python and Rust" },
+          { "value": "Fast React and TypeScript front end", "quote": "Build responsive and high-performance user experiences using React and TypeScript" },
+          { "value": "Bring AI agents and ML into the product", "quote": "Integrate AI agents and machine learning services into real product workflows" },
+          { "value": "Python and Rust services", "quote": "Contribute to Python and Rust services responsible for business logic, data exchange, agent orchestration and communication with the client application" },
+          { "value": "API contracts with backend", "quote": "Design and evolve API contracts alongside platform and backend engineers" },
+          { "value": "Third-party APIs", "quote": "Integrate third-party platforms and APIs while accounting for authentication, rate limits, retries, latency and failures" },
+          { "value": "Streaming and real-time data", "quote": "Work with streaming and real-time data, ensuring results are delivered reliably and efficiently to the browser" },
+          { "value": "Performance across the stack", "quote": "Investigate performance across the entire application, from browser memory and rendering through API calls and backend services" },
+          { "value": "Tested code and reviews", "quote": "Write maintainable, well-tested code, contribute to code reviews" }
+        ]
+      },
+      {
+        "field": "Essential Experience/ Attributes",
+        "items": [
+          { "value": "Senior or Staff, production web apps", "quote": "You've already worked at Senior or Staff level building sophisticated web applications used in production" },
+          { "value": "React and TypeScript", "quote": "Strong React and TypeScript experience" },
+          { "value": "WebAssembly in the browser", "quote": "Experience working with WebAssembly in the browser" },
+          { "value": "LLMs and agents in production", "quote": "Experience integrating LLMs, AI agents or similar AI services into production applications" },
+          { "value": "Streaming, tool calls, partial results", "quote": "including streaming responses, tool calls, unpredictable latency, errors and partial results" },
+          { "value": "External APIs", "quote": "Experience integrating external APIs and designing around authentication, rate limiting, retries and service failures" },
+          { "value": "Debugging across the stack", "quote": "Strong debugging skills across the stack" },
+          { "value": "Front-end architecture", "quote": "Good knowledge of front-end architecture and patterns for building complex, stateful applications" },
+          { "value": "Python or Rust in production", "quote": "Production experience with at least one of our backend languages: Python or Rust" },
+          { "value": "AI-assisted development", "quote": "Experience using AI-assisted development tools as part of your normal engineering workflow" },
+          { "value": "Works across teams", "quote": "The communication skills to work effectively across engineering, product, design and machine learning teams" },
+          { "value": "At ease in an evolving codebase", "quote": "comfortable joining an evolving product and codebase where not every problem has already been neatly defined" }
+        ]
+      },
+      {
+        "field": "Desirable Experience/ Attributes",
+        "items": [
+          { "value": "Graphics, CAD, geometry", "quote": "2D or 3D graphics, CAD or geometry-heavy applications" },
+          { "value": "WebGL, WebGPU, Three.js", "quote": "WebGL, WebGPU or Three.js" },
+          { "value": "AWS", "quote": "AWS infrastructure and managed services" },
+          { "value": "Observability", "quote": "Production observability, including logging, tracing and monitoring" },
+          { "value": "CI/CD, GitLab", "quote": "CI/CD and GitLab pipelines" },
+          { "value": "Agile", "quote": "Agile product development" }
+        ]
+      },
+      {
+        "field": "Other information",
+        "items": [
+          { "value": "Strong front-end focus", "quote": "The role has a strong front-end focus" },
+          { "value": "Works closely with ML engineers", "quote": "You'll also work closely with machine learning engineers" }
+        ]
+      }
+    ],
+    "dimensions": [
+      {
+        "name": "Structure",
+        "evidence": null,
+        "question": "How does work reach this engineer: a ready ticket, a problem statement, or an idea to shape with product?",
+        "rank": 2
+      },
+      {
+        "name": "Risk / Experimentation",
+        "evidence": null,
+        "question": "How much room is there to try a new approach in production, say a different agent pattern, and who signs it off?",
+        "rank": 5
+      },
+      {
+        "name": "Autonomy",
+        "evidence": { "score": 4, "quote": "Own features from concept through production", "reading": "Owns a feature from idea to production" },
+        "question": "",
+        "rank": 11
+      },
+      {
+        "name": "Ambiguity",
+        "evidence": { "score": 4, "quote": "not every problem has already been neatly defined", "reading": "Starts from problems that are not yet defined" },
+        "question": "",
+        "rank": 11
+      },
+      {
+        "name": "Communication / Collaboration",
+        "evidence": { "score": 4, "quote": "Collaborate directly with product managers, designers, ML engineers and other software engineers", "reading": "Works directly with product, design and ML" },
+        "question": "",
+        "rank": 11
+      },
+      {
+        "name": "Product Thinking",
+        "evidence": { "score": 4, "quote": "you like understanding how the whole product works", "reading": "Expected to understand the whole product" },
+        "question": "",
+        "rank": 11
+      },
+      {
+        "name": "Execution Style",
+        "evidence": null,
+        "question": "Does the team ship early and iterate in production, or plan a feature through before it goes out?",
+        "rank": 3
+      },
+      {
+        "name": "Domain Orientation",
+        "evidence": null,
+        "question": "How close to the customers' own work does this engineer need to get: talking to users, or building from what product writes down?",
+        "rank": 4
+      },
+      {
+        "name": "Challenge / Conflict",
+        "evidence": null,
+        "question": "At Staff level, how much should this person push back on product and architecture decisions, and with whom?",
+        "rank": 1
+      },
+      {
+        "name": "AI Working Style",
+        "evidence": { "score": 4, "quote": "Experience using AI-assisted development tools as part of your normal engineering workflow", "reading": "AI tools are part of the daily workflow" },
+        "question": "",
+        "rank": 11
+      },
+      {
+        "name": "Learning / Adaptability",
+        "evidence": { "score": 4, "quote": "willing to move between React, APIs, backend services and AI systems", "reading": "Moves between front end, services and AI" },
+        "question": "",
+        "rank": 11
+      }
+    ],
+    "contradictions": [
+      {
+        "note": "Open at Senior or Staff level, with a scope described as owning features. Worth confirming what would make the hire Staff here: a wider scope, or the same scope with more experience.",
+        "quotes": ["We're looking for a Senior or Staff Fullstack Engineer", "Own features from concept through production across React/TypeScript, Python and Rust"]
+      },
+      {
+        "note": "WebAssembly in the browser is required, while graphics, CAD and geometry work is a nice-to-have. Worth confirming what the WebAssembly modules do, in case the two go together.",
+        "quotes": ["Experience working with WebAssembly in the browser", "2D or 3D graphics, CAD or geometry-heavy applications"]
+      },
+      {
+        "note": "The role has a strong front-end focus, yet is not for someone who wants only front-end tickets. Worth confirming roughly how the time splits between the browser and the services.",
+        "quotes": ["The role has a strong front-end focus", "You probably won't enjoy this position if you want to work exclusively on isolated front-end tickets"]
+      }
+    ]
+  }
+}

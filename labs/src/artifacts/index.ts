@@ -8,7 +8,17 @@ export const ARTIFACTS: readonly Artifact[] = [
     company: 'Tarken',
     title: 'A fila da safra',
     expiresAt: '2026-11-23T23:59:00-03:00',
+    locale: 'pt-BR',
     load: () => import('./tarken-fila-da-safra/FilaDaSafra'),
+  },
+  {
+    kind: 'prospect',
+    slug: 'techifide',
+    company: 'Techifide',
+    title: 'Intake prep',
+    expiresAt: '2026-11-27T23:59:00-03:00',
+    locale: 'en',
+    load: () => import('./techifide/Techifide'),
   },
   {
     kind: 'showcase',
