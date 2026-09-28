@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-import { ORIGIN } from './sitemap';
+import { ORIGIN } from '@/labs/origin';
 
 /** Crawlers may read `/demo/` and nothing else (ADR-0002). */
 export default function robots(): MetadataRoute.Robots {

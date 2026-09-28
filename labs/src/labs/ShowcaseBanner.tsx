@@ -5,8 +5,7 @@
 export function ShowcaseBanner() {
   return (
     <aside className="labs-banner" role="note">
-      <strong>Demo conceitual</strong> de Daniel Bernardino, construído com dados públicos. Não é produto nem trabalho
-      para nenhuma empresa.
+      <strong>Demo conceitual</strong> de Daniel Bernardino, com dados públicos. Não é produto de nenhuma empresa.
     </aside>
   );
 }

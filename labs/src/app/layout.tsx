@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
+import { ORIGIN } from '@/labs/origin';
+
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(ORIGIN),
   title: 'Labs',
   robots: { index: false, follow: false, nocache: true },
 };

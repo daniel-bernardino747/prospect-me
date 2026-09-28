@@ -1,5 +1,7 @@
 import type { ComponentType } from 'react';
 
+import type { ShareModule } from './share';
+
 /** What an artifact's component receives: the query string, for its own state. */
 export interface ArtifactProps {
   searchParams: Record<string, string | string[] | undefined>;
@@ -25,11 +27,13 @@ export interface Prospect extends Base {
 /**
  * A portfolio demo built for no company (ADR-0002), served at `/demo/<slug>`:
  * indexed, linked from the portfolio, with no end. `summary` is its search
- * description.
+ * description; `share` draws its OG image in the page's own style, and without
+ * it the link gets a plain Labs card.
  */
 export interface Showcase extends Base {
   kind: 'showcase';
   summary: string;
+  share?: () => Promise<ShareModule>;
 }
 
 export type Artifact = Prospect | Showcase;

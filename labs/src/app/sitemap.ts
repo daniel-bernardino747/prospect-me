@@ -1,8 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 import { ARTIFACTS } from '@/artifacts';
-
-export const ORIGIN = 'https://labs.teamdbsolutions.com';
+import { ORIGIN } from '@/labs/origin';
 
 /** Only showcases: a prospect is never listed, since that would tie it to a search (ADR-0001). */
 export default function sitemap(): MetadataRoute.Sitemap {
