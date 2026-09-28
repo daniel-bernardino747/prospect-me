@@ -4,7 +4,6 @@
  * is written for the demo and is about no real person.
  */
 import type { CandidateView } from './data';
-import { HeroVideo } from './HeroVideo';
 import { Rail } from './parts';
 import s from './techifide.module.css';
 
@@ -27,7 +26,6 @@ export function Candidate({ candidate }: { candidate: CandidateView }) {
       <h2 id="candidate-head" className={s.blockHead}>
         Screening a candidate
       </h2>
-      <HeroVideo where="section" />
       <p className={s.lead}>
         A synthetic CV, written for this demo and about no real person, read against this role&rsquo;s must-haves the
         way the ad was read: a must-have counts only where a line of the CV says it, checked word for word. What the CV

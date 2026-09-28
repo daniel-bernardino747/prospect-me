@@ -39,7 +39,7 @@ The missing step between the "Submit Vacancy" page, which promises an "advanced 
 
 ## Product Principles
 
-1. The call's agenda before anything else: on a phone, without scrolling, the role in one line, the must-haves, the question count and the first three questions.
+1. Show it working before explaining it: right under the role, on every screen, the screening video plays on its own (Daniel's call, 2026-09-28, over the earlier rule that the first phone screen hold the call's three questions). The call's questions follow.
 2. The quote is the proof: every claim ties to a numbered line of the ad, one tap away.
 3. Prepares and records, never replaces: no copy suggests swapping the call for a form or a score; the call's answers are the recruiter's, and they say where each level came from (the ad's line or the call).
 4. Honest method: one line at the foot says extraction by an LLM, quotes checked literally by code, questions reviewed by a human.

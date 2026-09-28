@@ -56,6 +56,8 @@ export default function Techifide({ searchParams }: ArtifactProps) {
             </p>
           </section>
 
+          {ad.candidate && <HeroVideo />}
+
           <section className={s.musts} aria-labelledby="musts">
             <h2 id="musts" className={s.legendHead}>
               Must-haves
@@ -73,13 +75,7 @@ export default function Techifide({ searchParams }: ArtifactProps) {
                 );
               })}
             </ul>
-            {ad.candidate && (
-              <a className={s.screenLink} href="#candidate">
-                See a CV screened against this role
-              </a>
-            )}
           </section>
-          <HeroVideo where="column" />
         </div>
 
         <div className={s.work}>
