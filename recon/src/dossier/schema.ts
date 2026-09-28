@@ -428,7 +428,7 @@ export type Recheck = z.infer<typeof recheckSchema>;
 
 /**
  * Accomplishment ids must exist in the Corpus and carry a Metric outside a
- * draft. The Corpus lives in personal-website, so the caller passes the eligible
+ * draft. The Corpus lives in `career`, so the caller passes the eligible
  * ids read from its `corpus:json` contract; the schema alone cannot know them.
  */
 export function unknownAccomplishments(dossier: Dossier, eligible: ReadonlySet<string>): string[] {

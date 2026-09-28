@@ -50,7 +50,7 @@ npm run recon -- recheck <slug>    # re-run every perishable finding's check
 npm run recon -- render <slug>     # dossiers/<slug>.md from the JSON
 ```
 
-`validate` reads the Corpus through personal-website's `corpus:json`
+`validate` reads the Corpus through the `career` repository's `corpus:json`
 (`CORPUS_REPO` in `.env`, default a sibling checkout). Run it after every merge
 of subagent output; do not continue on a failure.
 
