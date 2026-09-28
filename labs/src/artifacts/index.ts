@@ -25,6 +25,7 @@ export const ARTIFACTS: readonly Artifact[] = [
     summary:
       'Por qual caminho um pacote comprometido chega na sua app: o worm ChainDrop no npm, salto a salto, com a faixa de versão de cada dependência decidindo se a porta abre.',
     load: () => import('./raio-de-explosao/RaioDeExplosao'),
+    share: () => import('./raio-de-explosao/share').then((m) => m.default),
   },
   {
     kind: 'showcase',

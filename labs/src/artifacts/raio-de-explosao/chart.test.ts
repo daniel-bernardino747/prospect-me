@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { type LabelSpec, placeLabels, polar, route } from './chart';
+import { type Box, type LabelSpec, placeLabels, polar, route, routePoints } from './chart';
 import { CENTRE, ringRadius } from './data';
 
 const spec = (id: string, x: number, y: number, lines = ['file-entry-cache', '11.1.6']): LabelSpec => ({
@@ -9,6 +9,8 @@ const spec = (id: string, x: number, y: number, lines = ['file-entry-cache', '11
   clear: 11,
   lines,
   face: 'code',
+  fontPx: 12,
+  mode: { kind: 'radial' },
 });
 
 describe('polar', () => {
@@ -25,25 +27,26 @@ describe('route', () => {
     const r = route({ ring: 0, angle: 0 }, { ring: 1, angle: 90 }, 4);
     expect(r.last).toMatchObject({ to: ringRadius(1, 4), angle: 90 });
   });
+
+  it('samples its points from parent to child', () => {
+    const pts = routePoints(route({ ring: 1, angle: 30 }, { ring: 2, angle: 90 }, 4));
+    const first = polar(ringRadius(1, 4), 30);
+    const last = polar(ringRadius(2, 4), 90);
+    expect(pts[0].x).toBeCloseTo(first.x);
+    expect(pts.at(-1)!.y).toBeCloseTo(last.y);
+  });
 });
+
+const clear = (a: Box, b: Box) => a.x + a.w <= b.x || b.x + b.w <= a.x || a.y + a.h <= b.y || b.y + b.h <= a.y;
 
 describe('placeLabels', () => {
   // A chain on one radius, as the stylelint door draws it on a phone.
   const chain = [1, 2, 3, 4].map((k) => spec(`n${k}`, CENTRE + ringRadius(k, 5), CENTRE));
-  const placed = placeLabels(chain, 340, 12, chain.map((c) => ({ at: c.at, r: 19 })));
+  const marks = chain.map((c) => ({ at: c.at, r: 19 }));
+  const placed = placeLabels(chain, { px: 340, marks });
 
   it('never lets two labels overlap', () => {
-    for (const a of placed) {
-      for (const b of placed) {
-        if (a === b) continue;
-        const clear =
-          a.box.x + a.box.w <= b.box.x ||
-          b.box.x + b.box.w <= a.box.x ||
-          a.box.y + a.box.h <= b.box.y ||
-          b.box.y + b.box.h <= a.box.y;
-        expect(clear).toBe(true);
-      }
-    }
+    for (const a of placed) for (const b of placed) if (a !== b) expect(clear(a.box, b.box)).toBe(true);
   });
 
   it('keeps every label inside the chart', () => {
@@ -55,15 +58,35 @@ describe('placeLabels', () => {
     }
   });
 
-  it('labels the first in priority, and draws a leader for a label set away from its mark', () => {
-    expect(placed[0].id).toBe('n1');
-    for (const p of placed.filter((q) => q.leader)) {
-      expect(p.leader!.x1).toBeCloseTo((chain.find((c) => c.id === p.id)!.at.x / 1000) * 100);
+  it('never leaves a label nearer another mark than its own without a leader', () => {
+    const k = 0.34;
+    const dist = (b: Box, x: number, y: number) =>
+      Math.hypot(Math.max(b.x, Math.min(x, b.x + b.w)) - x, Math.max(b.y, Math.min(y, b.y + b.h)) - y);
+    for (const p of placed.filter((q) => !q.leader)) {
+      const own = chain.find((c) => c.id === p.id)!.at;
+      const mine = dist(p.box, own.x * k, own.y * k);
+      for (const m of chain) {
+        if (m.id === p.id) continue;
+        expect(dist(p.box, m.at.x * k, m.at.y * k)).toBeGreaterThanOrEqual(mine - 3);
+      }
     }
   });
 
+  it('starts a leader at its own mark', () => {
+    for (const p of placed.filter((q) => q.leader)) {
+      const own = chain.find((c) => c.id === p.id)!.at;
+      expect(Math.hypot(p.leader!.x1 - own.x / 10, p.leader!.y1 - own.y / 10)).toBeLessThan(3);
+    }
+  });
+
+  it('sets a label outward from the centre when there is room', () => {
+    const [p] = placeLabels([spec('a', CENTRE + 200, CENTRE, ['keyv', '5.6.0'])], { px: 340, marks: [] });
+    expect(p.box.x).toBeGreaterThan((CENTRE + 200) * 0.34);
+    expect(p.leader).toBeUndefined();
+  });
+
   it('keeps every corner inside the limit radius when one is given', () => {
-    const inner = placeLabels(chain, 340, 12, [], [], 454);
+    const inner = placeLabels(chain, { px: 340, marks: [], limitR: 454 });
     const c = 170;
     const lim = 454 * 0.34;
     for (const p of inner) {
@@ -75,13 +98,15 @@ describe('placeLabels', () => {
     }
   });
 
-  it('keeps clear of boxes a previous pass already took', () => {
-    const first = placeLabels([spec('a', 500, 500)], 340, 12, []);
-    const second = placeLabels([spec('b', 500, 500)], 340, 12, [], first.map((p) => p.box));
-    for (const p of second) {
-      const a = first[0].box;
-      const overlap = p.box.x < a.x + a.w && a.x < p.box.x + p.box.w && p.box.y < a.y + a.h && a.y < p.box.y + p.box.h;
-      expect(overlap).toBe(false);
-    }
+  it('keeps clear of taken boxes, except those it may cover, and reports those', () => {
+    const [a] = placeLabels([spec('a', 500, 500)], { px: 340, marks: [] });
+    const [b] = placeLabels([spec('b', 500, 500)], { px: 340, marks: [], taken: [{ id: 'x', box: a.box }] });
+    expect(clear(a.box, b.box)).toBe(true);
+    const [c] = placeLabels([{ ...spec('c', 500, 500), covers: 'x' }], {
+      px: 340,
+      marks: [],
+      taken: [{ id: 'x', box: a.box }],
+    });
+    expect(c.covered).toEqual(['x']);
   });
 });

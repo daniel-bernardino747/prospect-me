@@ -13,12 +13,15 @@ import {
   type Entry,
   exposureAt,
   headline,
+  hopIds,
   layout,
   morning,
   pathsTo,
   type Preset,
   qualifier,
   type RaioData,
+  stateOf,
+  tabLine,
   whatIfHeadline,
 } from './data';
 
@@ -67,7 +70,7 @@ describe('the morning of 4 August, stylelint', () => {
   it('opens on the door event, file-entry-cache at 10:13:02', () => {
     const i = defaultEntry(entries);
     expect(entries[i]).toMatchObject({ pkg: 'file-entry-cache', id: '101302' });
-    expect(qualifier(entries, i)).toBe('npm install sem lockfile, 4 ago 2026, a partir de 10:13 UTC');
+    expect(qualifier(entries, i)).toBe('npm install sem lockfile, 4 ago 2026, às 10:13 UTC');
   });
 
   it('counts what an install reached at that instant, never ahead of the registry', () => {
@@ -218,5 +221,38 @@ describe('apportion', () => {
     const out = apportion([10, 1], 180, 40);
     expect(out[1]).toBe(40);
     expect(out[0]).toBeCloseTo(140);
+  });
+});
+
+describe('tab lines', () => {
+  it('say the headline’s count first, so the tab and the headline agree', () => {
+    expect(tabLine(data, buildGraph(preset('stylelint')))).toEqual({ long: '4 → 5 INFECTADOS', short: '4 → 5 INFECT.' });
+    expect(tabLine(data, buildGraph(preset('got'))).long).toBe('1 SALTO');
+    expect(tabLine(data, buildGraph(preset('eslint')))).toEqual({ long: 'NENHUM CAMINHO', short: 'NENHUM' });
+  });
+});
+
+describe('hop ids', () => {
+  it('letter a ring’s nodes clockwise, so a chart tag names one ledger row', () => {
+    const g = buildGraph(preset('stylelint'));
+    const c = collapse(g, chainDropTargets(data, g));
+    const ids = hopIds(layout(g, c), c.nodes);
+    const id = (name: string) => ids.get(g.names.indexOf(name));
+    expect([id('file-entry-cache'), id('flat-cache'), id('cacheable')]).toEqual(['1', '2', '3']);
+    expect([id('@cacheable/memory'), id('@cacheable/utils'), id('keyv')]).toEqual(['4a', '4b', '4c']);
+    expect(new Set(ids.values()).size).toBe(ids.size);
+  });
+});
+
+describe('a shared link', () => {
+  it('opens the state it carries, and falls back to the default on anything unknown', () => {
+    const s = stateOf(data, { caso: 'got', t: '093500' });
+    expect(s.g.preset.id).toBe('got');
+    expect(s.entries[s.index].id).toBe('093500');
+    const d = stateOf(data, { caso: 'nope', t: 'x', alvo: 'nada@1' });
+    expect(d.g.preset.id).toBe('stylelint');
+    expect(d.entries[d.index].id).toBe('101302');
+    expect(d.target).toBeNull();
+    expect(stateOf(data, { alvo: 'keyv@5.6.0' }).target).toBe(buildGraph(preset('stylelint')).preset.nodes.indexOf('keyv@5.6.0'));
   });
 });

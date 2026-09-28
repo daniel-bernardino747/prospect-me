@@ -498,7 +498,8 @@ export function qualifier(entries: readonly Entry[], index: number): string {
   const entry = entries[index];
   const base = 'npm install sem lockfile, 4 ago 2026';
   if (index === defaultEntry(entries) && entry.kind === 'publish') {
-    return entry.verdict.kind === 'open' ? `${base}, a partir de ${hhmm(entry.at)} UTC` : `${base}, 09:30–10:39 UTC`;
+    // "às", not "a partir de": the count in the headline is the one at that instant.
+    return entry.verdict.kind === 'open' ? `${base}, às ${hhmm(entry.at)} UTC` : `${base}, 09:30–10:39 UTC`;
   }
   if (entry.kind === 'removal') return `${base}, às ~${hhmm(entry.at)} UTC`;
   return `${base}, às ${entry.kind === 'start' ? hhmm(entry.at) : clockOf(entry.at)} UTC`;
@@ -530,6 +531,77 @@ export function liveLine(g: Graph, entry: Entry): string {
   if (v.kind === 'open') return `${head} ${v.range} aceitava: caminho aberto a ${v.hops} ${saltos(v.hops)} do ${g.preset.root.name}.`;
   if (v.kind === 'barred') return `${head} ${v.range} não aceita ${entry.version}: barrado.`;
   return `${head} O caminho já estava aberto: sem efeito.`;
+}
+
+/**
+ * A case's tab line: its count at the instant the headline speaks of, and at the
+ * end of the morning when it grows ("4 → 5"), so the tab and the headline never
+ * disagree. `short` is for tabs under 360px wide.
+ */
+export function tabLine(data: RaioData, g: Graph): { long: string; short: string } {
+  const entries = morning(data, g);
+  const first = exposureAt(data, g, entries[defaultEntry(entries)].at);
+  const last = exposureAt(data, g, entries.at(-1)!.at);
+  const n = last.reached.length;
+  if (n === 0) return { long: 'NENHUM CAMINHO', short: 'NENHUM' };
+  if (n === 1) {
+    const hop = `${last.nearest} ${saltos(last.nearest!).toUpperCase()}`;
+    return { long: hop, short: hop };
+  }
+  const count = first.reached.length === n ? String(n) : `${first.reached.length} → ${n}`;
+  return { long: `${count} INFECTADOS`, short: `${count} INFECT.` };
+}
+
+/**
+ * One id per node on the paths, shared by the chart and the CAMINHO ledger: its
+ * ring, plus a letter clockwise when the ring holds more than one ("4a", "4b").
+ */
+export function hopIds(L: Layout, nodes: readonly number[]): Map<number, string> {
+  const byRing = new Map<number, number[]>();
+  for (const n of nodes) {
+    if (n === 0) continue;
+    const ring = L.place.get(n)!.ring;
+    byRing.set(ring, [...(byRing.get(ring) ?? []), n]);
+  }
+  const ids = new Map<number, string>();
+  for (const [ring, ns] of byRing) {
+    ns.sort((a, b) => L.place.get(a)!.angle - L.place.get(b)!.angle || a - b);
+    ns.forEach((n, i) => ids.set(n, ns.length === 1 ? String(ring) : `${ring}${String.fromCharCode(97 + i)}`));
+  }
+  return ids;
+}
+
+/** Path nodes in the ledger's order: by ring, then clockwise, as `hopIds` letters them. */
+export const hopOrder = (L: Layout) => (a: number, b: number) =>
+  L.place.get(a)!.ring - L.place.get(b)!.ring || L.place.get(a)!.angle - L.place.get(b)!.angle || a - b;
+
+/** The query keys a shared link keeps: the case, the instant and the "e se" target. */
+export const SHARE_KEYS = ['caso', 't', 'alvo'] as const;
+
+export interface State {
+  g: Graph;
+  entries: Entry[];
+  index: number;
+  /** The "e se" target, or null for the ChainDrop morning. */
+  target: number | null;
+}
+
+/**
+ * The state a link carries (`?caso=&t=&alvo=`), as the page opens it. Unknown
+ * values fall back to the case's default, never to an error.
+ */
+export function stateOf(data: RaioData, q: { caso?: string | null; t?: string | null; alvo?: string | null }): State {
+  const preset = data.presets.find((p) => p.id === q.caso) ?? data.presets[0];
+  const g = buildGraph(preset);
+  const entries = morning(data, g);
+  const i = entries.findIndex((e) => e.id === q.t);
+  const alvo = q.alvo ? preset.nodes.indexOf(q.alvo) : -1;
+  return {
+    g,
+    entries,
+    index: i >= 0 ? i : defaultEntry(entries),
+    target: alvo > 0 && Number.isFinite(g.depth[alvo]) ? alvo : null,
+  };
 }
 
 export const dateBr = (iso: string) => {

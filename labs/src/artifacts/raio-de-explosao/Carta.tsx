@@ -12,15 +12,19 @@ import {
   type Entry,
   exposureAt,
   headline,
+  hopIds,
+  hopOrder,
   layout,
   liveLine,
   morning,
   type Piece,
   qualifier,
   type RaioData,
+  tabLine,
   whatIfHeadline,
 } from './data';
 import s from './raio.module.css';
+import { ShareLinks } from './ShareLinks';
 import { type ChartMode, ZoneChart } from './ZoneChart';
 
 export interface Initial {
@@ -150,6 +154,7 @@ export function Carta({ data, initial }: { data: RaioData; initial: Initial }) {
     [data, g, target],
   );
   const L = useMemo(() => layout(g, collapsed), [g, collapsed]);
+  const ids = useMemo(() => hopIds(L, collapsed.nodes), [L, collapsed]);
   const hasMalicious = (pkg: string) => Boolean(data.malicious[pkg]);
 
   // The URL follows the state, so any instant can be shared.
@@ -201,15 +206,6 @@ export function Carta({ data, initial }: { data: RaioData; initial: Initial }) {
         exposure.reached.length ? `${exposure.reached.length} infectados alcançáveis` : 'nenhum infectado alcançável'
       }${barredEdges.length ? `; ${barredEdges.length} ${barredEdges.length === 1 ? 'aresta barrada' : 'arestas barradas'} pela faixa` : ''}.`;
 
-  const tabSub = (id: string) => {
-    const gg = graphs.get(id)!;
-    const es = morning(data, gg);
-    const last = exposureAt(data, gg, es.at(-1)!.at);
-    if (last.reached.length === 0) return 'NENHUM CAMINHO';
-    if (last.reached.length === 1) return `${last.nearest} ${saltos(last.nearest!).toUpperCase()}`;
-    // "até": the count by the end of the morning, which the headline reaches only at the last publish.
-    return `ATÉ ${last.reached.length} INFECTADOS`;
-  };
 
   const selected = hover ?? picked;
   const live = whatIf ? `Hipótese: ${headText}` : liveLine(g, entry);
@@ -255,7 +251,7 @@ export function Carta({ data, initial }: { data: RaioData; initial: Initial }) {
                 <code>{p.root.name}</code>
                 <span className={s.tabVersion}> {p.root.version}</span>
               </span>
-              <span className={s.tabSub}>{tabSub(p.id)}</span>
+              <TabSub line={tabLine(data, graphs.get(p.id)!)} />
             </StateLink>
           ))}
         </nav>
@@ -276,6 +272,7 @@ export function Carta({ data, initial }: { data: RaioData; initial: Initial }) {
               title={headText}
               desc={desc}
               fetchedAt={dateBr(data.fetchedAt)}
+              ids={ids}
               onPick={(n) => goTarget(n === target ? null : n)}
               onHover={setHover}
             />
@@ -313,6 +310,10 @@ export function Carta({ data, initial }: { data: RaioData; initial: Initial }) {
             <p className={s.live} aria-live="polite">
               {live}
             </p>
+            <ShareLinks
+              state={{ caso, t: entry.id, alvo: target !== null ? g.preset.nodes[target] : undefined }}
+              sentence={whatIf ? `Hipótese: ${headText}` : headText}
+            />
           </div>
         </div>
 
@@ -342,6 +343,7 @@ export function Carta({ data, initial }: { data: RaioData; initial: Initial }) {
           g={g}
           collapsed={collapsed}
           L={L}
+          ids={ids}
           exposure={exposure}
           at={entry.at}
           target={target}
@@ -353,6 +355,19 @@ export function Carta({ data, initial }: { data: RaioData; initial: Initial }) {
         <WhatIf g={g} target={target} onTarget={goTarget} />
       </div>
     </div>
+  );
+}
+
+/** The tab's count; the short form for tabs under 360px, so it never wraps. */
+function TabSub({ line }: { line: { long: string; short: string } }) {
+  if (line.long === line.short) return <span className={s.tabSub}>{line.long}</span>;
+  return (
+    <span className={s.tabSub}>
+      <span className={s.subLong}>{line.long}</span>
+      <span className={s.subShort} aria-hidden="true">
+        {line.short}
+      </span>
+    </span>
   );
 }
 
@@ -441,6 +456,7 @@ function Ledger({
   g,
   collapsed,
   L,
+  ids,
   exposure,
   at,
   target,
@@ -453,6 +469,7 @@ function Ledger({
   g: ReturnType<typeof buildGraph>;
   collapsed: ReturnType<typeof collapse>;
   L: ReturnType<typeof layout>;
+  ids: ReadonlyMap<number, string>;
   exposure: ReturnType<typeof exposureAt>;
   target: number | null;
   selected: number | null;
@@ -512,7 +529,7 @@ function Ledger({
           onFocus={() => onHover(n)}
           onBlur={() => onHover(null)}
         >
-          <span className={s.hop}>{L.place.get(n)!.ring}</span>
+          <span className={s.hop}>{ids.get(n)}</span>
           <span className={s.ledgerBody}>
             <code className={s.ledgerName}>
               {g.names[n]}@<wbr />
@@ -534,7 +551,9 @@ function Ledger({
       </h2>
       {doors.length === 0 && <p className={s.note}>Nenhum pacote do ChainDrop no grafo deste caso.</p>}
       {doors.map((sec) => {
-        const nodes = collapsed.nodes.filter((n) => n > 0 && g.door[n] === sec.door && !isBarredNode(n));
+        const nodes = collapsed.nodes
+          .filter((n) => n > 0 && g.door[n] === sec.door && !isBarredNode(n))
+          .sort(hopOrder(L));
         if (nodes.length === 0) return null;
         return (
           <div key={sec.door} className={s.door}>
@@ -575,7 +594,7 @@ function Ledger({
                     onFocus={() => onHover(to)}
                     onBlur={() => onHover(null)}
                   >
-                    <span className={s.hop}>{L.place.get(to)!.ring}</span>
+                    <span className={s.hop}>{ids.get(to)}</span>
                     <span className={s.ledgerBody}>
                       <code className={s.ledgerName}>
                         {g.names[to]}@<wbr />
