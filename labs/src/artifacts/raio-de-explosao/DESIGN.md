@@ -24,8 +24,8 @@ colors-dark:
   rule-strong: "#5A615B"
   field-dot: "#454B46"
   zona: "#D9679C"
-  zona-hatch: "rgb(217 103 156 / 0.30)"
-  zona-wash: "rgb(217 103 156 / 0.05)"
+  zona-hatch: "rgb(217 103 156 / 0.45)"
+  zona-wash: "rgb(217 103 156 / 0.09)"
   on-zona: "#121413"
   barred: "#7D847D"
   focus: "#E8EBE6"
@@ -174,7 +174,7 @@ The scene is a developer at a desk in daylight, or on a phone in a feed, reading
 - **Hazard magenta** (`zona`, 10:1 on paper): see the list above. White text on a magenta fill passes (`on-zona`).
 - **Barred** (`barred`, 4.3:1 on paper, graphics only): dashed barred edges and "fora do alcance" node outlines. Barred *text* is set in `ink-2`, never in `barred`.
 
-**Carta noturna (dark).** Hot pink on near-black is the neon threat map this page rejects, so dark `zona` is a lower-chroma `#D9679C` (5.6:1 on `#121413`, enough for the headline figures and "abre" verdicts). Its hatch drops to 0.30 alpha and the wash to 0.05, so the wedge reads as a tint on the chart, not a light source. In dark mode:
+**Carta noturna (dark).** Hot pink on near-black is the neon threat map this page rejects, so dark `zona` is a lower-chroma `#D9679C` (5.6:1 on `#121413`, enough for the headline figures and "abre" verdicts). Its hatch is 0.45 alpha and the wash 0.09 (0.30/0.05 made the wedge vanish), so the wedge reads as a tint on the chart, not a light source. In dark mode:
 - Exposed edges are 2px (not 2.5px) `zona` strokes. Nothing glows: no halo ring around infected nodes (the r = 17 halo is light-mode only), no blur, no `drop-shadow`.
 - The only solid magenta areas are the infected reachable nodes (r = 11, `zona` fill, `on-zona` label backing) and the headline figures. Everything else magenta is a line or a hatch.
 
@@ -300,7 +300,7 @@ Only publish events of packages in the current preset's collapsed graph are list
    - one hop: "`got` 15.1.0 puxava um pacote infectado a **1** salto."
    - none: "**Nenhum caminho.** As faixas do `eslint` 10.8.0 não aceitavam nenhuma versão do ChainDrop."
    - At any other entry it switches to the instant form: "Às 10:10:55 UTC, o ChainDrop estava a **2** saltos do `stylelint`." / "Às 09:30 UTC, nenhuma versão do ChainDrop estava publicada."
-3. **Qualifier** (`qualifier`, `ink-2`, 6px under the headline, one line at ≥ 360px): the condition that makes the headline true. At the default entry: "npm install sem lockfile, 4 ago 2026, a partir de 10:13 UTC" (the door event's hh:mm). At other entries: "npm install sem lockfile, 4 ago 2026, às 10:10:55 UTC". For eslint's default: "npm install sem lockfile, 4 ago 2026, 09:30–10:39 UTC". `npm install` is prose here, not a code chip, to keep the line one line.
+3. **Qualifier** (`qualifier`, `ink-2`, 6px under the headline, one line at ≥ 360px): the condition that makes the headline true. At the default entry: "npm install sem lockfile, 4 ago 2026, às 10:13 UTC" (the door event's hh:mm). At other entries: "npm install sem lockfile, 4 ago 2026, às 10:10:55 UTC". For eslint's default: "npm install sem lockfile, 4 ago 2026, 09:30–10:39 UTC". `npm install` is prose here, not a code chip, to keep the line one line.
 4. **Deck** (body, `ink-2`, max 38rem): the brief's second sentence ("O `keyv`, onde o ataque começou, ficou de fora: `^5.6.0` não aceita `6.0.0`."). Below the fold on phones; its condition already sits in the qualifier.
 5. **Preset tabs** (`role="tablist"`, three equal columns, 48px, 1px `ink` border, joined with no gaps): the name in `code` 13px, and a sub-line in `label` 11px ("5 INFECTADOS", "1 SALTO", "NENHUM CAMINHO"). The selected tab is `ink` fill with `paper` text. Switching resets the log to that preset's default entry.
 6. **ZoneChart**: as above.
@@ -369,7 +369,7 @@ From top to bottom, with 16px side gutters (358px content):
 | 3 | gap | 8 | 104 |
 | 4 | Headline, `10.5vw` ≈ 41px, three lines: "**5** dos **444** pacotes do ChainDrop entravam por um único devDependency." | 120 | 224 |
 | 5 | gap | 6 | 230 |
-| 6 | Qualifier, one line, `ink-2`: "npm install sem lockfile, 4 ago 2026, a partir de 10:13 UTC" | 21 | 251 |
+| 6 | Qualifier, one line, `ink-2`: "npm install sem lockfile, 4 ago 2026, às 10:13 UTC" | 21 | 251 |
 | 7 | gap | 12 | 263 |
 | 8 | Preset tabs, 358 × 48: `stylelint` 17.14.1 / 5 INFECTADOS (selected), `got` 15.1.0 / 1 SALTO, `eslint` 10.8.0 / NENHUM CAMINHO | 48 | 311 |
 | 9 | gap | 8 | 319 |
@@ -424,16 +424,23 @@ Data script and `data.json` 3h · polar layout + collapse (pure, tested) 4h · Z
 
 Registrados depois do build (2026-09-26), contra a especificação acima. Onde o texto acima e o que foi entregue divergem, vale esta lista.
 
-1. **A frase da primeira tela diz "4 dos 444", não "5".** O registro do npm dá `@cacheable/utils@2.5.1` às 10:14:21 UTC, depois do evento-porta (`file-entry-cache@11.1.6`, 10:13:02). No instante padrão, o grafo alcança 4 versões infectadas; a quinta entra um passo depois, e a frase acompanha o passo. A aba do stylelint diz "ATÉ 5 INFECTADOS" (a contagem no fim da manhã), para não contradizer a frase. Coberto por teste em `data.test.ts`.
+1. **A frase da primeira tela diz "4 dos 444", não "5".** O registro do npm dá `@cacheable/utils@2.5.1` às 10:14:21 UTC, depois do evento-porta (`file-entry-cache@11.1.6`, 10:13:02). No instante padrão, o grafo alcança 4 versões infectadas; a quinta entra um passo depois, e a frase acompanha o passo. Para a aba e a frase não se contradizerem, a aba começa pela contagem da frase: "4 → 5 INFECTADOS" ("4 → 5 INFECT." abaixo de 360px), e o qualificador amarra a frase ao instante: "às 10:13 UTC", não "a partir de". Coberto por teste em `data.test.ts` (`tabLine`, `qualifier`).
 2. **"Nenhum caminho." em tinta, não em magenta.** A frase do eslint usa uma peça `lead` (peso da frase, cor `ink`): magenta é só exposição, e um zero não é exposição. Coberto por teste.
 3. **As abas de caso são um `nav` de links com `aria-current`, não `role="tablist"`.** Não há painéis nem navegação por setas; `tab` anunciaria um widget que não existe. Os links funcionam sem JS (`?caso=`), como o estado padrão pede.
 4. **No celular (< 480px) a aba mostra só o nome do pacote.** `stylelint 17.14.1` não cabe em 119px a 13px; a versão aparece no rótulo da raiz no gráfico e no caminho.
 5. **A frente é um `path` cujo `d` transiciona**, não um círculo com `r` e `rotate`. O círculo rotacionado desenhava o arco no quadrante errado. Navegador sem transição de `d` troca o arco na hora, sem estado intermediário errado.
-6. **Rótulos do gráfico com posicionamento guloso e linhas de chamada.** Um rótulo tenta os oito lugares ao redor do nó, depois lugares empilhados acima e abaixo com uma linha fina até o nó; nenhum rótulo cobre outro, nem cruza o anel de marcas (para o nome do setor na borda ficar legível). No celular, o que não cabe cai para o número do salto (às vezes `@cacheable/memory`, o `keyv` barrado e o rótulo "FRENTE · 1 SALTO", que colide com "1 SALTO" no anel 1). O arco da frente continua desenhado, e a linha ao vivo e o CAMINHO dizem a distância em palavras.
-7. **Nó barrado rotulado "5.6.0 · barrado"**, com a versão, não só "barrado".
+6. **Rótulos do gráfico (`scene.ts` + `chart.ts`, puros e testados).** Cada rótulo sai do próprio nó, para fora do centro; se não cabe, desliza pelo anel até a próxima vaga, depois tenta ao lado, embaixo e em cima do nó, depois desce ou sobe numa linha de chamada. Ganha linha de chamada todo rótulo deslizado mais de 24px ou que não esteja claramente mais perto do próprio nó que de outro (nunca mais que ~40px). Se um nome some, a colocação roda de novo com os que ficaram de fora na frente. Há três conjuntos, calculados para 288px (tela < 330px), 340px e 720px de gráfico, trocados por container query. No celular: a raiz, a frente e todo pacote infectado alcançável ou barrado com nome (escopo quebrado em duas linhas, "@cacheable/" / "memory"); os outros nós levam o id da linha do CAMINHO ("4b"), que a calha do CAMINHO repete. Se um infectado não cabe (a 320px, às vezes `@cacheable/memory`), leva o id em magenta. Rótulos podem ir além do anel de marcas onde a borda não tem nome de setor.
+7. **Nó barrado:** no celular "keyv · barrado" (ou nome e "barrado" em duas linhas, se o nome é longo); no desktop com a versão e a faixa (item 17).
 8. **Abaixo de 360px, "Próximo ▸"** no lugar de "Próximo evento ▸", para os três blocos do passo caberem em 288px.
 9. **Linha do registro no celular (< 520px) em duas linhas:** o veredito vai para baixo do nome. Em uma linha, "nenhuma versão publicada" quebrava em três.
-10. **Comandos de "O que fazer" quebram linha** em vez de rolar na horizontal: em quatro colunas a 1440px, a rolagem escondia metade de cada comando. O botão copiar copia o comando inteiro.
+10. **"O que fazer" em duas colunas a partir de 1024px** (não quatro), e os comandos rolam na horizontal, sem quebrar dentro de um argumento, como a especificação pedia.
 11. **Tamanhos:** nomes dos setores na borda a 36 unidades SVG (12px num gráfico de 340px; 17 unidades, também ≈ 12px, a partir de 600px de gráfico) e rótulos dos anéis a 12px, para nenhum rótulo do gráfico ficar abaixo do mínimo de 12px.
 12. **Sem formulário de `package.json` e sem rota de API.** O brief previa um modo ao vivo contra o deps.dev; a regra do Labs é buscar uma vez, e o PRODUCT.md já o adiava para a v2. O "e se" roda sobre os três grafos pré-calculados.
 13. **`semver` entrou como devDependency**, usado só pelo script de dados e pelos testes (`rules.ts`). O script grava em cada aresta as versões maliciosas que a faixa aceita, e a página só lê isso: `semver` não vai para o bundle do cliente.
+14. **Rótulo da raiz no setor sem caminhos.** A crítica pedia a raiz embaixo do disco; embaixo passa o arco da frente no anel 1. O rótulo encosta no disco do lado do setor "outras N diretas", fora de qualquer caminho, e só cai para baixo se ali não couber.
+15. **Números dos anéis num raio dentro de "outras N diretas"** (30° antes das 12h), não no eixo das 12h, que é a borda do setor da porta e disputava lugar com os rótulos. Centrados no anel, com fundo `paper`; "SALTOS" só no último ("5 SALTOS"). O rótulo da frente pode cobrir um número de anel, e então esse número some naquele estado.
+16. **Frente rotulada em toda largura**, como um selo magenta centrado sobre o próprio arco (no celular em duas linhas, "FRENTE" / "1 SALTO"; em "e se", "ALVO").
+17. **Faixa no rótulo do nó, no desktop.** Quando todas as arestas com portão que chegam a um pacote têm a mesma faixa, a faixa vai no rótulo do nó, junto do portão: "file-entry-cache 11.1.6" / "^11.1.5 · aceitava", "keyv 5.6.0" / "^5.6.0 · barrado ×3". Só um pacote alcançado por faixas diferentes ganha etiquetas separadas nas arestas. As etiquetas soltas ficavam longe das arestas que descreviam.
+18. **Canto da legenda embaixo à esquerda**, no setor sem caminhos, a 12px.
+19. **Compartilhar este instante** sob a linha ao vivo: compartilhamento nativo onde houver, "Copiar link" (com confirmação em `aria-live`; sem JS abre o permalink) e links diretos para WhatsApp, LinkedIn e X com a URL absoluta do estado (`caso`, `t`, `alvo`). No desktop o gráfico perde ~76px de altura para a linha caber na coluna fixa. A imagem OG (`share.tsx`) desenha o mesmo gráfico em SVG estático, a frase do instante e a aba do caso, com as fontes da página em TTF estático (`fonts/`, OFL).
+20. **Rótulos a 12px no mínimo**: sub-linhas das abas 12px, vereditos do registro 13px, espaçamento 0.06em.

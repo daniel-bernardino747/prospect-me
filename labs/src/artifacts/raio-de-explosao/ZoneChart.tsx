@@ -1,20 +1,11 @@
 import type { CSSProperties } from 'react';
 
-import { type LabelSpec, type Placed, placeLabels, polar, ringArc, route, wedge } from './chart';
-import {
-  CENTRE,
-  type Collapsed,
-  type EdgeState,
-  type Exposure,
-  type Graph,
-  type Layout,
-  OUTER_R,
-  ringRadius,
-  ROOT_R,
-} from './data';
+import { type Placed, polar, ringArc, route, wedge } from './chart';
+import { CENTRE, type Collapsed, type Graph, type Layout, OUTER_R, ringRadius, ROOT_R } from './data';
 import s from './raio.module.css';
+import { type ChartMode, chartLabels, chartState } from './scene';
 
-export type ChartMode = { kind: 'chaindrop'; exposure: Exposure } | { kind: 'whatif'; target: number };
+export type { ChartMode };
 
 interface Props {
   g: Graph;
@@ -31,164 +22,68 @@ interface Props {
   title: string;
   desc: string;
   fetchedAt: string;
+  /** Each path node's ledger id ("4b"), shared with CAMINHO. */
+  ids: ReadonlyMap<number, string>;
   onPick: (node: number) => void;
   onHover: (node: number | null) => void;
 }
 
-/** Node radii in chart units at desktop scale; phones scale them by --k in CSS. */
-const NODE_R = 9;
-const HIT_R = 11;
-const PHONE_PX = 340;
-const DESK_PX = 720;
-const PHONE_K = 1.7;
-/** Labels stay inside the tick ring, so the sector names on the rim stay readable. */
-const LABEL_R = OUTER_R + 14;
-
-type NodeKind = 'root' | 'hit' | 'barred' | 'clean';
 type EdgeKind = 'open' | 'barred' | 'neutral' | 'reach';
 
 const f1 = (n: number) => Math.round(n * 10) / 10;
 const plural = (k: number, one: string, many: string) => (k === 1 ? one : many);
 
 export function ZoneChart(props: Props) {
-  const { g, L, c, mode, selected, holding, stepKey, intro } = props;
-  const inView = new Set(c.nodes);
-  const place = (n: number) => L.place.get(n)!;
-  const at = (n: number) => polar(n === 0 ? 0 : ringRadius(place(n).ring, L.rings), place(n).angle);
-
-  // ── States ───────────────────────────────────────────────────────────
-  const gated = (e: number) => mode.kind === 'chaindrop' && props.hasMalicious(g.names[g.preset.edges[e][1]]);
-  const edgeState = (e: number): EdgeState => (mode.kind === 'chaindrop' ? mode.exposure.edges[e] : 'none');
+  const { g, L, c, mode, selected, holding, stepKey, intro, ids } = props;
+  const cs = chartState(g, L, c, mode, props.hasMalicious);
+  const { place, at, gated, edgeState, nodeKind, versionShown, zones } = cs;
   const edgeKind = (e: number): EdgeKind => {
     if (mode.kind === 'whatif') return 'reach';
     const st = edgeState(e);
     return st === 'open' ? 'open' : st === 'barred' ? 'barred' : 'neutral';
   };
-  const nodeKind = (n: number): NodeKind => {
-    if (n === 0) return 'root';
-    if (mode.kind === 'whatif') return n === mode.target ? 'hit' : 'clean';
-    if (mode.exposure.resolved.has(n)) return 'hit';
-    const into = c.edges.filter((e) => g.preset.edges[e][1] === n);
-    if (props.hasMalicious(g.names[n]) && into.length > 0 && into.every((e) => edgeState(e) === 'barred')) return 'barred';
-    return 'clean';
+  const layers = {
+    small: chartLabels(cs, ids, 'small'),
+    phone: chartLabels(cs, ids, 'phone'),
+    desk: chartLabels(cs, ids, 'desk'),
   };
 
-  // Reached nodes, per door: the zone and its front.
-  const reached = mode.kind === 'chaindrop' ? mode.exposure.reached : [mode.target];
-  const zones = L.sectors
-    .filter((sec) => sec.door >= 0)
-    .map((sec) => {
-      const mine = reached.filter((n) => g.door[n] === sec.door && inView.has(n));
-      if (mine.length === 0) return { sec, deep: 0, near: 0 };
-      const rings = mine.map((n) => place(n).ring);
-      return { sec, deep: Math.max(...rings), near: Math.min(...rings) };
-    });
-  const nearest = zones.filter((z) => z.near > 0).sort((a, b) => a.near - b.near)[0];
-
-  // ── Labels ───────────────────────────────────────────────────────────
-  const versionShown = (n: number) =>
-    mode.kind === 'chaindrop' && mode.exposure.resolved.has(n) ? mode.exposure.resolved.get(n)!.version : g.versions[n];
-  const byPriority = [...c.nodes].sort((a, b) => {
-    const rank = (n: number) => ({ root: 0, hit: 1, barred: 2, clean: 3 })[nodeKind(n)];
-    return rank(a) - rank(b) || place(a).ring - place(b).ring || a - b;
-  });
-  const nodeSpec = (n: number, scale: number): LabelSpec => ({
-    id: `n${n}`,
-    at: at(n),
-    clear: n === 0 ? ROOT_R : (nodeKind(n) === 'hit' ? HIT_R : NODE_R) * scale,
-    lines: [g.names[n], nodeKind(n) === 'barred' ? `${versionShown(n)} · barrado` : versionShown(n)],
-    face: 'code',
-  });
-  const frontSpec: LabelSpec[] = nearest
-    ? [
-        {
-          id: 'front',
-          at: polar(ringRadius(nearest.near, L.rings), nearest.sec.start + 4),
-          clear: 8,
-          lines: [`FRENTE · ${nearest.near} ${plural(nearest.near, 'SALTO', 'SALTOS')}`],
-          face: 'label',
-        },
-      ]
-    : [];
-  const marks = (scale: number) => [
-    { at: { x: CENTRE, y: CENTRE }, r: ROOT_R },
-    ...c.nodes.filter((n) => n > 0).map((n) => ({ at: at(n), r: HIT_R * scale })),
-    ...Array.from({ length: L.rings }, (_, i) => ({ at: polar(ringRadius(i + 1, L.rings), 0), r: 26 })),
-  ];
-
-  const phoneFirst = byPriority.filter((n) => n === 0 || nodeKind(n) !== 'clean');
-  const phoneSpecs = phoneFirst.map((n) => nodeSpec(n, PHONE_K));
-  // The front outranks the barred labels on a phone: it is the answer's distance.
-  const hitCount = phoneFirst.filter((n) => nodeKind(n) !== 'barred').length;
-  const phonePlaced = placeLabels(
-    [...phoneSpecs.slice(0, hitCount), ...frontSpec, ...phoneSpecs.slice(hitCount)],
-    PHONE_PX,
-    12,
-    marks(PHONE_K),
-    [],
-    LABEL_R,
-  );
-  const phoneNamed = new Set(phonePlaced.map((p) => p.id));
-  const numberSpecs: LabelSpec[] = c.nodes
-    .filter((n) => n > 0 && !phoneNamed.has(`n${n}`))
-    .map((n) => ({ id: `k${n}`, at: at(n), clear: NODE_R * PHONE_K, lines: [String(place(n).ring)], face: 'label' }));
-  const phoneNumbers = placeLabels(
-    numberSpecs,
-    PHONE_PX,
-    11,
-    marks(PHONE_K),
-    phonePlaced.map((p) => p.box),
-    LABEL_R,
-  );
-
-  const rangeSpecs: LabelSpec[] =
-    mode.kind === 'chaindrop'
-      ? c.edges
-          .filter((e) => gated(e) && (edgeState(e) === 'open' || edgeState(e) === 'barred'))
-          .map((e) => {
-            const [from, to, req] = g.preset.edges[e];
-            const r = route(place(from), place(to), L.rings);
-            const v = mode.exposure.resolved.get(to)?.version;
-            return {
-              id: `e${e}`,
-              at: r.mid,
-              clear: 6,
-              lines: [edgeState(e) === 'open' ? `${req} · aceitava ${v}` : `${req} · barrado`],
-              face: 'code' as const,
-            };
-          })
-      : [];
-  const deskPlaced = placeLabels(
-    [...byPriority.map((n) => nodeSpec(n, 1)), ...frontSpec, ...rangeSpecs],
-    DESK_PX,
-    12,
-    marks(1),
-    [],
-    LABEL_R,
-  );
-
-  const labelBody = (id: string) => {
-    if (id === 'front') return <span className={s.frontTag}>{frontSpec[0].lines[0]}</span>;
-    if (id.startsWith('k')) return <span className={s.hopTag}>{place(Number(id.slice(1))).ring}</span>;
+  const labelBody = (id: string, text: Map<string, string[]>) => {
+    const lines = text.get(id) ?? [];
+    if (id === 'front') {
+      return (
+        <span className={s.frontTag}>
+          {lines.map((l, i) => (
+            <span key={i}>{l}</span>
+          ))}
+        </span>
+      );
+    }
+    if (id.startsWith('k')) {
+      return (
+        <span className={s.hopTag} data-kind={nodeKind(Number(id.slice(1)))}>
+          {lines[0]}
+        </span>
+      );
+    }
     if (id.startsWith('e')) {
-      const e = Number(id.slice(1));
-      const open = edgeState(e) === 'open';
-      return <span className={open ? s.rangeOpen : s.rangeBarred}>{rangeSpecs.find((r) => r.id === id)!.lines[0]}</span>;
+      const open = edgeState(Number(id.slice(1))) === 'open';
+      return <span className={open ? s.rangeOpen : s.rangeBarred}>{lines[0]}</span>;
     }
     const n = Number(id.slice(1));
-    const kind = nodeKind(n);
     return (
-      <span className={`${s.nodeTag} ${s[`tag_${kind}`]}`}>
-        <span>{g.names[n]}</span>
-        <span className={s.tagVersion}>{kind === 'barred' ? `${versionShown(n)} · barrado` : versionShown(n)}</span>
+      <span className={`${s.nodeTag} ${s[`tag_${nodeKind(n)}`]}`}>
+        {lines.map((l, i) => (
+          <span key={i} className={i > 0 && i === lines.length - 1 ? s.tagVersion : undefined}>
+            {l}
+          </span>
+        ))}
       </span>
     );
   };
-
   // ── Drawing ──────────────────────────────────────────────────────────
   const hatchId = `hatch-${g.preset.id}`;
   const rimId = (i: number) => `rim-${g.preset.id}-${i}`;
-  const outerHop = Math.max(...g.depth.filter(Number.isFinite));
 
   return (
     <div className={s.chartBox} data-mode={mode.kind}>
@@ -341,37 +236,34 @@ export function ZoneChart(props: Props) {
           })}
       </svg>
 
-      {/* HTML overlays: labels keep CSS pixel sizes at any chart width. */}
-      {Array.from({ length: L.rings }, (_, i) => {
-        const p = polar(ringRadius(i + 1, L.rings), 0);
-        const last = i + 1 === L.rings && outerHop > L.rings;
+      {/* HTML overlays: labels keep CSS pixel sizes at any chart width, one set per size. */}
+      {(
+        [
+          ['small', s.labelsSmall],
+          ['phone', s.labelsPhone],
+          ['desk', s.labelsDesk],
+        ] as const
+      ).map(([key, cls]) => {
+        const { placed, text, rings: shown } = layers[key];
         return (
-          <span
-            key={i}
-            className={s.ringTag}
-            aria-hidden="true"
-            style={{ left: `${p.x / 10}%`, top: `${p.y / 10}%` }}
-          >
-            {i === 0 ? '1 SALTO' : last ? `${i + 1}+` : i + 1}
-          </span>
+          <div key={key} className={cls} aria-hidden="true">
+            {shown.map((ring) => {
+              const p = polar(ring.r, ring.angle);
+              return (
+                <span key={ring.k} className={s.ringTag} style={{ left: `${p.x / 10}%`, top: `${p.y / 10}%` }}>
+                  {ring.text}
+                </span>
+              );
+            })}
+            <Leaders placed={placed} />
+            {placed.map((p) => (
+              <span key={p.id} className={s.tag} style={{ left: `${p.left}%`, top: `${p.top}%` }}>
+                {labelBody(p.id, text)}
+              </span>
+            ))}
+          </div>
         );
       })}
-      <div className={s.phoneLabels} aria-hidden="true">
-        <Leaders placed={phonePlaced} />
-        {[...phonePlaced, ...phoneNumbers].map((p) => (
-          <span key={p.id} className={s.tag} style={{ left: `${p.left}%`, top: `${p.top}%` }}>
-            {labelBody(p.id)}
-          </span>
-        ))}
-      </div>
-      <div className={s.deskLabels} aria-hidden="true">
-        <Leaders placed={deskPlaced} />
-        {deskPlaced.map((p) => (
-          <span key={p.id} className={s.tag} style={{ left: `${p.left}%`, top: `${p.top}%` }}>
-            {labelBody(p.id)}
-          </span>
-        ))}
-      </div>
       {c.nodes
         .filter((n) => n > 0)
         .map((n) => {

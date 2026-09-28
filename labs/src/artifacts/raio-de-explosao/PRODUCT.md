@@ -62,7 +62,7 @@ A paste form for the reader's `package.json`. If it returns, it stays inside the
 
 1. The path before the explanation: the first viewport shows the default case already traced, with its hop count, before a word of method.
 2. The range is the verdict: every edge carries its range and a written verdict; color only repeats what the words say.
-3. Nothing inferred reads as fact: the headline's condition ("npm install sem lockfile, 4 ago 2026, a partir de 10:13 UTC") sits on the line directly under it, inside the first viewport; the "grafo como coletado" limit sits by the chart; INFERIDO findings never appear as statements.
+3. Nothing inferred reads as fact: the headline's condition ("npm install sem lockfile, 4 ago 2026, às 10:13 UTC") sits on the line directly under it, inside the first viewport; the "grafo como coletado" limit sits by the chart; INFERIDO findings never appear as statements.
 4. A zero is an answer: "nenhum caminho" is presented as a result, with the ranges that barred it, never as an empty or error state.
 5. Every number one tap from its source: CSV, registry, deps.dev, OSV, StepSecurity.
 6. Discrete, not scrubbed: the morning advances one event at a time, each event a row the reader can name.
