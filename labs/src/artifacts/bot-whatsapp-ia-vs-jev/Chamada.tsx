@@ -3,12 +3,12 @@ import {
   checkLabel,
   guiches,
   MODE_LABEL,
-  MODES,
   neighbors,
   PERSONA_LABEL,
-  PERSONAS,
   type Query,
   queryString,
+  ranModes,
+  ranPersonas,
   tickets,
   transcriptFor,
   type Turn,
@@ -83,7 +83,7 @@ function Line({ t }: { t: Turn }) {
   );
 }
 
-/** The signature: one ticket called, the four windows answering the same patient side by side. */
+/** The signature: one ticket called, every window answering the same patient side by side. */
 export function Chamada({ data, q }: { data: BotData; q: Query }) {
   const { prev, next, current } = neighbors(data, q.scenario);
   const list = tickets(data);
@@ -130,11 +130,11 @@ export function Chamada({ data, q }: { data: BotData; q: Query }) {
           </a>
           <Switch
             label="Paciente"
-            options={PERSONAS.map((p) => [p, p === 'padrao' ? 'Padrão' : 'Difícil'])}
+            options={ranPersonas(data).map((p) => [p, p === 'padrao' ? 'Padrão' : 'Difícil'])}
             current={q.persona}
             href={(p) => queryString({ ...q, persona: p })}
           />
-          <Switch label="Modo" options={MODES.map((m) => [m, MODE_LABEL[m]])} current={q.mode} href={(m) => queryString({ ...q, mode: m })} />
+          <Switch label="Modo" options={ranModes(data).map((m) => [m, MODE_LABEL[m]])} current={q.mode} href={(m) => queryString({ ...q, mode: m })} />
           <details className={s.ticketIndex}>
             <summary>Todas as senhas ({list.length})</summary>
             <ol>

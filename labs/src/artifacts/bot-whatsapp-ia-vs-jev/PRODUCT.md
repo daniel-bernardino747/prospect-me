@@ -14,7 +14,7 @@ web
 
 ## Product Purpose
 
-A showcase at `labs.teamdbsolutions.com/demo/bot-whatsapp-ia-vs-jev` (ADR-0002). It is the public face of the [zap-bench](https://github.com/daniel-bernardino747/zap-bench) repository: the same WhatsApp attendance bot for a fictional dental clinic, built four times (Claude Sonnet 5, Claude Haiku 4.5, GPT, and Jev with templates) and measured by code on the same cases. The page shows:
+A showcase at `labs.teamdbsolutions.com/demo/bot-whatsapp-ia-vs-jev` (ADR-0002). It is the public face of the [zap-bench](https://github.com/daniel-bernardino747/zap-bench) repository: the same WhatsApp attendance bot for a fictional dental clinic, built five times (Claude Sonnet 5, Claude Haiku 4.5, GPT-6 Astra, Jev with templates, and Jev with an LLM that only rewrites its message) and measured by code on the same cases. The page shows:
 
 - how much each one solves with a patient who writes badly and has no patience;
 - where each one fails;

@@ -12,13 +12,15 @@ import {
   neighbors,
   parseQuery,
   pct,
+  ranModes,
   receipt,
   type SummaryRow,
   tickets,
   transcriptFor,
 } from './data';
 
-const DATA = JSON.parse(readFileSync(join(import.meta.dirname, 'data.json'), 'utf8')) as BotData;
+// A synthetic validation round kept as a fixture, so data.json can hold any round (a dev preview, the real one).
+const DATA = JSON.parse(readFileSync(join(import.meta.dirname, 'data.fixture.json'), 'utf8')) as BotData;
 
 function row(brain: string, mode: 'bruto' | 'guardrails', persona: 'padrao' | 'dificil', passed: number, runs = 20): SummaryRow {
   return {
@@ -100,8 +102,22 @@ describe('a frase da primeira tela', () => {
     );
   });
 
-  it('os guichês seguem a ordem LLMs, Jev, resto', () => {
-    expect(guiches(withBrains([])).map((g) => `${g.number}:${g.id}`)).toEqual(['1:sonnet', '2:haiku', '3:gpt', '4:jev']);
+  it('os guichês seguem a ordem LLMs, Jev, Jev + redator, resto', () => {
+    const data = { ...withBrains([]), brains: [{ id: 'jev-redator', label: 'Jev + redator', model: 'x' }, ...withBrains([]).brains] };
+    expect(guiches(data).map((g) => `${g.number}:${g.id}`)).toEqual(['1:sonnet', '2:haiku', '3:gpt', '4:jev', '5:jev-redator']);
+  });
+
+  it('só com guardrails (a prévia da dev), compara nesse modo, diz o empate e cita o Jev + redator', () => {
+    const data = withBrains([
+      row('sonnet', 'guardrails', 'dificil', 29, 29),
+      row('gpt', 'guardrails', 'dificil', 29, 29),
+      row('jev', 'guardrails', 'dificil', 29, 29),
+      row('jev-redator', 'guardrails', 'dificil', 28, 29),
+    ]);
+    data.brains.push({ id: 'jev-redator', label: 'Jev + redator', model: 'x' });
+    expect(answerText(answer(data))).toBe(
+      'Com um paciente que escreve errado e não tem paciência e com guardrails, o Claude Sonnet 5 e o Jev resolveram, cada um, 100% dos 29 casos. O Jev + redator, em que um LLM só reescreve o que o Jev decide, resolveu 97%.',
+    );
   });
 });
 
@@ -116,6 +132,12 @@ describe('a chamada de senha', () => {
     const q = parseQuery({}, DATA);
     expect(DATA.scenarios.find((s) => s.id === q.scenario)?.tarefa).toBe('adversarial');
     expect(q).toMatchObject({ persona: 'dificil', mode: 'bruto' });
+  });
+
+  it('sem query, fica no modo e no paciente que rodaram', () => {
+    const data = { ...DATA, summary: DATA.summary.filter((r) => r.mode === 'guardrails' && r.persona === 'dificil') };
+    expect(parseQuery({}, data)).toMatchObject({ persona: 'dificil', mode: 'guardrails' });
+    expect(ranModes(data)).toEqual(['guardrails']);
   });
 
   it('ignora valores fora do conjunto', () => {

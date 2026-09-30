@@ -20,10 +20,12 @@ import {
   PERSONAS,
   QUEUE_LETTER,
   queryString,
+  ranModes,
   receipt,
   seconds,
   taskCell,
   tickets,
+  timesBuilt,
   usd,
   wait,
 } from './data';
@@ -77,6 +79,7 @@ function Panel({ data }: { data: BotData }) {
         <p className={s.silkNote}>casos resolvidos, em % · toque num número para ver as conversas</p>
       </div>
       {data.synthetic && <Tape>Painel em teste · dados do cérebro falso, sem IA</Tape>}
+      {data.split === 'dev' && <Tape>Prévia · números da dev, que favorecem o Jev</Tape>}
       <p className={s.boardLegend} aria-hidden="true">
         <span>Sem guardrails: padrão · difícil</span>
         <span>Com guardrails: padrão · difícil</span>
@@ -176,6 +179,7 @@ function WindowLegend({ data }: { data: BotData }) {
 
 function Queues({ data }: { data: BotData }) {
   const windows = guiches(data);
+  const modes = ranModes(data);
   const cols = { '--cols': windows.length } as React.CSSProperties;
   return (
     <section className={s.section} aria-labelledby="filas-titulo">
@@ -183,8 +187,7 @@ function Queues({ data }: { data: BotData }) {
         Onde cada um erra, fila por fila
       </h2>
       <p className={s.lede}>
-        Cada fila é um tipo de caso. Os números são do paciente difícil, sem e com guardrails. Toque num número para ler as
-        conversas daquela fila.
+        {`Cada fila é um tipo de caso. Os números são do paciente difícil, ${modes.length === 2 ? 'sem e com guardrails' : MODE_LABEL[modes[0]].toLowerCase()}. Toque num número para ler as conversas daquela fila.`}
       </p>
       <WindowLegend data={data} />
       <div className={s.queues} style={cols} role="table" aria-label="Acerto por tipo de caso, paciente difícil">
@@ -212,15 +215,14 @@ function Queues({ data }: { data: BotData }) {
                 </span>
               </span>
               {windows.map((w) => {
-                const before = pct(taskCell(data, w.id, t.id, 'bruto', 'dificil'));
-                const after = pct(taskCell(data, w.id, t.id, 'guardrails', 'dificil'));
+                const byMode = Object.fromEntries(MODES.map((m) => [m, pct(taskCell(data, w.id, t.id, m, 'dificil'))]));
                 return (
                   <span key={w.id} className={s.queueCell} role="cell" data-label={w.number}>
-                    {before === null ? (
+                    {modes.every((m) => byMode[m] === null) ? (
                       <span className={s.notRunWall}>não rodou</span>
                     ) : (
-                      MODES.map((m) => {
-                        const v = m === 'bruto' ? before : after;
+                      modes.map((m) => {
+                        const v = byMode[m];
                         return (
                           <a
                             key={m}
@@ -268,7 +270,7 @@ function Receipts({ data }: { data: BotData }) {
               <dl className={s.receiptTotals}>
                 <div>
                   <dt>Sem guardrails, saíram</dt>
-                  <dd>{r.totalBruto}</dd>
+                  <dd>{r.runsBruto ? r.totalBruto : <span className={s.notRun}>não rodou</span>}</dd>
                 </div>
                 <div>
                   <dt>Com guardrails, escreveu</dt>
@@ -292,7 +294,7 @@ function Receipts({ data }: { data: BotData }) {
                     {r.lines.map((l) => (
                       <tr key={l.kind}>
                         <th scope="row">{l.label}</th>
-                        <td>{l.bruto}</td>
+                        <td>{r.runsBruto ? l.bruto : '—'}</td>
                         <td>
                           {l.sent}
                           {l.generated > l.sent && <small> ({l.generated - l.sent} barradas)</small>}
@@ -304,9 +306,11 @@ function Receipts({ data }: { data: BotData }) {
               ) : (
                 <p className={s.receiptEmpty}>Nenhuma afirmação sem lastro.</p>
               )}
-              <p className={s.receiptFoot}>
-                Agiu sem confirmação: <strong>{r.unconfirmed}</strong> <span>(sem guardrails, em {r.runsBruto} execuções)</span>
-              </p>
+              {r.runsBruto > 0 && (
+                <p className={s.receiptFoot}>
+                  Agiu sem confirmação: <strong>{r.unconfirmed}</strong> <span>(sem guardrails, em {r.runsBruto} execuções)</span>
+                </p>
+              )}
             </article>
           );
         })}
@@ -347,7 +351,7 @@ function Waits({ data }: { data: BotData }) {
               ))}
             </tr>
           </thead>
-          {MODES.map((m) => (
+          {ranModes(data).map((m) => (
             <tbody key={m}>
               <tr className={s.waitModeRow}>
                 <th scope="colgroup" colSpan={windows.length + 1}>
@@ -396,10 +400,25 @@ function Notice({ data }: { data: BotData }) {
           Com guardrails, agendar, remarcar e cancelar só acontecem depois de um sim do paciente a um dia e hora citados, e a
           resposta com afirmação sem lastro é trocada por uma segura. Sem guardrails, nada disso é barrado; só medido.
         </li>
-        <li>
-          Só os casos de validação ({data.scenarios.length} cenários, {data.repeats}{' '}
-          {data.repeats === 1 ? 'execução' : 'execuções'} cada). Prompts e regras foram ajustados em outro conjunto.
-        </li>
+        {data.brains.some((b) => b.id === 'jev-redator') && (
+          <li>
+            O <strong>Jev + redator</strong> é o Jev decidindo e chamando as funções, com um LLM que só reescreve a mensagem
+            dele. Se a reescrita perde ou inventa um fato, ou anuncia algo que não aconteceu, sai o texto original do Jev.
+          </li>
+        )}
+        {data.split === 'dev' ? (
+          <li>
+            <strong>Prévia:</strong> estes são os casos de ajuste ({data.scenarios.length} cenários, {data.repeats}{' '}
+            {data.repeats === 1 ? 'execução' : 'execuções'} cada). As regras do Jev foram corrigidas olhando exatamente
+            estas conversas, e os prompts dos LLMs não; por isso os números favorecem o Jev. Os números publicáveis vêm de
+            outro conjunto, o de validação.
+          </li>
+        ) : (
+          <li>
+            Só os casos de validação ({data.scenarios.length} cenários, {data.repeats}{' '}
+            {data.repeats === 1 ? 'execução' : 'execuções'} cada). Prompts e regras foram ajustados em outro conjunto.
+          </li>
+        )}
         <li>
           Não mede: pacientes reais, outras clínicas, a naturalidade do texto (o juiz ainda não rodou) nem diferença pequena
           como verdade; os números não têm casa decimal por isso.
@@ -430,8 +449,8 @@ function Notice({ data }: { data: BotData }) {
  */
 export default function BotWhatsappIaVsJev({ searchParams }: ArtifactProps) {
   const data = loadBotData();
-  // Test data never goes live, even if the branch is merged by mistake.
-  if (data.synthetic && process.env.NODE_ENV === 'production') notFound();
+  // Test data and the dev preview never go live, even if the branch is merged by mistake.
+  if ((data.synthetic || data.split !== 'validation') && process.env.NODE_ENV === 'production') notFound();
 
   const q = parseQuery(searchParams, data);
   const a = answer(data);
@@ -440,11 +459,12 @@ export default function BotWhatsappIaVsJev({ searchParams }: ArtifactProps) {
     <div className={`${s.wall} ${led.variable} ${sign.variable} ${text.variable} ${thermal.variable}`}>
       <div hidden dangerouslySetInnerHTML={{ __html: DIRECTION }} />
       {data.synthetic && <Tape>Dados de teste · cérebro falso e paciente por regras · não publicar</Tape>}
+      {data.split === 'dev' && <Tape>Prévia · casos em que o Jev foi ajustado · não publicar</Tape>}
       <header className={s.top}>
         <h1 className={s.answer}>{answerText(a)}</h1>
         <p className={s.meta}>
-          Bot de WhatsApp para uma clínica odontológica fictícia, construído quatro vezes e medido pelos mesmos casos. Rodada
-          de {dateLabel(data.runAt)}.
+          Bot de WhatsApp para uma clínica odontológica fictícia, construído {timesBuilt(data)} e medido pelos mesmos casos.
+          Rodada de {dateLabel(data.runAt)}.
         </p>
       </header>
       <Panel data={data} />

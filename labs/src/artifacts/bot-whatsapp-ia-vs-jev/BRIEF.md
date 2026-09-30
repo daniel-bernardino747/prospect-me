@@ -1,6 +1,6 @@
 # bot-whatsapp-ia-vs-jev — brief
 
-Showcase em `/demo/bot-whatsapp-ia-vs-jev` (ADR-0002). É uma demo conceitual de Daniel Bernardino, sem cliente e sem empresa. Os dados vêm do repositório público [zap-bench](https://github.com/daniel-bernardino747/zap-bench): um bot de WhatsApp para uma **clínica odontológica fictícia**, construído quatro vezes e medido sobre as mesmas conversas. Toda afirmação é marcada **CONFIRMADO** (vista no zap-bench ou na fonte) ou **INFERIDO**.
+Showcase em `/demo/bot-whatsapp-ia-vs-jev` (ADR-0002). É uma demo conceitual de Daniel Bernardino, sem cliente e sem empresa. Os dados vêm do repositório público [zap-bench](https://github.com/daniel-bernardino747/zap-bench): um bot de WhatsApp para uma **clínica odontológica fictícia**, construído cinco vezes (três LLMs, o Jev com templates e o Jev com um LLM que só reescreve a mensagem, ADR-0011 do zap-bench) e medido sobre as mesmas conversas. Toda afirmação é marcada **CONFIRMADO** (vista no zap-bench ou na fonte) ou **INFERIDO**.
 
 ## Pergunta e resposta da primeira tela
 
@@ -12,7 +12,7 @@ Showcase em `/demo/bot-whatsapp-ia-vs-jev` (ADR-0002). É uma demo conceitual de
 
 Se o Jev passar o melhor LLM, a frase se inverte. Os números entram arredondados, sempre com o n ao lado ("em 26 casos"). **INFERIDO** que essa é a notícia: a pergunta que o mercado faz é "LLM ou não", e a resposta honesta depende de quanto a camada de segurança (confirmação por código, filtro de fatos) fecha da distância.
 
-Logo abaixo da frase vem a **matriz**: 4 cérebros × {sem guardrails, com guardrails} × {paciente padrão, paciente difícil}, com o acerto em cada célula. É a figura principal. Ela mostra duas coisas de uma vez: quanto cada cérebro piora com o paciente difícil, e quanto os guardrails recuperam.
+Logo abaixo da frase vem a **matriz**: 5 cérebros × {sem guardrails, com guardrails} × {paciente padrão, paciente difícil}, com o acerto em cada célula. É a figura principal. Ela mostra duas coisas de uma vez: quanto cada cérebro piora com o paciente difícil, e quanto os guardrails recuperam.
 
 ## Usuário e momento
 

@@ -62,7 +62,8 @@ export interface BotData {
   version: 1;
   generatedAt: string;
   runAt: string;
-  split: 'validation';
+  /** `dev` only comes from zap-bench's `export --previa`: the cases Jev was tuned on, never served in production. */
+  split: 'validation' | 'dev';
   synthetic: boolean;
   repeats: number;
   brains: { id: string; label: string; model: string }[];
@@ -75,12 +76,31 @@ export interface BotData {
   transcripts: Transcript[];
 }
 
-/** Guichê order on the panel: the three LLMs, then Jev, then anything else (the fake brain). */
-const BRAIN_ORDER = ['sonnet', 'haiku', 'gpt', 'jev'];
+/** Guichê order on the panel: the three LLMs, then Jev, then Jev with its writer, then anything else (the fake brain). */
+const BRAIN_ORDER = ['sonnet', 'haiku', 'gpt', 'jev', 'jev-redator'];
 const LLMS = new Set(['sonnet', 'haiku', 'gpt']);
+/** Jev decides and acts; an LLM only rewrites its message (zap-bench ADR-0011). */
+const HYBRID = 'jev-redator';
 
 export const MODES: Mode[] = ['bruto', 'guardrails'];
 export const PERSONAS: Persona[] = ['padrao', 'dificil'];
+
+/** Modes and patients this round has at least one run of: switches and columns offer only these. */
+export function ranModes(data: BotData): Mode[] {
+  return MODES.filter((m) => data.summary.some((r) => r.mode === m));
+}
+
+export function ranPersonas(data: BotData): Persona[] {
+  return PERSONAS.filter((p) => data.summary.some((r) => r.persona === p));
+}
+
+const COUNT_WORD = ['zero', 'uma', 'duas', 'três', 'quatro', 'cinco', 'seis'];
+
+/** "construído cinco vezes" */
+export function timesBuilt(data: BotData): string {
+  const n = data.brains.length;
+  return n === 1 ? 'uma vez' : `${COUNT_WORD[n] ?? n} vezes`;
+}
 
 export const MODE_LABEL: Record<Mode, string> = { bruto: 'Sem guardrails', guardrails: 'Com guardrails' };
 export const PERSONA_LABEL: Record<Persona, string> = { padrao: 'Paciente padrão', dificil: 'Paciente difícil' };
@@ -153,13 +173,15 @@ export function cell(data: BotData, brain: string, mode: Mode, persona: Persona)
 export type Answer =
   | {
       kind: 'comparison';
+      /** Without guardrails when the round has it; otherwise the mode that ran. */
+      mode: Mode;
       leader: { label: string; pct: number };
       trailer: { label: string; pct: number };
       runs: number;
       gapBefore: number;
-      gapAfter: number;
-      leaderAfter: string;
-      trailerAfter: string;
+      /** The same comparison with guardrails, when the base is without them. */
+      after: { gap: number; leader: string; trailer: string } | null;
+      hybrid: { label: string; pct: number } | null;
     }
   | { kind: 'partial'; labels: string[]; before: number | null; after: number | null; runs: number };
 
@@ -167,10 +189,10 @@ export type Answer =
 export function answer(data: BotData): Answer {
   const brains = guiches(data);
   const hard = (id: string, mode: Mode) => pct(cell(data, id, mode, 'dificil'));
-  const llms = brains.filter((b) => LLMS.has(b.id) && hard(b.id, 'bruto') !== null);
-  const jev = brains.find((b) => b.id === 'jev' && hard(b.id, 'bruto') !== null);
+  const compares = (m: Mode) => brains.some((b) => LLMS.has(b.id) && hard(b.id, m) !== null) && brains.some((b) => b.id === 'jev' && hard(b.id, m) !== null);
+  const mode: Mode | null = compares('bruto') ? 'bruto' : compares('guardrails') ? 'guardrails' : null;
 
-  if (!llms.length || !jev) {
+  if (!mode) {
     const first = brains[0];
     return {
       kind: 'partial',
@@ -181,22 +203,32 @@ export function answer(data: BotData): Answer {
     };
   }
 
-  const best = llms.reduce((a, b) => (hard(b.id, 'bruto')! > hard(a.id, 'bruto')! ? b : a));
-  const [l, j] = [hard(best.id, 'bruto')!, hard(jev.id, 'bruto')!];
-  const [lg, jg] = [hard(best.id, 'guardrails') ?? l, hard(jev.id, 'guardrails') ?? j];
+  const llms = brains.filter((b) => LLMS.has(b.id) && hard(b.id, mode) !== null);
+  const jev = brains.find((b) => b.id === 'jev')!;
+  const best = llms.reduce((a, b) => (hard(b.id, mode)! > hard(a.id, mode)! ? b : a));
+  const [l, j] = [hard(best.id, mode)!, hard(jev.id, mode)!];
   const llmLeads = l >= j;
   const leader = llmLeads ? { label: best.label, pct: l } : { label: jev.label, pct: j };
   const trailer = llmLeads ? { label: jev.label, pct: j } : { label: best.label, pct: l };
-  const afterLlmLeads = lg >= jg;
+
+  let after: { gap: number; leader: string; trailer: string } | null = null;
+  if (mode === 'bruto') {
+    const [lg, jg] = [hard(best.id, 'guardrails') ?? l, hard(jev.id, 'guardrails') ?? j];
+    const afterLlmLeads = lg >= jg;
+    after = { gap: Math.abs(lg - jg), leader: afterLlmLeads ? best.label : jev.label, trailer: afterLlmLeads ? jev.label : best.label };
+  }
+
+  const hybrid = brains.find((b) => b.id === HYBRID);
+  const hybridPct = hybrid ? hard(hybrid.id, mode) : null;
   return {
     kind: 'comparison',
+    mode,
     leader,
     trailer,
-    runs: cell(data, best.id, 'bruto', 'dificil')!.runs,
+    runs: cell(data, best.id, mode, 'dificil')!.runs,
     gapBefore: Math.abs(l - j),
-    gapAfter: Math.abs(lg - jg),
-    leaderAfter: afterLlmLeads ? best.label : jev.label,
-    trailerAfter: afterLlmLeads ? jev.label : best.label,
+    after,
+    hybrid: hybrid && hybridPct !== null ? { label: hybrid.label, pct: hybridPct } : null,
   };
 }
 
@@ -204,12 +236,18 @@ export function answerText(a: Answer): string {
   if (a.kind === 'partial') {
     return `Rodada de teste: só ${a.labels.join(', ')} rodou. Com o paciente difícil, resolveu ${a.before ?? '—'}% dos ${a.runs} casos sem guardrails e ${a.after ?? '—'}% com.`;
   }
-  const head = `Com um paciente que escreve errado e não tem paciência, o ${a.leader.label} resolveu ${a.leader.pct}% dos ${a.runs} casos e o ${a.trailer.label}, ${a.trailer.pct}%.`;
-  if (a.leaderAfter !== a.leader.label) {
-    return `${head} Com a mesma camada de segurança nos dois, o ${a.leaderAfter} passa à frente por ${a.gapAfter} pontos.`;
+  const who = `Com um paciente que escreve errado e não tem paciência${a.mode === 'guardrails' ? ' e com guardrails' : ''}`;
+  const head =
+    a.leader.pct === a.trailer.pct
+      ? `${who}, o ${a.leader.label} e o ${a.trailer.label} resolveram, cada um, ${a.leader.pct}% dos ${a.runs} casos.`
+      : `${who}, o ${a.leader.label} resolveu ${a.leader.pct}% dos ${a.runs} casos e o ${a.trailer.label}, ${a.trailer.pct}%.`;
+  const hybrid = a.hybrid ? ` O ${a.hybrid.label}, em que um LLM só reescreve o que o Jev decide, resolveu ${a.hybrid.pct}%.` : '';
+  if (!a.after) return head + hybrid;
+  if (a.after.leader !== a.leader.label) {
+    return `${head}${hybrid} Com a mesma camada de segurança nos dois, o ${a.after.leader} passa à frente por ${a.after.gap} pontos.`;
   }
-  const verb = a.gapAfter < a.gapBefore ? 'cai para' : a.gapAfter > a.gapBefore ? 'sobe para' : 'fica em';
-  return `${head} Com a mesma camada de segurança nos dois, a diferença ${verb} ${a.gapAfter} pontos.`;
+  const verb = a.after.gap < a.gapBefore ? 'cai para' : a.after.gap > a.gapBefore ? 'sobe para' : 'fica em';
+  return `${head}${hybrid} Com a mesma camada de segurança nos dois, a diferença ${verb} ${a.after.gap} pontos.`;
 }
 
 export function orderedTasks(data: BotData) {
@@ -248,10 +286,13 @@ export function parseQuery(params: Record<string, string | string[] | undefined>
   const fallback = list.find((s) => s.tarefa === 'adversarial') ?? list[0];
   const persona = one(params.persona);
   const mode = one(params.modo);
+  // Prefer the difficult patient without guardrails, but only among what this round ran.
+  const personas = ranPersonas(data);
+  const modes = ranModes(data);
   return {
     scenario: list.some((s) => s.id === asked) ? asked! : fallback.id,
-    persona: persona === 'padrao' || persona === 'dificil' ? persona : 'dificil',
-    mode: mode === 'bruto' || mode === 'guardrails' ? mode : 'bruto',
+    persona: persona === 'padrao' || persona === 'dificil' ? persona : personas.includes('dificil') || !personas.length ? 'dificil' : personas[0],
+    mode: mode === 'bruto' || mode === 'guardrails' ? mode : modes.includes('bruto') || !modes.length ? 'bruto' : modes[0],
   };
 }
 
