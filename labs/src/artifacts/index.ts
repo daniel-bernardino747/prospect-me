@@ -23,6 +23,7 @@ export const ARTIFACTS: readonly Artifact[] = [
   {
     kind: 'showcase',
     slug: 'conta-de-tokens',
+    provenance: { source: 'OpenRouter', period: '25 set 2026' },
     title: 'Conta de tokens',
     summary:
       'Quanto o volume de tokens do seu time custaria em cada modelo de LLM, com o cache como alavanca, ao lado dos modelos em que o mercado do OpenRouter de fato gasta seus tokens.',
@@ -32,6 +33,7 @@ export const ARTIFACTS: readonly Artifact[] = [
   {
     kind: 'showcase',
     slug: 'raio-de-explosao',
+    provenance: { source: 'npm · deps.dev', period: '4 ago 2026' },
     title: 'Raio de explosão',
     summary:
       'Por qual caminho um pacote comprometido chega na sua app: o worm ChainDrop no npm, salto a salto, com a faixa de versão de cada dependência decidindo se a porta abre.',
@@ -41,6 +43,7 @@ export const ARTIFACTS: readonly Artifact[] = [
   {
     kind: 'showcase',
     slug: 'curtailment-br',
+    provenance: { source: 'ONS · ANEEL', period: 'ago–set 2026' },
     title: 'O corte de eólicas e solares no Brasil',
     summary:
       'Mapa do Nordeste que reproduz, meia hora a meia hora, quanta energia eólica e solar o ONS mandou cortar em cada dia de agosto e setembro de 2026, e por quê.',
@@ -50,6 +53,7 @@ export const ARTIFACTS: readonly Artifact[] = [
   {
     kind: 'showcase',
     slug: 'pix-na-minha-cidade',
+    provenance: { source: 'Banco Central', period: 'ago 2026' },
     title: 'Pix na minha cidade',
     summary:
       'Quantos Pix por usuário a sua cidade fez em agosto de 2026, a posição dela entre os 5.571 municípios do Brasil e um cartão para compartilhar, com dados abertos do Banco Central.',
@@ -59,6 +63,7 @@ export const ARTIFACTS: readonly Artifact[] = [
   {
     kind: 'showcase',
     slug: 'bastidores',
+    provenance: { source: 'Sessão de agentes', period: '25 set 2026' },
     title: 'Bastidores',
     summary:
       'Como estas demos foram feitas por agentes de IA: um quadro de nivelamento com um cartão por agente, as fases, o paralelismo e as paradas em que Daniel decidiu, extraído da sessão real.',

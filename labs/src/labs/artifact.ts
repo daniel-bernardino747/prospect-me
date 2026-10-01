@@ -39,6 +39,8 @@ export interface Prospect extends Base {
 export interface Showcase extends Base {
   kind: 'showcase';
   summary: string;
+  /** Where its data comes from and when, as the home page's board shows it. */
+  provenance: { source: string; period: string };
   share?: () => Promise<ShareModule>;
 }
 
@@ -66,6 +68,11 @@ export function resolveShowcase(slug: string, registry: readonly Artifact[]): Sh
   return registry.find((a): a is Showcase => a.kind === 'showcase' && a.slug === slug);
 }
 
+/** What the home page lists: showcases only, in registry order. A prospect is never listed (ADR-0001). */
+export function listShowcases(registry: readonly Artifact[]): Showcase[] {
+  return registry.filter((a): a is Showcase => a.kind === 'showcase');
+}
+
 /** Registry mistakes that would otherwise surface only in production. */
 export function registryProblems(registry: readonly Artifact[]): string[] {
   const problems: string[] = [];
@@ -81,6 +88,9 @@ export function registryProblems(registry: readonly Artifact[]): string[] {
       problems.push(`"${a.slug}": locale must be one of ${LOCALES.join(', ')}`);
     }
     if (a.kind === 'showcase' && !a.summary.trim()) problems.push(`"${a.slug}": a showcase needs a summary`);
+    if (a.kind === 'showcase' && (!a.provenance.source.trim() || !a.provenance.period.trim())) {
+      problems.push(`"${a.slug}": a showcase needs its data source and period`);
+    }
   }
   return problems;
 }

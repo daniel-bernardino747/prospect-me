@@ -16,3 +16,7 @@ The portfolio's rule against fabrication (`personal-website` ADR-0003) holds on 
 ## Consequences
 
 Each showcase has its own `PRODUCT.md` and `DESIGN.md` beside its code, since `labs/PRODUCT.md` describes the prospect's reader — a decider opening an e-mail — and a showcase has a different one. A showcase that stops working is fixed or removed from the registry; it does not expire into an "encerrado" page.
+
+## The home page lists showcases (2026-10-01)
+
+`/` used to be a 404, so that no page listed artifacts. It now lists the showcases — already public, indexed and in the sitemap — and links to the portfolio at `www.teamdbsolutions.com`. Prospects stay off it: the list comes from `listShowcases`, which a test holds to never return a prospect. The home keeps the `noindex` header like everything outside `/demo/`; the showcases reach search through the sitemap.

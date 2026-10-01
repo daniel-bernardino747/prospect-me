@@ -2,7 +2,15 @@ import { describe, expect, it } from 'vitest';
 
 import { ARTIFACTS } from '@/artifacts';
 
-import { type Prospect, prospectTitle, registryProblems, resolveProspect, resolveShowcase, type Showcase } from './artifact';
+import {
+  listShowcases,
+  type Prospect,
+  prospectTitle,
+  registryProblems,
+  resolveProspect,
+  resolveShowcase,
+  type Showcase,
+} from './artifact';
 
 const prospect = (over: Partial<Prospect> = {}): Prospect => ({
   kind: 'prospect',
@@ -20,6 +28,7 @@ const showcase = (over: Partial<Showcase> = {}): Showcase => ({
   slug: 'demo-thing',
   title: 'Demo',
   summary: 'What the demo does.',
+  provenance: { source: 'Banco Central', period: 'ago 2026' },
   load: async () => ({ default: () => null }),
   ...over,
 });
@@ -58,6 +67,18 @@ describe('resolveShowcase', () => {
   });
 });
 
+describe('listShowcases', () => {
+  it('lists showcases in registry order and never a prospect, which the home page would expose', () => {
+    const registry = [showcase({ slug: 'b' }), prospect(), showcase({ slug: 'a' })];
+    expect(listShowcases(registry).map((s) => s.slug)).toEqual(['b', 'a']);
+  });
+
+  it('keeps every prospect Labs actually serves off the home page', () => {
+    const listed = new Set(listShowcases(ARTIFACTS).map((s) => s.slug));
+    expect(ARTIFACTS.filter((a) => a.kind === 'prospect' && listed.has(a.slug))).toEqual([]);
+  });
+});
+
 describe('registryProblems', () => {
   it('accepts a well-formed registry', () => {
     expect(registryProblems([prospect(), prospect({ slug: 'acme-other' }), showcase()])).toEqual([]);
@@ -76,6 +97,11 @@ describe('registryProblems', () => {
 
   it('refuses a showcase without a summary, which is its search description', () => {
     expect(registryProblems([showcase({ summary: ' ' })])).toHaveLength(1);
+  });
+
+  it('refuses a showcase without its data source or period, which the home page shows', () => {
+    expect(registryProblems([showcase({ provenance: { source: ' ', period: 'ago 2026' } })])).toHaveLength(1);
+    expect(registryProblems([showcase({ provenance: { source: 'ONS', period: '' } })])).toHaveLength(1);
   });
 
   it('refuses a prospect whose locale the chrome does not speak', () => {
