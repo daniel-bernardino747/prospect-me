@@ -65,4 +65,12 @@ export const ARTIFACTS: readonly Artifact[] = [
     load: () => import('./bastidores/Bastidores'),
     share: () => import('./bastidores/share').then((m) => m.default),
   },
+  {
+    kind: 'showcase',
+    slug: 'bot-whatsapp-ia-vs-jev',
+    title: 'Bot de WhatsApp: IA × Jev',
+    summary:
+      'O mesmo atendimento de WhatsApp de uma clínica fictícia feito por Claude, GPT e Jev, medido pelos mesmos casos: quanto cada um resolve com um paciente que escreve errado, onde erra e o que os guardrails mudam.',
+    load: () => import('./bot-whatsapp-ia-vs-jev/BotWhatsappIaVsJev'),
+  },
 ];
