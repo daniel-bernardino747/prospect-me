@@ -1,0 +1,441 @@
+/* The home page as a departure hall: a split-flap board in a dark housing, and
+   the hall's yellow signage pointing out to the portfolio. */
+
+.hall {
+  --housing: #0e100f;
+  --board: #151816;
+  --flap-face: #2b302c;
+  --flap-lower: #232724;
+  --hinge: #080908;
+  --flap-blank: #222623;
+  --glyph: #efeadb;
+  --label: #a9ada2;
+  --rule: #2b302c;
+  --signal: #f2c230;
+  --signal-ink: #15140f;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--housing);
+  color: var(--glyph);
+  font-family: var(--font-signage), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+}
+
+:global(html):has(.hall) {
+  background: #0e100f;
+  color-scheme: dark;
+  scrollbar-color: #3a3f3b #0e100f;
+}
+
+.hall ::selection {
+  background: var(--signal);
+  color: var(--signal-ink);
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 7vh, 4.5rem) clamp(1rem, 4vw, 2.5rem) clamp(2.5rem, 6vh, 4rem);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- header ---------- */
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 1.25rem 2rem;
+}
+
+.title {
+  margin: 0;
+  color: var(--signal);
+  font-weight: 900;
+  font-size: clamp(3.5rem, 11vw, 6rem);
+  line-height: 0.82;
+  letter-spacing: -0.03em;
+}
+
+.lede {
+  grid-column: 1 / -1;
+  max-width: 62ch;
+  margin: 0;
+  color: var(--label);
+  font-weight: 400;
+  font-size: clamp(1rem, 1.6vw, 1.125rem);
+  line-height: 1.55;
+}
+
+/* ---------- board ---------- */
+
+.board {
+  margin-top: clamp(2rem, 5vh, 3rem);
+  background: var(--board);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.04),
+    0 24px 48px -24px rgb(0 0 0 / 0.7);
+  padding: 0.5rem clamp(0.75rem, 2.5vw, 1.75rem) 0.75rem;
+}
+
+.columns,
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 11.5rem 9.5rem 7.5rem;
+  column-gap: 1.5rem;
+}
+
+.columns {
+  padding: 0.875rem 0 0.75rem;
+  border-bottom: 1px solid var(--rule);
+  color: var(--signal);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rows li + li {
+  border-top: 1px solid var(--rule);
+}
+
+.row {
+  grid-template-areas:
+    'name source period status'
+    'summary summary summary status';
+  align-items: start;
+  row-gap: 0.625rem;
+  margin: 0 calc(-1 * clamp(0.75rem, 2.5vw, 1.75rem));
+  padding: 1.25rem clamp(0.75rem, 2.5vw, 1.75rem);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.name {
+  grid-area: name;
+}
+
+.source,
+.period {
+  padding-top: 0.3em;
+  font-family: var(--font-flap), ui-monospace, monospace;
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.source {
+  grid-area: source;
+}
+
+.period {
+  grid-area: period;
+}
+
+.summary {
+  grid-area: summary;
+  max-width: 68ch;
+  color: var(--label);
+  font-weight: 400;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.status {
+  grid-area: status;
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.2em;
+  padding: 0.4rem 0.625rem;
+  border: 1.5px solid var(--signal);
+  border-radius: 3px;
+  color: var(--signal);
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition:
+    background-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.status svg {
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.row:hover {
+  background: rgb(255 255 255 / 0.025);
+}
+
+.row:hover .status,
+.row:focus-visible .status {
+  background: var(--signal);
+  color: var(--signal-ink);
+}
+
+.row:hover .status svg,
+.row:focus-visible .status svg {
+  transform: translateX(3px);
+}
+
+.row:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: -2px;
+  border-radius: 4px;
+}
+
+/* ---------- flaps ---------- */
+
+.flaps {
+  display: inline-block;
+  font-family: var(--font-flap), ui-monospace, monospace;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em 0.42em;
+}
+
+.word {
+  display: inline-flex;
+  gap: 0.07em;
+}
+
+.lg {
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+}
+
+/* A board's field has a fixed width: blank flaps fill out the last line. */
+.lg .words::after {
+  content: '';
+  flex: 1 1 0;
+  min-width: 0;
+  height: 1.18em;
+  background: repeating-linear-gradient(90deg, var(--flap-blank) 0 0.74em, transparent 0.74em 0.81em);
+  border-radius: 0.09em;
+}
+
+.md {
+  font-size: 1rem;
+}
+
+/* The title field spans its column, so every row's flaps end at the same edge. */
+.name .flaps {
+  display: block;
+}
+
+.md .words {
+  gap: 0.2em 0.42em;
+}
+
+/* On wide screens the column headers name each field; on narrow ones, this does. */
+.fieldLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.clockLabel {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--signal);
+  font-family: var(--font-signage), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.clock {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.cell {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 0.74em;
+  height: 1.18em;
+  border-radius: 0.09em;
+  background: linear-gradient(var(--flap-face) 50%, var(--flap-lower) 50%);
+  box-shadow: 0 0.06em 0.12em rgb(0 0 0 / 0.55);
+  color: var(--glyph);
+}
+
+/* The hinge across the middle of every flap. */
+.cell::after {
+  content: '';
+  position: absolute;
+  inset: calc(50% - 0.5px) 0 auto;
+  height: 1px;
+  background: var(--hinge);
+  z-index: 2;
+}
+
+.glyph {
+  display: block;
+  line-height: 1;
+  transform: translateY(0.06em);
+}
+
+/* The upper leaf: invisible at rest, it carries the old glyph while it falls. */
+.leaf {
+  position: absolute;
+  inset: 0 0 50%;
+  display: grid;
+  place-items: start center;
+  overflow: hidden;
+  border-radius: 0.09em 0.09em 0 0;
+  background: var(--flap-face);
+  transform-origin: 50% 100%;
+  opacity: 0;
+  z-index: 1;
+  backface-visibility: hidden;
+}
+
+.leaf .glyph {
+  height: 1.18em;
+  display: grid;
+  place-items: center;
+}
+
+/* ---------- exit to the portfolio ---------- */
+
+.exit {
+  display: block;
+  background: var(--signal);
+  color: var(--signal-ink);
+  text-decoration: none;
+}
+
+.exitSign {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: clamp(1.75rem, 5vh, 3rem) clamp(1rem, 4vw, 2.5rem);
+}
+
+.exitSign svg {
+  flex: none;
+  width: clamp(2.5rem, 6vw, 4rem);
+  height: auto;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.exitLabel {
+  display: block;
+  margin-top: 0.5rem;
+  font-weight: 400;
+  font-size: clamp(0.9375rem, 1.8vw, 1.125rem);
+}
+
+.exitHost {
+  display: block;
+  font-weight: 900;
+  font-size: clamp(1.75rem, 6vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.exit:hover .exitSign svg,
+.exit:focus-visible .exitSign svg {
+  transform: translateX(8px);
+}
+
+.exit:hover .exitHost {
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.12em;
+}
+
+.exit:focus-visible {
+  outline: 3px solid var(--signal-ink);
+  outline-offset: -6px;
+}
+
+/* ---------- narrow screens: each departure stacks ---------- */
+
+@media (max-width: 52rem) {
+  .columns {
+    display: none;
+  }
+
+  .row {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      'name name'
+      'source period'
+      'summary summary'
+      'status status';
+    column-gap: 2rem;
+  }
+
+  .fieldLabel {
+    position: static;
+    display: block;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    margin-bottom: 0.3rem;
+    color: var(--label);
+    font-family: var(--font-signage), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+  }
+
+  .source,
+  .period {
+    padding-top: 0;
+    font-size: 0.8125rem;
+  }
+
+  .status {
+    justify-self: start;
+  }
+
+  .lg {
+    font-size: clamp(1.0625rem, 5.4vw, 1.375rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row,
+  .status,
+  .status svg,
+  .exitSign svg {
+    transition: none;
+  }
+}
