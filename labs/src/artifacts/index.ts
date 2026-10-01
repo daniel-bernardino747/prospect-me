@@ -73,6 +73,7 @@ export const ARTIFACTS: readonly Artifact[] = [
   {
     kind: 'showcase',
     slug: 'bot-whatsapp-ia-vs-jev',
+    provenance: { source: 'zap-bench', period: '1 out 2026' },
     title: 'Bot de WhatsApp: IA × Jev',
     summary:
       'O mesmo atendimento de WhatsApp de uma clínica fictícia feito por Claude, GPT e Jev, medido pelos mesmos casos: quanto cada um resolve com um paciente que escreve errado, onde erra e o que os guardrails mudam.',
